@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Knowledge Gap & Personalized Learning System{% endblock %}</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="brand">
+                Smart Knowledge Gap System
+            </div>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>
+            Smart Knowledge Gap & Personalized Learning System
+        </p>
+    </footer>
+
+</body>
+</html>

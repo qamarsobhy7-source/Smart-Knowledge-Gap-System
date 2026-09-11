@@ -1,0 +1,58 @@
+{
+  "application_type": "Production Web Application",
+  "diagnosis": {
+    "level": "Concept",
+    "source": "Student Answers",
+    "primary_method": "Rules and Mastery Analysis"
+  },
+  "mastery": {
+    "level": "Concept",
+    "question_type_weights": "Equal",
+    "range": [
+      0,
+      100
+    ]
+  },
+  "gap_detection": {
+    "statuses": [
+      "Strong",
+      "Adequate",
+      "Weak",
+      "Critical"
+    ],
+    "student_specific": true
+  },
+  "priority": {
+    "student_specific": true,
+    "uses_current_mastery": true,
+    "uses_gap_severity": true,
+    "uses_dependency_impact": true,
+    "uses_prerequisites": true
+  },
+  "learning_path": {
+    "student_specific": true,
+    "prerequisite_aware": true,
+    "priority_aware": true,
+    "prerequisites_before_dependents": true
+  },
+  "practice": {
+    "linked_to_concepts": true,
+    "six_question_types_per_concept": true
+  },
+  "reassessment": {
+    "enabled": true,
+    "before_after_comparison": true,
+    "improvement_calculation": true
+  },
+  "ml": {
+    "role": "Supporting Prediction Layer",
+    "primary_diagnosis": false,
+    "development_evaluation_only": true
+  },
+  "persistence": {
+    "student_records": true,
+    "assessment_results": true,
+    "practice_results": true,
+    "reassessment_results": true
+  }
+}

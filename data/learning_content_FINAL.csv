@@ -1,0 +1,46 @@
+content_id,subject_id,level,concept_id,concept_name,prerequisites
+CONTENT_11,1,Advanced,11,Limits,7
+CONTENT_12,1,Advanced,12,Derivatives,11
+CONTENT_13,1,Advanced,13,Integrals,12
+CONTENT_14,1,Advanced,14,Linear Algebra,8
+CONTENT_15,1,Advanced,15,Advanced Probability,10
+CONTENT_1,1,Beginner,1,Number Systems,
+CONTENT_2,1,Beginner,2,Algebraic Expressions,1
+CONTENT_3,1,Beginner,3,Linear Equations,2
+CONTENT_4,1,Beginner,4,Ratios and Proportions,1
+CONTENT_5,1,Beginner,5,Basic Geometry,1
+CONTENT_6,1,Intermediate,6,Quadratic Equations,3
+CONTENT_7,1,Intermediate,7,Functions,3
+CONTENT_8,1,Intermediate,8,Systems of Equations,3
+CONTENT_9,1,Intermediate,9,Trigonometry,5
+CONTENT_10,1,Intermediate,10,Probability,1
+CONTENT_26,2,Advanced,26,Thermodynamics,19
+CONTENT_27,2,Advanced,27,Electromagnetism,25
+CONTENT_28,2,Advanced,28,Optics,24
+CONTENT_29,2,Advanced,29,Modern Physics,26
+CONTENT_30,2,Advanced,30,Quantum Physics Basics,29
+CONTENT_16,2,Beginner,16,Measurement and Units,
+CONTENT_17,2,Beginner,17,Motion,16
+CONTENT_18,2,Beginner,18,Forces,17
+CONTENT_19,2,Beginner,19,Energy,18
+CONTENT_20,2,Beginner,20,Electricity Basics,16
+CONTENT_21,2,Intermediate,21,Momentum,18
+CONTENT_22,2,Intermediate,22,Work and Power,19
+CONTENT_23,2,Intermediate,23,Circular Motion,18
+CONTENT_24,2,Intermediate,24,Waves,16
+CONTENT_25,2,Intermediate,25,Electric Circuits,20
+CONTENT_41,3,Advanced,41,Algorithm Analysis,36
+CONTENT_42,3,Advanced,42,Advanced Data Structures,"36,41"
+CONTENT_43,3,Advanced,43,Artificial Intelligence Fundamentals,"32,36"
+CONTENT_44,3,Advanced,44,Machine Learning Fundamentals,43
+CONTENT_45,3,Advanced,45,Computer Architecture,"35,40"
+CONTENT_31,3,Beginner,31,Computational Thinking,
+CONTENT_32,3,Beginner,32,Algorithms,31
+CONTENT_33,3,Beginner,33,Programming Fundamentals,31
+CONTENT_34,3,Beginner,34,Data Representation,31
+CONTENT_35,3,Beginner,35,Computer Systems Basics,31
+CONTENT_36,3,Intermediate,36,Data Structures,"32,33"
+CONTENT_37,3,Intermediate,37,Object-Oriented Programming,33
+CONTENT_38,3,Intermediate,38,Database Fundamentals,33
+CONTENT_39,3,Intermediate,39,Computer Networks,35
+CONTENT_40,3,Intermediate,40,Operating Systems Basics,35

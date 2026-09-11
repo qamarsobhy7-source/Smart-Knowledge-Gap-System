@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Smart Knowledge Gap System
+{% endblock %}
+
+{% block content %}
+
+<section class="card">
+    <h1>Smart Knowledge Gap & Personalized Learning System</h1>
+
+    <p class="muted">
+        Discover your knowledge gaps and receive a personalized
+        learning path based on your current mastery.
+    </p>
+
+    <form method="POST" action="{{ url_for('register_student') }}">
+
+        <div>
+            <label for="full_name">Student Name</label>
+
+            <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                required
+                maxlength="120"
+                autocomplete="name"
+            >
+        </div>
+
+        <button type="submit" class="button">
+            Start Learning Assessment
+        </button>
+
+    </form>
+</section>
+
+{% endblock %}

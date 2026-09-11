@@ -1,0 +1,34 @@
+{
+    "dashboard": "Student Dashboard",
+    "purpose": "Present student-specific diagnostic results, knowledge gaps, priorities, personalized learning path, progress, and reassessment improvement.",
+    "sections": [
+        "Student Overview",
+        "Overall Mastery",
+        "Strengths",
+        "Knowledge Gaps",
+        "Learning Priorities",
+        "Personalized Learning Path",
+        "Learning Progress",
+        "Re-assessment and Improvement"
+    ],
+    "data_sources": [
+        "students",
+        "assessments",
+        "concept_results",
+        "practice_attempts",
+        "learning_progress",
+        "reassessments",
+        "question_bank",
+        "concepts"
+    ],
+    "rules": {
+        "diagnosis_source": "student-specific assessment results",
+        "priority_source": "student-specific priority engine",
+        "learning_path_source": "student-specific prerequisite-aware learning path",
+        "ml_role": "supporting prediction layer only; not the primary diagnosis authority"
+    },
+    "development_data": {
+        "allowed": true,
+        "must_be_labeled": true
+    }
+}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+Diagnostic Assessment
+{% endblock %}
+
+{% block content %}
+
+<section class="card assessment-card">
+
+    <div class="assessment-header">
+        <span class="muted">
+            Diagnostic Assessment
+        </span>
+
+        <span class="muted">
+            Question {{ question_number }} of {{ total_questions }}
+        </span>
+    </div>
+
+    <h1>
+        {{ question.question_text }}
+    </h1>
+
+    <form method="POST"
+          action="{{ url_for('submit_answer', student_id=student_id) }}">
+
+        <input
+            type="hidden"
+            name="question_id"
+            value="{{ question.question_id }}"
+        >
+
+        <div class="answer-options">
+
+            <label class="answer-option">
+                <input
+                    type="radio"
+                    name="student_answer"
+                    value="A"
+                    required
+                >
+                <span>{{ question.option_a }}</span>
+            </label>
+
+            <label class="answer-option">
+                <input
+                    type="radio"
+                    name="student_answer"
+                    value="B"
+                >
+                <span>{{ question.option_b }}</span>
+            </label>
+
+            <label class="answer-option">
+                <input
+                    type="radio"
+                    name="student_answer"
+                    value="C"
+                >
+                <span>{{ question.option_c }}</span>
+            </label>
+
+            <label class="answer-option">
+                <input
+                    type="radio"
+                    name="student_answer"
+                    value="D"
+                >
+                <span>{{ question.option_d }}</span>
+            </label>
+
+        </div>
+
+        <button type="submit" class="button">
+            Submit Answer
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

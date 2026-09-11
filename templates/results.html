@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Results
+<section class="card">
+    <h2>Student Dashboard</h2>
+    <p class="muted">
+        View your complete learning profile, knowledge gaps,
+        priorities, personalized learning path, practice progress,
+        and re-assessment improvement.
+    </p>
+
+    <p>
+        <a href="{{ url_for('student_dashboard', student_id=student_id) }}">
+            Open Student Dashboard
+        </a>
+    </p>
+</section>
+
+{% endblock %}
+
+{% block content %}
+
+<section class="card">
+    <h1>Assessment Results</h1>
+    <p class="muted">
+        Student ID: {{ student_id }}
+    </p>
+</section>
+
+<section class="card">
+    <h2>Knowledge Diagnosis</h2>
+
+    {% if diagnosis %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concept</th>
+                        <th>Mastery</th>
+                        <th>Gap Level</th>
+                        <th>Gap Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in diagnosis %}
+                    <tr>
+                        <td>{{ item.concept_name }}</td>
+                        <td>{{ "%.1f"|format(item.mastery) }}%</td>
+                        <td>{{ item.gap_level }}</td>
+                        <td>{{ "%.1f"|format(item.gap_score) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="muted">No diagnosis data available.</p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h2>Learning Priorities</h2>
+
+    {% if priority %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Concept</th>
+                        <th>Priority Score</th>
+                        <th>Priority Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in priority %}
+                    <tr>
+                        <td>{{ item.priority_rank }}</td>
+                        <td>{{ item.concept_name }}</td>
+                        <td>{{ "%.3f"|format(item.priority_score) }}</td>
+                        <td>{{ item.priority_level }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="muted">No priority data available.</p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h2>Personalized Learning Path</h2>
+
+    {% if learning_path %}
+        <ol class="learning-path">
+            {% for item in learning_path %}
+            <li>
+                <strong>{{ item.concept_name }}</strong>
+                <span class="muted">
+                    — {{ item.difficulty }}
+                    — Mastery: {{ "%.1f"|format(item.mastery) }}%
+                </span>
+            </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p class="muted">
+            No learning path is required at this time.
+        </p>
+    {% endif %}
+</section>
+
+{% endblock %}
