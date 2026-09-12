@@ -9,10 +9,16 @@ from flask import (
     session
 )
 
-from backend_service import BackendService
-from repository import load_question_bank
-from student_dashboard_service import get_student_dashboard_data
-from teacher_dashboard_service import get_teacher_dashboard_data
+try:
+    from .backend_service import BackendService
+    from .repository import load_question_bank
+    from .student_dashboard_service import get_student_dashboard_data
+    from .teacher_dashboard_service import get_teacher_dashboard_data
+except ImportError:
+    from backend_service import BackendService
+    from repository import load_question_bank
+    from student_dashboard_service import get_student_dashboard_data
+    from teacher_dashboard_service import get_teacher_dashboard_data
 
 
 app = Flask(
@@ -106,7 +112,10 @@ def assessment(student_id):
         session["assessment_id"] = assessment_id
         session["assessment_student_id"] = student_id
 
-    from database import get_assessment_answers
+    try:
+        from .database import get_assessment_answers
+    except ImportError:
+        from database import get_assessment_answers
 
     answers = get_assessment_answers(
         assessment_id
@@ -236,7 +245,10 @@ def submit_answer(student_id):
             400
         )
 
-    from database import get_assessment_answers
+    try:
+        from .database import get_assessment_answers
+    except ImportError:
+        from database import get_assessment_answers
 
     existing_answers = get_assessment_answers(
         assessment_id
@@ -264,7 +276,10 @@ def submit_answer(student_id):
         student_answer=student_answer
     )
 
-    from database import get_assessment_answers
+    try:
+        from .database import get_assessment_answers
+    except ImportError:
+        from database import get_assessment_answers
 
     answers = get_assessment_answers(
         assessment_id

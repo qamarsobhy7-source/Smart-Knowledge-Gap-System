@@ -1,32 +1,64 @@
 
 import pandas as pd
 
-from database import (
-    create_student,
-    create_assessment,
-    save_answer,
-    save_concept_result
-)
+try:
+    from .database import (
+        create_student,
+        create_assessment,
+        save_answer,
+        save_concept_result
+    )
+except ImportError:
+    from database import (
+        create_student,
+        create_assessment,
+        save_answer,
+        save_concept_result
+    )
 
-from repository import (
-    load_question_bank,
-    load_concepts
-)
+try:
+    from .repository import (
+        load_question_bank,
+        load_concepts
+    )
+except ImportError:
+    from repository import (
+        load_question_bank,
+        load_concepts
+    )
 
-from diagnostic_engine import (
-    score_question,
-    calculate_concept_mastery,
-    classify_mastery,
-    calculate_gap_score
-)
+try:
+    from .diagnostic_engine import (
+        score_question,
+        calculate_concept_mastery,
+        classify_mastery,
+        calculate_gap_score
+    )
+except ImportError:
+    from diagnostic_engine import (
+        score_question,
+        calculate_concept_mastery,
+        classify_mastery,
+        calculate_gap_score
+    )
 
-from priority_engine import (
-    calculate_student_priority
-)
+try:
+    from .priority_engine import (
+        calculate_student_priority
+    )
+except ImportError:
+    from priority_engine import (
+        calculate_student_priority
+    )
 
-from learning_path_engine import (
-    build_personalized_learning_path
-)
+try:
+    from .learning_path_engine import (
+        build_personalized_learning_path
+    )
+except ImportError:
+    from learning_path_engine import (
+        build_personalized_learning_path
+    )
 
 
 class BackendService:

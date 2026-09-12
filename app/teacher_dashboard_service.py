@@ -4,9 +4,18 @@ import sqlite3
 
 import pandas as pd
 
-from database import get_connection
-from repository import load_concepts
-from priority_engine import calculate_student_priority
+try:
+    from .database import get_connection
+except ImportError:
+    from database import get_connection
+try:
+    from .repository import load_concepts
+except ImportError:
+    from repository import load_concepts
+try:
+    from .priority_engine import calculate_student_priority
+except ImportError:
+    from priority_engine import calculate_student_priority
 
 
 def _empty_teacher_dashboard():

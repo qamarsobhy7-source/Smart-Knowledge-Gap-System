@@ -1,19 +1,38 @@
 import pandas as pd
 
-from database import get_connection
+try:
+    from .database import get_connection
+except ImportError:
+    from database import get_connection
 
-from repository import (
-    load_concepts,
-    load_question_bank
-)
+try:
+    from .repository import (
+        load_concepts,
+        load_question_bank
+    )
+except ImportError:
+    from repository import (
+        load_concepts,
+        load_question_bank
+    )
 
-from priority_engine import (
-    calculate_student_priority
-)
+try:
+    from .priority_engine import (
+        calculate_student_priority
+    )
+except ImportError:
+    from priority_engine import (
+        calculate_student_priority
+    )
 
-from learning_path_engine import (
-    build_personalized_learning_path
-)
+try:
+    from .learning_path_engine import (
+        build_personalized_learning_path
+    )
+except ImportError:
+    from learning_path_engine import (
+        build_personalized_learning_path
+    )
 
 
 
