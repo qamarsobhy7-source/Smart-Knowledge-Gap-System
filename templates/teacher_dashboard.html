@@ -334,151 +334,124 @@
 <section class="card">
     <h2>Practice Activity</h2>
 
-    <div class="dashboard-grid">
-        <div class="card">
-            <h3>Total Practice Attempts</h3>
-            <p>{{ activity_summary.practice_attempts|default(0) }}</p>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total Practice Attempts</span>
+            <strong>{{ activity_summary.practice_attempts }}</strong>
         </div>
 
-        <div class="card">
-            <h3>Correct Attempts</h3>
-            <p>{% if practice_activity %}
-    {{ practice_activity
-        |selectattr("is_correct")
-        |list
-        |length }}
-{% else %}
-    0
-{% endif %}</p>
+        <div class="stat-card">
+            <span class="stat-label">Correct Attempts</span>
+            <strong>
+                {{ practice_activity | map(attribute="correct_attempts") | map("int") | sum }}
+            </strong>
         </div>
 
-        <div class="card">
-            <h3>Average Score</h3>
-            <p>
-                {% if practice_activity %}
-                    {{ "%.1f"|format(
-                        (
-                            practice_activity
-                            |map(attribute="score")
-                            |map("float")
-                            |sum
-                        )
-                        / (practice_activity|length)
-                    ) }}
-                {% else %}
-                    —
-                {% endif %}
-            </p>
+        <div class="stat-card">
+            <span class="stat-label">Average Score</span>
+            <strong>
+                {{
+                    (
+                        practice_activity
+                        | map(attribute="average_score")
+                        | map("float")
+                        | list
+                    )
+                    | sum
+                    / (
+                        practice_activity | length
+                        if practice_activity | length > 0
+                        else 1
+                    )
+                }}
+            </strong>
         </div>
     </div>
 
     {% if practice_activity %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Question</th>
-                    <th>Correct</th>
-                    <th>Score</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for attempt in practice_activity %}
-                <tr>
-                    <td>{{ attempt.student_id }}</td>
-                    <td>{{ attempt.question_id }}</td>
-                    <td>{{ attempt.is_correct }}</td>
-                    <td>{{ attempt.score }}</td>
-                    <td>{{ attempt.created_at }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Total Attempts</th>
+                <th>Correct Attempts</th>
+                <th>Accuracy</th>
+                <th>Average Score</th>
+                <th>Last Attempt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in practice_activity %}
+            <tr>
+                <td>{{ activity.student_id }}</td>
+                <td>{{ activity.practice_attempts }}</td>
+                <td>{{ activity.correct_attempts }}</td>
+                <td>{{ activity.accuracy }}</td>
+                <td>{{ activity.average_score }}</td>
+                <td>{{ activity.last_attempt_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-    <p class="muted">
-        No practice activity is currently available.
-    </p>
+    <p>No practice activity recorded yet.</p>
     {% endif %}
 </section>
 
 <section class="card">
     <h2>Re-assessment and Improvement</h2>
 
-    <div class="dashboard-grid">
-        <div class="card">
-            <h3>Total Re-assessments</h3>
-            <p>{{ activity_summary.reassessments|default(0) }}</p>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total Re-assessments</span>
+            <strong>{{ activity_summary.reassessments }}</strong>
         </div>
 
-        <div class="card">
-            <h3>Average Before Mastery</h3>
-            <p>
-                {% if activity_summary.average_before_mastery is not none %}
-                    {{ "%.1f"|format(activity_summary.average_before_mastery) }}%
-                {% else %}
-                    —
-                {% endif %}
-            </p>
+        <div class="stat-card">
+            <span class="stat-label">Average Before Mastery</span>
+            <strong>{{ activity_summary.average_before_mastery }}</strong>
         </div>
 
-        <div class="card">
-            <h3>Average After Mastery</h3>
-            <p>
-                {% if activity_summary.average_after_mastery is not none %}
-                    {{ "%.1f"|format(activity_summary.average_after_mastery) }}%
-                {% else %}
-                    —
-                {% endif %}
-            </p>
+        <div class="stat-card">
+            <span class="stat-label">Average After Mastery</span>
+            <strong>{{ activity_summary.average_after_mastery }}</strong>
         </div>
 
-        <div class="card">
-            <h3>Average Improvement</h3>
-            <p>
-                {% if activity_summary.average_improvement is not none %}
-                    {{ "%.1f"|format(activity_summary.average_improvement) }}%
-                {% else %}
-                    —
-                {% endif %}
-            </p>
+        <div class="stat-card">
+            <span class="stat-label">Average Improvement</span>
+            <strong>{{ activity_summary.average_improvement }}</strong>
         </div>
     </div>
 
     {% if reassessment_and_improvement %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Concept</th>
-                    <th>Before Mastery</th>
-                    <th>After Mastery</th>
-                    <th>Improvement</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in reassessment_and_improvement %}
-                <tr>
-                    <td>{{ record.student_id }}</td>
-                    <td>{{ record.concept_name|default(record.concept_id) }}</td>
-                    <td>{{ record.before_mastery }}%</td>
-                    <td>{{ record.after_mastery }}%</td>
-                    <td>{{ record.improvement }}%</td>
-                    <td>{{ record.created_at }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Total Re-assessments</th>
+                <th>Concepts Re-assessed</th>
+                <th>Average Before Mastery</th>
+                <th>Average After Mastery</th>
+                <th>Average Improvement</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in reassessment_and_improvement %}
+            <tr>
+                <td>{{ item.student_id }}</td>
+                <td>{{ item.total_reassessments }}</td>
+                <td>{{ item.concepts_reassessed }}</td>
+                <td>{{ item.average_before_mastery }}</td>
+                <td>{{ item.average_after_mastery }}</td>
+                <td>{{ item.average_improvement }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-    <p class="muted">
-        No re-assessment data is currently available.
-    </p>
+    <p>No re-assessment records yet.</p>
     {% endif %}
 </section>
+
 
 {% endblock %}
