@@ -194,12 +194,6 @@ def teacher_dashboard():
     )
 
 
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5000,
-        debug=False
-    )
 
 @app.route(
     "/assessment/<int:student_id>/submit",
@@ -374,4 +368,12 @@ def submit_answer(student_id):
         question_number=len(answers) + 1,
         total_questions=len(questions),
         student_id=student_id
+    )
+
+
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=False
     )
