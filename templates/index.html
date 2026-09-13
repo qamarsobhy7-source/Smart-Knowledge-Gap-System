@@ -1,39 +1,100 @@
 {% extends "base.html" %}
 
-{% block title %}
-Smart Knowledge Gap System
-{% endblock %}
+{% block title %}Smart Knowledge Gap{% endblock %}
 
 {% block content %}
 
-<section class="card">
-    <h1>Smart Knowledge Gap & Personalized Learning System</h1>
+<section class="hero">
 
-    <p class="muted">
-        Discover your knowledge gaps and receive a personalized
-        learning path based on your current mastery.
+<div class="hero-copy">
+    <span class="eyebrow">PERSONALIZED LEARNING PLATFORM</span>
+
+    <h1>
+        Discover what you know.
+        <span>Learn what you need.</span>
+    </h1>
+
+    <p>
+        Assess your knowledge concept by concept, discover your learning gaps,
+        and receive a personalized path built around your current mastery.
     </p>
 
-    <form method="POST" action="{{ url_for('register_student') }}">
+    <div class="hero-points">
+        <div><b>01</b><span>Choose your subject</span></div>
+        <div><b>02</b><span>Select your level</span></div>
+        <div><b>03</b><span>Build your personalized path</span></div>
+    </div>
+</div>
 
-        <div>
-            <label for="full_name">Student Name</label>
+<div class="start-card">
 
-            <input
-                type="text"
-                id="full_name"
-                name="full_name"
-                required
-                maxlength="120"
-                autocomplete="name"
-            >
-        </div>
+<div class="card-icon">✦</div>
 
-        <button type="submit" class="button">
-            Start Learning Assessment
-        </button>
+<h2>Start your learning journey</h2>
 
-    </form>
+<p>Tell us about yourself and choose your learning track.</p>
+
+<form method="POST" action="/register">
+
+<label>Student name</label>
+<input name="name" type="text" placeholder="Enter your name" value="Qamar" required>
+
+<label>Age</label>
+<input name="age" type="number" min="5" max="100" placeholder="Your age">
+
+<label>Subject</label>
+<select name="subject" required>
+<option value="">Choose a subject</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Physics">Physics</option>
+<option value="Computer Science">Computer Science</option>
+</select>
+
+<label>Level</label>
+<select name="level" required>
+<option value="">Choose your level</option>
+<option value="Beginner">Beginner</option>
+<option value="Intermediate">Intermediate</option>
+<option value="Advanced">Advanced</option>
+</select>
+
+<button class="primary-btn" type="submit">
+Start Assessment →
+</button>
+
+</form>
+</div>
+
+</section>
+
+<section class="features">
+
+<div class="section-heading">
+<span class="eyebrow">HOW IT WORKS</span>
+<h2>A learning experience built around you.</h2>
+</div>
+
+<div class="feature-grid">
+
+<article class="feature-card">
+<span class="feature-number">01</span>
+<h3>Diagnostic Assessment</h3>
+<p>Analyze performance concept by concept instead of relying only on a total score.</p>
+</article>
+
+<article class="feature-card">
+<span class="feature-number">02</span>
+<h3>Knowledge Gaps</h3>
+<p>Identify exactly which concepts need attention and which ones are already strong.</p>
+</article>
+
+<article class="feature-card">
+<span class="feature-number">03</span>
+<h3>Personalized Path</h3>
+<p>Follow a prerequisite-aware learning path designed around your current needs.</p>
+</article>
+
+</div>
 </section>
 
 {% endblock %}

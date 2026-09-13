@@ -46,6 +46,21 @@ def index():
 def register_student():
     full_name = request.form.get(
         "full_name",
+        request.form.get("name", "")
+    ).strip()
+
+    age = request.form.get(
+        "age",
+        ""
+    ).strip()
+
+    subject = request.form.get(
+        "subject",
+        ""
+    ).strip()
+
+    level = request.form.get(
+        "level",
         ""
     ).strip()
 
@@ -71,6 +86,10 @@ def register_student():
         full_name=full_name
     )
 
+    session["student_age"] = age
+    session["student_subject"] = subject
+    session["student_level"] = level
+
     return redirect(
         url_for(
             "assessment",
@@ -84,6 +103,19 @@ def register_student():
     methods=["GET"]
 )
 def assessment(student_id):
+    try:
+        from .database import get_student
+    except ImportError:
+        from database import get_student
+
+    student = get_student(student_id)
+
+    if student is None:
+        return (
+            "Student not found.",
+            404
+        )
+
     questions = load_question_bank()
 
     if questions.empty:
@@ -91,6 +123,38 @@ def assessment(student_id):
             "Question Bank is empty.",
             500
         )
+
+    selected_subject = session.get("student_subject", "").strip()
+    selected_level = session.get("student_level", "").strip()
+
+    if selected_level:
+        questions = questions[
+            questions["difficulty"].astype(str).str.strip() == selected_level
+        ].copy()
+
+    subject_id_map = {
+        "Mathematics": 1,
+        "Physics": 2,
+        "Computer Science": 3
+    }
+
+    if selected_subject:
+        subject_id = subject_id_map.get(selected_subject)
+
+        if subject_id is not None:
+            questions = questions[
+                questions["subject_id"] == subject_id
+            ].copy()
+
+    if questions.empty:
+        return (
+            "No questions are available for the selected subject and level.",
+            400
+        )
+
+    questions = questions.sort_values(
+        ["concept_id", "question_id"]
+    ).reset_index(drop=True)
 
     assessment_id = session.get(
         "assessment_id"

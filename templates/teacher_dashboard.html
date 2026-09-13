@@ -4,454 +4,510 @@
 
 {% block content %}
 
-<section class="card">
-    <h1>Teacher Dashboard</h1>
-    <p class="muted">
-        Read-only overview of student performance, knowledge gaps,
-        learning priorities, progress, practice activity,
-        and re-assessment improvement.
-    </p>
+<section class="teacher-hero">
+    <div class="teacher-hero-content">
+        <span class="teacher-eyebrow">TEACHER WORKSPACE</span>
+        <h1>Teacher Dashboard</h1>
+        <p>
+            Monitor student performance, identify knowledge gaps,
+            and track learning progress across the system.
+        </p>
+    </div>
+    <div class="teacher-hero-mark">T</div>
 </section>
 
-<section class="card">
-    <h2>Teacher Overview</h2>
-    <div class="dashboard-grid">
-        <div class="card">
-            <h3>Total Students</h3>
-            <p>{{ overview.total_students|default(0) }}</p>
+<section class="teacher-overview">
+            <div class="teacher-section-heading">
+                <h2>Teacher Overview</h2>
+            </div>
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">OVERVIEW</span>
+            <h2>Learning Activity</h2>
         </div>
-        <div class="card">
-            <h3>Total Assessments</h3>
-            <p>{{ overview.total_assessments|default(0) }}</p>
+        <p>Current system-wide learning indicators.</p>
+    </div>
+
+    <div class="teacher-stat-grid">
+        <div class="teacher-stat-card">
+            <span>Total Students</span>
+            <strong>{{ overview.total_students|default(0) }}</strong>
         </div>
-        <div class="card">
-            <h3>Completed Diagnostic Assessments</h3>
-            <p>{{ overview.completed_diagnostic_assessments|default(0) }}</p>
+
+        <div class="teacher-stat-card">
+            <span>Total Assessments</span>
+            <strong>{{ overview.total_assessments|default(0) }}</strong>
         </div>
-        <div class="card">
-            <h3>Total Concept Results</h3>
-            <p>{{ overview.total_concept_results|default(0) }}</p>
+
+        <div class="teacher-stat-card">
+            <span>Completed Diagnostics</span>
+            <strong>{{ overview.completed_diagnostic_assessments|default(0) }}</strong>
         </div>
-        <div class="card">
-            <h3>Practice Attempts</h3>
-            <p>{{ overview.total_practice_attempts|default(0) }}</p>
+
+        <div class="teacher-stat-card">
+            <span>Concept Results</span>
+            <strong>{{ overview.total_concept_results|default(0) }}</strong>
         </div>
-        <div class="card">
-            <h3>Learning Progress Records</h3>
-            <p>{{ overview.total_learning_progress_records|default(0) }}</p>
+
+        <div class="teacher-stat-card">
+            <span>Practice Attempts</span>
+            <strong>{{ overview.total_practice_attempts|default(0) }}</strong>
         </div>
-        <div class="card">
-            <h3>Re-assessments</h3>
-            <p>{{ overview.total_reassessments|default(0) }}</p>
+
+        <div class="teacher-stat-card">
+            <span>Learning Records</span>
+            <strong>{{ overview.total_learning_progress_records|default(0) }}</strong>
+        </div>
+
+        <div class="teacher-stat-card">
+            <span>Re-assessments</span>
+            <strong>{{ overview.total_reassessments|default(0) }}</strong>
         </div>
     </div>
 </section>
 
-<section class="card">
-    <h2>Student List</h2>
-    {% if students %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>Assessments</th>
-                    <th>Latest Assessment</th>
-                    <th>Latest Date</th>
-                    <th>Overall Mastery</th>
-                    <th>Concepts Assessed</th>
-                    <th>Practice Attempts</th>
-                    <th>Learning Progress</th>
-                    <th>Re-assessments</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in students %}
-                <tr>
-                    <td>{{ student.student_id }}</td>
-                    <td>{{ student.full_name }}</td>
-                    <td>{{ student.assessment_count|default(0) }}</td>
-                    <td>{{ student.latest_assessment_type|default("—") }}</td>
-                    <td>{{ student.latest_assessment_date|default("—") }}</td>
-                    <td>
-                        {% if student.overall_mastery is not none %}
-                            {{ "%.1f"|format(student.overall_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>{{ student.concepts_assessed|default(0) }}</td>
-                    <td>{{ student.practice_attempts|default(0) }}</td>
-                    <td>{{ student.learning_progress_records|default(0) }}</td>
-                    <td>{{ student.reassessments|default(0) }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No students are currently available.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Student Performance</h2>
-    {% if student_performance %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Assessment</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Overall Mastery</th>
-                    <th>Strong</th>
-                    <th>Weak</th>
-                    <th>Critical</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in student_performance %}
-                <tr>
-                    <td>{{ record.full_name }}</td>
-                    <td>{{ record.assessment_id }}</td>
-                    <td>{{ record.assessment_type }}</td>
-                    <td>{{ record.assessment_created_at }}</td>
-                    <td>
-                        {% if record.overall_mastery is not none %}
-                            {{ "%.1f"|format(record.overall_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>{{ record.strong_concepts|default(0) }}</td>
-                    <td>{{ record.weak_concepts|default(0) }}</td>
-                    <td>{{ record.critical_concepts|default(0) }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No student performance data is currently available.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Concept Performance</h2>
-    {% if concept_performance %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Concept ID</th>
-                    <th>Concept</th>
-                    <th>Subject</th>
-                    <th>Difficulty</th>
-                    <th>Students Assessed</th>
-                    <th>Average Mastery</th>
-                    <th>Minimum Mastery</th>
-                    <th>Maximum Mastery</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for concept in concept_performance %}
-                <tr>
-                    <td>{{ concept.concept_id }}</td>
-                    <td>{{ concept.concept_name }}</td>
-                    <td>{{ concept.subject_id }}</td>
-                    <td>{{ concept.difficulty }}</td>
-                    <td>{{ concept.students_assessed|default(0) }}</td>
-                    <td>
-                        {% if concept.average_mastery is not none %}
-                            {{ "%.1f"|format(concept.average_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if concept.minimum_mastery is not none %}
-                            {{ "%.1f"|format(concept.minimum_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if concept.maximum_mastery is not none %}
-                            {{ "%.1f"|format(concept.maximum_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No concept performance data is currently available.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Knowledge Gaps</h2>
-    {% if knowledge_gaps %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Concept ID</th>
-                    <th>Concept</th>
-                    <th>Students With Gap</th>
-                    <th>Average Mastery</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for gap in knowledge_gaps %}
-                <tr>
-                    <td>{{ gap.concept_id }}</td>
-                    <td>{{ gap.concept_name }}</td>
-                    <td>{{ gap.students_with_gap|default(0) }}</td>
-                    <td>
-                        {% if gap.average_mastery is not none %}
-                            {{ "%.1f"|format(gap.average_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No knowledge gaps are currently recorded.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Learning Priorities</h2>
-    {% if learning_priorities %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Concept</th>
-                    <th>Mastery</th>
-                    <th>Gap Level</th>
-                    <th>Gap Score</th>
-                    <th>Priority Score</th>
-                    <th>Priority Level</th>
-                    <th>Priority Rank</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for priority in learning_priorities %}
-                <tr>
-                    <td>{{ priority.student_id|default("—") }}</td>
-                    <td>{{ priority.concept_name|default(priority.concept_id) }}</td>
-                    <td>
-                        {% if priority.mastery is not none %}
-                            {{ "%.1f"|format(priority.mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>{{ priority.gap_level|default("—") }}</td>
-                    <td>
-                        {% if priority.gap_score is not none %}
-                            {{ "%.3f"|format(priority.gap_score) }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if priority.priority_score is not none %}
-                            {{ "%.3f"|format(priority.priority_score) }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>{{ priority.priority_level|default("—") }}</td>
-                    <td>{{ priority.priority_rank|default("—") }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No learning priority data is currently available.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Learning Progress</h2>
-    {% if learning_progress %}
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Concept</th>
-                    <th>Learning Step</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for progress in learning_progress %}
-                <tr>
-                    <td>{{ progress.student_id|default("—") }}</td>
-                    <td>{{ progress.concept_name|default(progress.concept_id) }}</td>
-                    <td>{{ progress.learning_step|default("—") }}</td>
-                    <td>{{ progress.status|default("—") }}</td>
-                    <td>{{ progress.created_at|default("—") }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <p class="muted">
-        No learning progress records are currently available.
-    </p>
-    {% endif %}
-</section>
-
-<section class="card">
-    <h2>Practice Activity</h2>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-label">Total Practice Attempts</span>
-            <strong>{{ activity_summary.practice_attempts }}</strong>
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">STUDENTS</span>
+            <h2>Student Overview</h2>
         </div>
-
-        <div class="stat-card">
-            <span class="stat-label">Correct Attempts</span>
-            <strong>
-                {{ practice_activity | map(attribute="correct_attempts") | map("int") | sum }}
-            </strong>
-        </div>
-
-        <div class="stat-card">
-            <span class="stat-label">Average Score</span>
-            <strong>
-                {{
-                    (
-                        practice_activity
-                        | map(attribute="average_score")
-                        | map("float")
-                        | list
-                    )
-                    | sum
-                    / (
-                        practice_activity | length
-                        if practice_activity | length > 0
-                        else 1
-                    )
-                }}
-            </strong>
-        </div>
+        <p>Review individual learning activity and current mastery.</p>
     </div>
 
-    {% if practice_activity %}
-    <table>
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Total Attempts</th>
-                <th>Correct Attempts</th>
-                <th>Accuracy</th>
-                <th>Average Score</th>
-                <th>Last Attempt</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for activity in practice_activity %}
-            <tr>
-                <td>{{ activity.student_id }}</td>
-                <td>{{ activity.practice_attempts }}</td>
-                <td>{{ activity.correct_attempts }}</td>
-                <td>{{ activity.accuracy }}</td>
-                <td>{{ activity.average_score }}</td>
-                <td>{{ activity.last_attempt_at }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No practice activity recorded yet.</p>
-    {% endif %}
+    <div class="student-list-grid">
+        {% for student in students %}
+        <article class="student-card">
+            <div class="student-card-header">
+                <div class="student-avatar">
+                    {{ student.full_name[:1]|upper }}
+                </div>
+                <div>
+                    <h3>{{ student.full_name }}</h3>
+                    <span>Student ID: {{ student.student_id }}</span>
+                </div>
+            </div>
+
+            <div class="student-metrics">
+                <div>
+                    <span>Assessments</span>
+                    <strong>{{ student.assessment_count }}</strong>
+                </div>
+
+                <div>
+                    <span>Mastery</span>
+                    <strong>{{ student.overall_mastery }}</strong>
+                </div>
+
+                <div>
+                    <span>Concepts</span>
+                    <strong>{{ student.concepts_assessed }}</strong>
+                </div>
+
+                <div>
+                    <span>Practice</span>
+                    <strong>{{ student.practice_attempts }}</strong>
+                </div>
+
+                <div>
+                    <span>Learning</span>
+                    <strong>{{ student.learning_progress_records }}</strong>
+                </div>
+
+                <div>
+                    <span>Re-assessments</span>
+                    <strong>{{ student.reassessments }}</strong>
+                </div>
+            </div>
+
+            <div class="student-card-footer">
+                <span>
+                    Latest:
+                    {{ student.latest_assessment_type|default("No assessment") }}
+                </span>
+                <span>
+                    {{ student.latest_assessment_date|default("—") }}
+                </span>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No students available yet.
+        </div>
+        {% endfor %}
+    </div>
 </section>
 
-<section class="card">
-    <h2>Re-assessment and Improvement</h2>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-label">Total Re-assessments</span>
-            <strong>{{ activity_summary.reassessments }}</strong>
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">PERFORMANCE</span>
+            <h2>Student Performance</h2>
         </div>
+        <p>Track diagnostic performance and concept-level mastery.</p>
+    </div>
 
-        <div class="stat-card">
-            <span class="stat-label">Average Before Mastery</span>
-            <strong>{{ activity_summary.average_before_mastery }}</strong>
+    <div class="performance-grid">
+        {% for item in student_performance %}
+        <article class="performance-card">
+            <div class="performance-header">
+                <div>
+                    <h3>{{ item.full_name }}</h3>
+                    <span>{{ item.assessment_type }}</span>
+                </div>
+                <strong>{{ item.overall_mastery }}</strong>
+            </div>
+
+            <div class="performance-meta">
+                <span>Assessment #{{ item.assessment_id }}</span>
+                <span>{{ item.assessment_created_at }}</span>
+            </div>
+
+            <div class="performance-columns">
+                <div>
+                    <span>Strong Concepts</span>
+                    <p>{{ item.strong_concepts|default("None") }}</p>
+                </div>
+
+                <div>
+                    <span>Weak Concepts</span>
+                    <p>{{ item.weak_concepts|default("None") }}</p>
+                </div>
+
+                <div>
+                    <span>Critical Concepts</span>
+                    <p>{{ item.critical_concepts|default("None") }}</p>
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No student performance records available yet.
         </div>
+        {% endfor %}
+    </div>
+</section>
 
-        <div class="stat-card">
-            <span class="stat-label">Average After Mastery</span>
-            <strong>{{ activity_summary.average_after_mastery }}</strong>
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">CONCEPTS</span>
+            <h2>Concept Performance</h2>
         </div>
+        <p>Understand how students are performing across individual concepts.</p>
+    </div>
 
-        <div class="stat-card">
-            <span class="stat-label">Average Improvement</span>
-            <strong>{{ activity_summary.average_improvement }}</strong>
+    <div class="concept-performance-grid">
+        {% for concept in concept_performance %}
+        <article class="concept-card">
+            <div class="concept-card-header">
+                <div>
+                    <h3>{{ concept.concept_name }}</h3>
+                    <span>Concept {{ concept.concept_id }}</span>
+                </div>
+                <span class="concept-difficulty">
+                    {{ concept.difficulty }}
+                </span>
+            </div>
+
+            <div class="concept-main-score">
+                <strong>{{ concept.average_mastery }}</strong>
+                <span>Average Mastery</span>
+            </div>
+
+            <div class="concept-metrics">
+                <div>
+                    <span>Students Assessed</span>
+                    <strong>{{ concept.students_assessed }}</strong>
+                </div>
+
+                <div>
+                    <span>Minimum</span>
+                    <strong>{{ concept.minimum_mastery }}</strong>
+                </div>
+
+                <div>
+                    <span>Maximum</span>
+                    <strong>{{ concept.maximum_mastery }}</strong>
+                </div>
+            </div>
+
+            <div class="concept-subject">
+                Subject ID: {{ concept.subject_id }}
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No concept performance records available yet.
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">KNOWLEDGE GAPS</span>
+            <h2>Knowledge Gap Overview</h2>
+        </div>
+        <p>Identify concepts where students need additional support.</p>
+    </div>
+
+    <div class="gap-grid">
+        {% for gap in knowledge_gaps %}
+        <article class="gap-card">
+            <div class="gap-card-header">
+                <div>
+                    <h3>{{ gap.concept_name }}</h3>
+                    <span>Concept {{ gap.concept_id }}</span>
+                </div>
+                <span class="gap-badge">Gap</span>
+            </div>
+
+            <div class="gap-score">
+                <strong>{{ gap.average_mastery }}</strong>
+                <span>Average Mastery</span>
+            </div>
+
+            <div class="gap-students">
+                <span>Students with this gap</span>
+                <strong>{{ gap.students_with_gap }}</strong>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No knowledge gaps recorded yet.
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">PRIORITIES</span>
+            <h2>Learning Priorities</h2>
+        </div>
+        <p>See which concepts require the highest learning attention.</p>
+    </div>
+
+    <div class="priority-grid">
+        {% for item in learning_priorities %}
+        <article class="priority-card">
+            <div class="priority-rank">
+                #{{ item.priority_rank }}
+            </div>
+
+            <div class="priority-content">
+                <div class="priority-header">
+                    <div>
+                        <h3>{{ item.concept_name }}</h3>
+                        <span>Student ID: {{ item.student_id }}</span>
+                    </div>
+
+                    <span class="priority-level">
+                        {{ item.priority_level }}
+                    </span>
+                </div>
+
+                <div class="priority-metrics">
+                    <div>
+                        <span>Mastery</span>
+                        <strong>{{ item.mastery }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Gap Level</span>
+                        <strong>{{ item.gap_level }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Gap Score</span>
+                        <strong>{{ item.gap_score }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Priority Score</span>
+                        <strong>{{ item.priority_score }}</strong>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No learning priorities available yet.
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">LEARNING</span>
+            <h2>Learning Progress</h2>
+        </div>
+        <p>Track the current learning path and progress of each student.</p>
+    </div>
+
+    <div class="learning-progress-grid">
+        {% for item in learning_progress %}
+        <article class="learning-progress-card">
+            <div class="learning-progress-header">
+                <div>
+                    <h3>{{ item.concept_name }}</h3>
+                    <span>Student ID: {{ item.student_id }}</span>
+                </div>
+                <span class="progress-status">
+                    {{ item.status }}
+                </span>
+            </div>
+
+            <div class="learning-progress-step">
+                <span>Learning Step</span>
+                <strong>{{ item.learning_step }}</strong>
+            </div>
+
+            <div class="learning-progress-date">
+                {{ item.created_at }}
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No learning progress records available yet.
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">PRACTICE</span>
+            <h2>Practice Activity</h2>
+        </div>
+        <p>Monitor practice attempts, accuracy, scores, and recent activity.</p>
+    </div>
+
+    <div class="practice-summary">
+        <div class="practice-summary-card">
+            <span>Total Practice Attempts</span>
+            <strong>{{ activity_summary.practice_attempts|default(0) }}</strong>
         </div>
     </div>
 
-    {% if reassessment_and_improvement %}
-    <table>
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Total Re-assessments</th>
-                <th>Concepts Re-assessed</th>
-                <th>Average Before Mastery</th>
-                <th>Average After Mastery</th>
-                <th>Average Improvement</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in reassessment_and_improvement %}
-            <tr>
-                <td>{{ item.student_id }}</td>
-                <td>{{ item.total_reassessments }}</td>
-                <td>{{ item.concepts_reassessed }}</td>
-                <td>{{ item.average_before_mastery }}</td>
-                <td>{{ item.average_after_mastery }}</td>
-                <td>{{ item.average_improvement }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No re-assessment records yet.</p>
-    {% endif %}
+    <div class="practice-grid">
+        {% for item in practice_activity %}
+        <article class="practice-card">
+            <div class="practice-card-header">
+                <div>
+                    <h3>Student {{ item.student_id }}</h3>
+                    <span>Practice Activity</span>
+                </div>
+                <span class="practice-accuracy">
+                    {{ item.accuracy|default(0) }}
+                </span>
+            </div>
+
+            <div class="practice-metrics">
+                <div>
+                    <span>Attempts</span>
+                    <strong>{{ item.practice_attempts|default(0) }}</strong>
+                </div>
+                <div>
+                    <span>Correct</span>
+                    <strong>{{ item.correct_attempts|default(0) }}</strong>
+                </div>
+                <div>
+                    <span>Average Score</span>
+                    <strong>{{ item.average_score|default(0) }}</strong>
+                </div>
+            </div>
+
+            <div class="practice-last-attempt">
+                Last attempt: {{ item.last_attempt_at|default("—") }}
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No practice activity available yet.
+        </div>
+        {% endfor %}
+    </div>
 </section>
 
+<section class="teacher-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">IMPROVEMENT</span>
+            <h2>Re-assessment &amp; Improvement</h2>
+        </div>
+        <p>Track reassessment activity and learning improvement over time.</p>
+    </div>
+
+    <div class="improvement-summary">
+        <div class="improvement-summary-card">
+            <span>Total Re-assessments</span>
+            <strong>{{ activity_summary.reassessments|default(0) }}</strong>
+        </div>
+
+        <div class="improvement-summary-card">
+            <span>Average Before Mastery</span>
+            <strong>{{ activity_summary.average_before_mastery|default(0) }}</strong>
+        </div>
+
+        <div class="improvement-summary-card">
+            <span>Average After Mastery</span>
+            <strong>{{ activity_summary.average_after_mastery|default(0) }}</strong>
+        </div>
+
+        <div class="improvement-summary-card">
+            <span>Average Improvement</span>
+            <strong>{{ activity_summary.average_improvement|default(0) }}</strong>
+        </div>
+    </div>
+
+    <div class="improvement-grid">
+        {% for item in reassessment_and_improvement %}
+        <article class="improvement-card">
+            <div class="improvement-card-header">
+                <div>
+                    <h3>Student {{ item.student_id }}</h3>
+                    <span>Re-assessment Progress</span>
+                </div>
+                <span class="improvement-score">
+                    {{ item.average_improvement|default(0) }}
+                </span>
+            </div>
+
+            <div class="improvement-metrics">
+                <div>
+                    <span>Re-assessments</span>
+                    <strong>{{ item.total_reassessments|default(0) }}</strong>
+                </div>
+
+                <div>
+                    <span>Concepts Reassessed</span>
+                    <strong>{{ item.concepts_reassessed|default(0) }}</strong>
+                </div>
+
+                <div>
+                    <span>Before</span>
+                    <strong>{{ item.average_before_mastery|default(0) }}</strong>
+                </div>
+
+                <div>
+                    <span>After</span>
+                    <strong>{{ item.average_after_mastery|default(0) }}</strong>
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <div class="empty-state">
+            No reassessment data available yet.
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}

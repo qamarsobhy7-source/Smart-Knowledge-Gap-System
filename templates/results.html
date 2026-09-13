@@ -4,110 +4,200 @@
 
 {% block content %}
 
-<section class="card">
-    <h2>Student Dashboard</h2>
-    <p class="muted">
-        View your complete learning profile, knowledge gaps,
-        priorities, personalized learning path, practice progress,
-        and re-assessment improvement.
-    </p>
+<section class="results-hero">
+    <div>
+        <span class="eyebrow">ASSESSMENT COMPLETE</span>
+        <h1>Your learning profile is ready.</h1>
+        <p>
+            We analyzed your answers concept by concept and built a learning
+            path around the areas that need the most attention.
+        </p>
+    </div>
 
-    <p>
-        <a href="{{ url_for('student_dashboard', student_id=student_id) }}">
-            Open Student Dashboard
-        </a>
-    </p>
+    <div class="results-id">
+        <span>Student</span>
+        <strong>#{{ student_id }}</strong>
+    </div>
 </section>
 
-<section class="card">
-    <h1>Assessment Results</h1>
-    <p class="muted">
-        Student ID: {{ student_id }}
-    </p>
-</section>
+<div class="results-actions">
+    <a class="primary-btn results-dashboard-btn"
+       href="{{ url_for('student_dashboard', student_id=student_id) }}">
+        Open My Learning Dashboard →
+    </a>
+</div>
 
-<section class="card">
-    <h2>Knowledge Diagnosis</h2>
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">KNOWLEDGE PROFILE</span>
+        <h2>What your assessment tells us</h2>
+    </div>
 
     {% if diagnosis %}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Concept</th>
-                        <th>Mastery</th>
-                        <th>Gap Level</th>
-                        <th>Gap Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in diagnosis %}
-                    <tr>
-                        <td>{{ item.concept_name }}</td>
-                        <td>{{ "%.1f"|format(item.mastery) }}%</td>
-                        <td>{{ item.gap_level }}</td>
-                        <td>{{ "%.1f"|format(item.gap_score) }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+    <div class="diagnosis-grid">
+
+        {% for item in diagnosis %}
+
+        <article class="diagnosis-card">
+
+            <div class="diagnosis-card-top">
+                <span class="concept-index">
+                    {{ loop.index }}
+                </span>
+
+                <span class="status-pill {{ item.gap_level|lower|replace(' ', '-') }}">
+                    {{ item.gap_level }}
+                </span>
+            </div>
+
+            <h3>{{ item.concept_name }}</h3>
+
+            <div class="mastery-row">
+                <span>Mastery</span>
+                <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+            </div>
+
+            <div class="mastery-track">
+                <div
+                    class="mastery-fill"
+                    style="width: {{ item.mastery|float }}%;">
+                </div>
+            </div>
+
+            <div class="gap-score">
+                Gap score:
+                <strong>{{ "%.1f"|format(item.gap_score) }}</strong>
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
     {% else %}
-        <p class="muted">No diagnosis data available.</p>
+
+    <div class="empty-state">
+        No diagnosis data available.
+    </div>
+
     {% endif %}
+
 </section>
 
-<section class="card">
-    <h2>Learning Priorities</h2>
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">LEARNING PRIORITIES</span>
+        <h2>Where you should focus first</h2>
+    </div>
 
     {% if priority %}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Concept</th>
-                        <th>Priority Score</th>
-                        <th>Priority Level</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in priority %}
-                    <tr>
-                        <td>{{ item.priority_rank }}</td>
-                        <td>{{ item.concept_name }}</td>
-                        <td>{{ "%.3f"|format(item.priority_score) }}</td>
-                        <td>{{ item.priority_level }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+    <div class="priority-list">
+
+        {% for item in priority %}
+
+        <article class="priority-card">
+
+            <div class="priority-rank">
+                {{ item.priority_rank }}
+            </div>
+
+            <div class="priority-info">
+                <h3>{{ item.concept_name }}</h3>
+                <span>{{ item.priority_level }}</span>
+            </div>
+
+            <div class="priority-score">
+                <small>Priority</small>
+                <strong>{{ "%.3f"|format(item.priority_score) }}</strong>
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
     {% else %}
-        <p class="muted">No priority data available.</p>
+
+    <div class="empty-state">
+        No learning priorities available.
+    </div>
+
     {% endif %}
+
 </section>
 
-<section class="card">
-    <h2>Personalized Learning Path</h2>
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">PERSONALIZED LEARNING PATH</span>
+        <h2>Your recommended journey</h2>
+    </div>
 
     {% if learning_path %}
-        <ol class="learning-path">
-            {% for item in learning_path %}
-            <li>
-                <strong>{{ item.concept_name }}</strong>
-                <span class="muted">
-                    — {{ item.difficulty }}
-                    — Mastery: {{ "%.1f"|format(item.mastery) }}%
-                </span>
-            </li>
-            {% endfor %}
-        </ol>
+
+    <div class="learning-path-modern">
+
+        {% for item in learning_path %}
+
+        <article class="path-card">
+
+            <div class="path-number">
+                {{ loop.index }}
+            </div>
+
+            <div class="path-content">
+                <h3>{{ item.concept_name }}</h3>
+
+                <div class="path-meta">
+                    <span>{{ item.difficulty }}</span>
+                    <span>Mastery {{ "%.1f"|format(item.mastery) }}%</span>
+                </div>
+            </div>
+
+            <div class="path-arrow">→</div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
     {% else %}
-        <p class="muted">
-            No learning path is required at this time.
-        </p>
+
+    <div class="success-state">
+        <div class="success-icon">✓</div>
+        <div>
+            <h3>No learning path required right now.</h3>
+            <p>Your current mastery indicates that no immediate learning gaps were identified.</p>
+        </div>
+    </div>
+
     {% endif %}
+
+</section>
+
+<section class="results-cta">
+
+    <div>
+        <span class="eyebrow">NEXT STEP</span>
+        <h2>Ready to start learning?</h2>
+        <p>
+            Open your dashboard to explore your knowledge gaps,
+            learning priorities, practice activities, and progress.
+        </p>
+    </div>
+
+    <a class="primary-btn"
+       href="{{ url_for('student_dashboard', student_id=student_id) }}">
+        Go to Dashboard →
+    </a>
+
 </section>
 
 {% endblock %}

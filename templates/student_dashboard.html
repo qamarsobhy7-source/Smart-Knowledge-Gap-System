@@ -1,356 +1,507 @@
 {% extends "base.html" %}
 
-{% block title %}Student Dashboard{% endblock %}
+{% block title %}My Learning Dashboard{% endblock %}
 
 {% block content %}
 
-<section class="card">
-    <h1>Student Dashboard</h1>
+<section class="dashboard-hero">
+    <div>
+        <span class="eyebrow">MY LEARNING DASHBOARD</span>
 
-    <p>
-        <strong>{{ student.full_name }}</strong>
-    </p>
+        <h1>
+            Welcome back,
+            <span>{{ student.full_name }}</span>
+        </h1>
 
-    <p class="muted">
-        Student ID: {{ student.student_id }}
-    </p>
-
-    {% if assessment %}
-        <p class="muted">
-            Latest Assessment:
-            {{ assessment.assessment_type }}
-            — {{ assessment.created_at }}
-        </p>
-    {% else %}
-        <p class="muted">
-            No assessment has been completed yet.
-        </p>
-    {% endif %}
-</section>
-
-
-<section class="card">
-    <h2>Overall Mastery</h2>
-
-    {% if overall_mastery is not none %}
         <p>
-            <strong>
-                {{ "%.1f"|format(overall_mastery) }}%
-            </strong>
+            Track your progress, understand your strengths,
+            and focus on the concepts that matter most.
         </p>
-    {% else %}
-        <p class="muted">
-            No mastery data available.
-        </p>
-    {% endif %}
+
+        {% if assessment %}
+        <div class="dashboard-meta">
+            Latest assessment:
+            <strong>{{ assessment.assessment_type }}</strong>
+            <span>•</span>
+            <span>{{ assessment.created_at }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="student-avatar">
+        {{ student.full_name[:1]|upper }}
+    </div>
 </section>
 
 
-<section class="card">
-    <h2>Strengths</h2>
+<section class="stats-grid">
+
+    <article class="stat-card">
+        <span>Overall Mastery</span>
+
+        <strong>
+            {% if overall_mastery is not none %}
+                {{ "%.1f"|format(overall_mastery) }}%
+            {% else %}
+                —
+            {% endif %}
+        </strong>
+
+        <small>Current learning mastery</small>
+    </article>
+
+    <article class="stat-card">
+        <span>Strengths</span>
+        <strong>{{ strengths|length }}</strong>
+        <small>Strong concepts</small>
+    </article>
+
+    <article class="stat-card">
+        <span>Knowledge Gaps</span>
+        <strong>{{ knowledge_gaps|length }}</strong>
+        <small>Needs attention</small>
+    </article>
+
+    <article class="stat-card">
+        <span>Priorities</span>
+        <strong>{{ learning_priorities|length }}</strong>
+        <small>Recommended focus</small>
+    </article>
+
+</section>
+
+
+<section class="dashboard-section">
+
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">LEARNING OVERVIEW</span>
+        <h2>Your learning profile</h2>
+    </div>
 
     {% if strengths %}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Concept</th>
-                        <th>Subject</th>
-                        <th>Difficulty</th>
-                        <th>Mastery</th>
-                    </tr>
-                </thead>
+    <div class="concept-grid">
 
-                <tbody>
-                    {% for item in strengths %}
-                    <tr>
-                        <td>{{ item.concept_name }}</td>
-                        <td>{{ item.subject_id }}</td>
-                        <td>{{ item.difficulty }}</td>
-                        <td>
-                            {{ "%.1f"|format(item.mastery) }}%
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% for item in strengths %}
+        <article class="concept-card strength-card">
+
+            <div class="concept-card-top">
+                <span class="concept-icon">✓</span>
+                <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+            </div>
+
+            <h3>{{ item.concept_name }}</h3>
+
+            <div class="concept-meta">
+                <span>{{ item.difficulty }}</span>
+                <span>Subject {{ item.subject_id }}</span>
+            </div>
+
+            <div class="mastery-track">
+                <div
+                    class="mastery-fill"
+                    style="width: {{ item.mastery|float }}%;">
+                </div>
+            </div>
+
+        </article>
+        {% endfor %}
+
+    </div>
     {% else %}
-        <p class="muted">
-            No strong concepts recorded yet.
-        </p>
+    <div class="dashboard-placeholder">
+        No strong concepts recorded yet.
+    </div>
     {% endif %}
-</section>
 
 
-<section class="card">
-    <h2>Knowledge Gaps</h2>
+    <div class="dashboard-section-heading gap-heading">
+        <span class="eyebrow">KNOWLEDGE GAPS</span>
+        <h2>Concepts that need attention</h2>
+    </div>
 
     {% if knowledge_gaps %}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Concept</th>
-                        <th>Subject</th>
-                        <th>Difficulty</th>
-                        <th>Mastery</th>
-                        <th>Gap Level</th>
-                        <th>Gap Score</th>
-                    </tr>
-                </thead>
+    <div class="gap-list">
 
-                <tbody>
-                    {% for item in knowledge_gaps %}
-                    <tr>
-                        <td>{{ item.concept_name }}</td>
-                        <td>{{ item.subject_id }}</td>
-                        <td>{{ item.difficulty }}</td>
-                        <td>
-                            {{ "%.1f"|format(item.mastery) }}%
-                        </td>
-                        <td>{{ item.gap_level }}</td>
-                        <td>
-                            {{ "%.1f"|format(item.gap_score) }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% for item in knowledge_gaps %}
+        <article class="gap-card">
+
+            <div class="gap-icon">!</div>
+
+            <div class="gap-main">
+                <h3>{{ item.concept_name }}</h3>
+
+                <div class="gap-meta">
+                    <span>{{ item.difficulty }}</span>
+                    <span>{{ item.gap_level }}</span>
+                </div>
+            </div>
+
+            <div class="gap-value">
+                <small>Mastery</small>
+                <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+            </div>
+
+            <div class="gap-value">
+                <small>Gap</small>
+                <strong>{{ "%.1f"|format(item.gap_score) }}</strong>
+            </div>
+
+        </article>
+        {% endfor %}
+
+    </div>
     {% else %}
-        <p class="muted">
-            No knowledge gaps recorded.
-        </p>
+    <div class="dashboard-placeholder">
+        No knowledge gaps recorded.
+    </div>
     {% endif %}
+
 </section>
 
+<section class="dashboard-section">
 
-<section class="card">
-    <h2>Learning Priorities</h2>
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">LEARNING PRIORITIES</span>
+        <h2>What to focus on first</h2>
+    </div>
 
     {% if learning_priorities %}
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Concept</th>
-                        <th>Mastery</th>
-                        <th>Gap Level</th>
-                        <th>Priority Score</th>
-                        <th>Priority Level</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    {% for item in learning_priorities %}
-                    <tr>
-                        <td>{{ item.priority_rank }}</td>
-                        <td>{{ item.concept_name }}</td>
-                        <td>
-                            {{ "%.1f"|format(item.mastery) }}%
-                        </td>
-                        <td>{{ item.gap_level }}</td>
-                        <td>
-                            {{ "%.3f"|format(item.priority_score) }}
-                        </td>
-                        <td>{{ item.priority_level }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="priority-list">
+
+        {% for item in learning_priorities %}
+        <article class="priority-card">
+
+            <div class="priority-rank">
+                {{ item.priority_rank }}
+            </div>
+
+            <div class="priority-info">
+                <h3>{{ item.concept_name }}</h3>
+
+                <div class="priority-meta">
+                    <span>{{ item.gap_level }}</span>
+                    <span>{{ item.priority_level }}</span>
+                </div>
+            </div>
+
+            <div class="priority-mastery">
+                <small>Mastery</small>
+                <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+            </div>
+
+            <div class="priority-score">
+                <small>Priority</small>
+                <strong>{{ "%.3f"|format(item.priority_score) }}</strong>
+            </div>
+
+        </article>
+        {% endfor %}
+
+    </div>
+
     {% else %}
-        <p class="muted">
-            No learning priorities available.
-        </p>
+
+    <div class="dashboard-placeholder">
+        No learning priorities available.
+    </div>
+
     {% endif %}
+
 </section>
 
 
-<section class="card">
-    <h2>Personalized Learning Path</h2>
+<section class="dashboard-section">
+
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">PERSONALIZED LEARNING PATH</span>
+        <h2>Your next learning steps</h2>
+    </div>
 
     {% if learning_path %}
-        <ol class="learning-path">
-            {% for item in learning_path %}
-            <li>
-                <strong>
-                    {{ item.concept_name }}
-                </strong>
 
-                {% if item.difficulty is defined %}
-                    <span class="muted">
-                        — {{ item.difficulty }}
-                    </span>
-                {% endif %}
+    <div class="learning-path-list">
 
-                {% if item.mastery is defined %}
-                    <span class="muted">
-                        — Mastery:
-                        {{ "%.1f"|format(item.mastery) }}%
+        {% for item in learning_path %}
+        <article class="path-card">
+
+            <div class="path-number">
+                {{ loop.index }}
+            </div>
+
+            <div class="path-info">
+                <h3>{{ item.concept_name }}</h3>
+
+                <div class="path-meta">
+
+                    {% if item.difficulty is defined %}
+                    <span>{{ item.difficulty }}</span>
+                    {% endif %}
+
+                    {% if item.mastery is defined %}
+                    <span>
+                        Mastery {{ "%.1f"|format(item.mastery) }}%
                     </span>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ol>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <span class="path-arrow">→</span>
+
+        </article>
+        {% endfor %}
+
+    </div>
+
     {% else %}
-        <p class="muted">
-            No personalized learning path is available.
-        </p>
+
+    <div class="dashboard-placeholder">
+        No personalized learning path is currently required.
+    </div>
+
     {% endif %}
+
 </section>
 
+<section class="dashboard-two-column">
 
-<section class="card">
-    <h2>Practice Progress</h2>
+    <article class="activity-card">
 
-    <div class="table-container">
-        <table>
-            <tbody>
-                <tr>
-                    <th>Total Attempts</th>
-                    <td>
-                        {{ practice_summary.total_attempts }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Correct Attempts</th>
-                    <td>
-                        {{ practice_summary.correct_attempts }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Accuracy</th>
-                    <td>
-                        {% if practice_summary.accuracy is not none %}
-                            {{ "%.1f"|format(practice_summary.accuracy) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Average Score</th>
-                    <td>
-                        {% if practice_summary.average_score is not none %}
-                            {{ "%.2f"|format(practice_summary.average_score) }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Last Attempt</th>
-                    <td>
-                        {{ practice_summary.last_attempt_at or "—" }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-
-<section class="card">
-    <h2>Re-assessment and Improvement</h2>
-
-    <div class="table-container">
-        <table>
-            <tbody>
-                <tr>
-                    <th>Total Re-assessments</th>
-                    <td>
-                        {{ reassessment_summary.total_reassessments }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Concepts Re-assessed</th>
-                    <td>
-                        {{ reassessment_summary.concepts_reassessed }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Average Before Mastery</th>
-                    <td>
-                        {% if reassessment_summary.average_before_mastery is not none %}
-                            {{ "%.1f"|format(reassessment_summary.average_before_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Average After Mastery</th>
-                    <td>
-                        {% if reassessment_summary.average_after_mastery is not none %}
-                            {{ "%.1f"|format(reassessment_summary.average_after_mastery) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Average Improvement</th>
-                    <td>
-                        {% if reassessment_summary.average_improvement is not none %}
-                            {{ "%.1f"|format(reassessment_summary.average_improvement) }}%
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    {% if reassessments %}
-        <h3>Re-assessment Records</h3>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Concept</th>
-                        <th>Before</th>
-                        <th>After</th>
-                        <th>Improvement</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for item in reassessments %}
-                    <tr>
-                        <td>{{ item.concept_name }}</td>
-                        <td>
-                            {{ "%.1f"|format(item.before_mastery) }}%
-                        </td>
-                        <td>
-                            {{ "%.1f"|format(item.after_mastery) }}%
-                        </td>
-                        <td>
-                            {{ "%.1f"|format(item.improvement) }}%
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="dashboard-section-heading">
+            <span class="eyebrow">PRACTICE</span>
+            <h2>Practice progress</h2>
         </div>
-    {% else %}
-        <p class="muted">
-            No re-assessment records available yet.
+
+        <div class="activity-stats">
+
+            <div>
+                <small>Total attempts</small>
+                <strong>{{ practice_summary.total_attempts }}</strong>
+            </div>
+
+            <div>
+                <small>Correct</small>
+                <strong>{{ practice_summary.correct_attempts }}</strong>
+            </div>
+
+            <div>
+                <small>Accuracy</small>
+                <strong>
+                    {% if practice_summary.accuracy is not none %}
+                        {{ "%.1f"|format(practice_summary.accuracy) }}%
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div>
+                <small>Average score</small>
+                <strong>
+                    {% if practice_summary.average_score is not none %}
+                        {{ "%.2f"|format(practice_summary.average_score) }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+        </div>
+
+        <p class="activity-last">
+            Last attempt:
+            <strong>{{ practice_summary.last_attempt_at or "—" }}</strong>
         </p>
-    {% endif %}
+
+    </article>
+
+
+    <article class="activity-card">
+
+        <div class="dashboard-section-heading">
+            <span class="eyebrow">RE-ASSESSMENT</span>
+            <h2>Learning improvement</h2>
+        </div>
+
+        <div class="improvement-value-large">
+
+            {% if reassessment_summary.average_improvement is not none %}
+                +{{ "%.1f"|format(reassessment_summary.average_improvement) }}%
+            {% else %}
+                —
+            {% endif %}
+
+        </div>
+
+        <p class="muted">
+            Average improvement after re-assessment.
+        </p>
+
+        <div class="before-after">
+
+            <div>
+                <small>Before</small>
+                <strong>
+                    {% if reassessment_summary.average_before_mastery is not none %}
+                        {{ "%.1f"|format(reassessment_summary.average_before_mastery) }}%
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div>
+                <small>After</small>
+                <strong>
+                    {% if reassessment_summary.average_after_mastery is not none %}
+                        {{ "%.1f"|format(reassessment_summary.average_after_mastery) }}%
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+            </div>
+
+        </div>
+
+        <p class="activity-last">
+            Re-assessments:
+            <strong>{{ reassessment_summary.total_reassessments }}</strong>
+        </p>
+
+    </article>
+
 </section>
 
+
+
+
+{% if learning_progress %}
+
+<section class="dashboard-section">
+
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">LEARNING PROGRESS</span>
+        <h2>Your learning activity</h2>
+    </div>
+
+    <div class="reassessment-list">
+
+        {% for item in learning_progress %}
+
+        <article class="reassessment-card">
+
+            <strong>{{ item.concept_name }}</strong>
+
+            <span>
+                Step {{ item.learning_step }}
+            </span>
+
+            <strong>
+                {{ item.status }}
+            </strong>
+
+            <span>
+                {{ item.created_at }}
+            </span>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+
+{% if practice_attempts %}
+
+<section class="dashboard-section">
+
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">PRACTICE HISTORY</span>
+        <h2>Your recent practice attempts</h2>
+    </div>
+
+    <div class="reassessment-list">
+
+        {% for item in practice_attempts %}
+
+        <article class="reassessment-card">
+
+            <strong>
+                {{ item.concept_name }}
+            </strong>
+
+            <span>
+                {{ item.question_id }}
+            </span>
+
+            <strong>
+                {% if item.is_correct %}
+                    Correct
+                {% else %}
+                    Incorrect
+                {% endif %}
+            </strong>
+
+            <span>
+                Score: {{ "%.2f"|format(item.score) }}
+            </span>
+
+            <span>
+                {{ item.created_at }}
+            </span>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+{% if reassessments %}
+
+<section class="dashboard-section">
+
+    <div class="dashboard-section-heading">
+        <span class="eyebrow">RE-ASSESSMENT HISTORY</span>
+        <h2>Your improvement records</h2>
+    </div>
+
+    <div class="reassessment-list">
+
+        {% for item in reassessments %}
+
+        <article class="reassessment-card">
+
+            <strong>{{ item.concept_name }}</strong>
+
+            <span>
+                {{ "%.1f"|format(item.before_mastery) }}%
+                →
+                {{ "%.1f"|format(item.after_mastery) }}%
+            </span>
+
+            <strong class="improvement-positive">
+                +{{ "%.1f"|format(item.improvement) }}%
+            </strong>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
 
 {% endblock %}

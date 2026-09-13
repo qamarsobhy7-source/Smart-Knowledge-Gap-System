@@ -1,37 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Smart Knowledge Gap & Personalized Learning System{% endblock %}</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Smart Knowledge Gap{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-    <header>
-        <nav>
-            <div class="brand">
-                Smart Knowledge Gap System
-            </div>
+<header class="topbar">
+    <a class="brand" href="/">
+        <span class="brand-mark">SK</span>
+        <span>
+            <strong>Smart Knowledge</strong>
+            <small>Personalized Learning</small>
+        </span>
+    </a>
 
-            <div class="nav-links">
-                <a href="{{ url_for('index') }}">Home</a>
-            </div>
-        </nav>
-    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/teacher-dashboard">Teacher Dashboard</a>
+    </nav>
+</header>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+<main class="page">
+{% block content %}{% endblock %}
+</main>
 
-    <footer>
-        <p>
-            Smart Knowledge Gap & Personalized Learning System
-        </p>
-    </footer>
+<footer>
+    <span>Smart Knowledge Gap & Personalized Learning System</span>
+    <span>Learn smarter. Close your gaps.</span>
+</footer>
 
 </body>
 </html>

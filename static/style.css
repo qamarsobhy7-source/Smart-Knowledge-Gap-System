@@ -1,243 +1,2329 @@
-:root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --background: #f8fafc;
-    --surface: #ffffff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --success: #16a34a;
-    --warning: #d97706;
-    --danger: #dc2626;
-    --radius: 12px;
-    --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+*{
+box-sizing:border-box;
 }
 
-* {
-    box-sizing: border-box;
+:root{
+--bg:#f5f7fb;
+--surface:#ffffff;
+--text:#182033;
+--muted:#687287;
+--primary:#5b5ce2;
+--primary2:#8b7cf6;
+--border:#e7e9f1;
+--shadow:0 20px 60px rgba(30,38,80,.09);
 }
 
-html {
-    scroll-behavior: smooth;
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:Inter,Arial,sans-serif;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--background);
-    color: var(--text);
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    line-height: 1.6;
+a{
+text-decoration:none;
+color:inherit;
 }
 
-a {
-    color: var(--primary);
-    text-decoration: none;
+.topbar{
+height:76px;
+padding:0 6%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#fff;
+border-bottom:1px solid var(--border);
+position:sticky;
+top:0;
+z-index:10;
 }
 
-a:hover {
-    text-decoration: underline;
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
+.brand-mark{
+width:43px;
+height:43px;
+border-radius:14px;
+display:grid;
+place-items:center;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+color:white;
+font-weight:800;
 }
 
-nav {
-    width: min(1200px, 92%);
-    min-height: 64px;
-    margin: 0 auto;
+.brand strong{
+display:block;
+font-size:15px;
+}
+
+.brand small{
+display:block;
+font-size:11px;
+color:var(--muted);
+margin-top:2px;
+}
+
+nav{
+display:flex;
+gap:28px;
+}
+
+nav a{
+font-size:14px;
+font-weight:600;
+color:var(--muted);
+}
+
+nav a:hover{
+color:var(--primary);
+}
+
+.page{
+width:min(1180px,92%);
+margin:auto;
+padding:55px 0 80px;
+}
+
+.hero{
+min-height:650px;
+display:grid;
+grid-template-columns:1.15fr .85fr;
+gap:70px;
+align-items:center;
+}
+
+.eyebrow{
+display:inline-block;
+font-size:11px;
+font-weight:800;
+letter-spacing:1.6px;
+color:var(--primary);
+margin-bottom:14px;
+}
+
+.hero h1{
+font-size:clamp(42px,5vw,68px);
+line-height:1.04;
+letter-spacing:-2.5px;
+margin:0 0 24px;
+}
+
+.hero h1 span{
+display:block;
+color:var(--primary);
+}
+
+.hero p{
+max-width:650px;
+font-size:16px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.hero-points{
+display:grid;
+gap:15px;
+margin-top:35px;
+}
+
+.hero-points div{
+display:flex;
+align-items:center;
+gap:14px;
+font-weight:700;
+}
+
+.hero-points b{
+font-size:12px;
+color:var(--primary);
+}
+
+.start-card{
+background:var(--surface);
+padding:35px;
+border:1px solid var(--border);
+border-radius:24px;
+box-shadow:var(--shadow);
+}
+
+.card-icon{
+width:52px;
+height:52px;
+display:grid;
+place-items:center;
+border-radius:16px;
+background:#eeefff;
+color:var(--primary);
+font-size:24px;
+}
+
+.start-card h2{
+font-size:27px;
+margin:20px 0 8px;
+}
+
+.start-card p{
+color:var(--muted);
+line-height:1.6;
+}
+
+label{
+display:block;
+font-size:12px;
+font-weight:800;
+margin:17px 0 7px;
+}
+
+input,
+select{
+width:100%;
+height:50px;
+padding:0 14px;
+border:1px solid var(--border);
+border-radius:12px;
+background:#fafbfe;
+font:inherit;
+color:var(--text);
+outline:none;
+}
+
+input:focus,
+select:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 4px rgba(91,92,226,.1);
+}
+
+.primary-btn{
+width:100%;
+height:52px;
+margin-top:23px;
+border:0;
+border-radius:13px;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+color:white;
+font-weight:800;
+font-size:14px;
+cursor:pointer;
+box-shadow:0 12px 25px rgba(91,92,226,.22);
+}
+
+.primary-btn:hover{
+transform:translateY(-2px);
+}
+
+.features{
+padding-top:20px;
+}
+
+.section-heading h2{
+font-size:35px;
+margin:0 0 25px;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.feature-card{
+background:white;
+padding:30px;
+border:1px solid var(--border);
+border-radius:20px;
+box-shadow:var(--shadow);
+}
+
+.feature-number{
+font-size:12px;
+font-weight:800;
+color:var(--primary);
+}
+
+.feature-card h3{
+font-size:20px;
+margin:14px 0 8px;
+}
+
+.feature-card p{
+color:var(--muted);
+line-height:1.7;
+}
+
+footer{
+width:min(1180px,92%);
+margin:auto;
+padding:25px 0 35px;
+border-top:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+color:var(--muted);
+font-size:12px;
+}
+
+@media(max-width:850px){
+.hero{
+grid-template-columns:1fr;
+gap:35px;
+}
+
+.feature-grid{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:600px){
+nav{
+display:none;
+}
+
+.page{
+padding-top:30px;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+footer{
+flex-direction:column;
+gap:10px;
+}
+}
+
+
+/* Assessment */
+
+.assessment-page{
+    max-width:900px;
+    margin:0 auto;
+}
+
+.assessment-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:30px;
+    margin-bottom:22px;
+}
+
+.assessment-top h1{
+    margin:0;
+    font-size:38px;
+    letter-spacing:-1.2px;
+}
+
+.question-counter{
+    min-width:100px;
+    padding:14px 18px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:#fff;
+    text-align:center;
+}
+
+.question-counter strong{
+    font-size:25px;
+    color:var(--primary);
+}
+
+.question-counter span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.progress-track{
+    height:8px;
+    background:#e9eaf3;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:28px;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--primary),var(--primary2));
+    border-radius:20px;
+    transition:width .25s ease;
+}
+
+.assessment-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:38px;
+    box-shadow:var(--shadow);
+}
+
+.question-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.question-badge{
+    display:inline-flex;
+    padding:8px 12px;
+    border-radius:10px;
+    background:#eeefff;
+    color:var(--primary);
+    font-size:12px;
+    font-weight:800;
+}
+
+.question-text{
+    font-size:28px;
+    line-height:1.45;
+    margin:0 0 30px;
+}
+
+.answer-options{
+    display:grid;
+    gap:13px;
+}
+
+.answer-option{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    min-height:68px;
+    padding:12px 16px;
+    border:1.5px solid var(--border);
+    border-radius:15px;
+    background:#fafbfe;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.answer-option:hover{
+    border-color:var(--primary2);
+    background:#f7f6ff;
+    transform:translateY(-1px);
+}
+
+.answer-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.answer-option:has(input:checked){
+    border-color:var(--primary);
+    background:#f0f0ff;
+    box-shadow:0 0 0 3px rgba(91,92,226,.08);
+}
+
+.option-letter{
+    width:38px;
+    height:38px;
+    flex:0 0 38px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:#fff;
+    border:1px solid var(--border);
+    font-weight:800;
+    color:var(--primary);
+}
+
+.answer-option:has(input:checked) .option-letter{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+}
+
+.option-text{
+    line-height:1.5;
+    font-size:15px;
+    font-weight:600;
+}
+
+.assessment-btn{
+    margin-top:28px;
+}
+
+.assessment-note{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+    margin-top:20px;
+}
+
+@media(max-width:600px){
+    .assessment-top{
+        align-items:start;
+    }
+
+    .assessment-top h1{
+        font-size:29px;
+    }
+
+    .question-counter{
+        min-width:78px;
+        padding:10px;
+    }
+
+    .assessment-card{
+        padding:22px;
+        border-radius:19px;
+    }
+
+    .question-text{
+        font-size:22px;
+    }
+
+    .question-meta{
+        align-items:start;
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+
+/* Results */
+
+.results-hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:40px;
+    padding:50px;
+    margin-bottom:25px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#ffffff,#f0f0ff);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.results-hero h1{
+    margin:0 0 14px;
+    font-size:46px;
+    letter-spacing:-1.8px;
+}
+
+.results-hero p{
+    max-width:680px;
+    margin:0;
+    color:var(--muted);
+    line-height:1.75;
+}
+
+.results-id{
+    min-width:120px;
+    padding:20px;
+    border-radius:18px;
+    background:#fff;
+    border:1px solid var(--border);
+    text-align:center;
+}
+
+.results-id span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.results-id strong{
+    font-size:24px;
+    color:var(--primary);
+}
+
+.results-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:45px;
+}
+
+.results-dashboard-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:auto;
+    padding:0 24px;
+}
+
+.results-section{
+    margin-top:55px;
+}
+
+.results-section .section-heading{
+    margin-bottom:24px;
+}
+
+.results-section .section-heading h2{
+    margin-bottom:0;
+}
+
+.diagnosis-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+
+.diagnosis-card{
+    padding:23px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:19px;
+    box-shadow:0 10px 30px rgba(30,38,80,.05);
+}
+
+.diagnosis-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.concept-index{
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:#f0f1ff;
+    color:var(--primary);
+    font-size:12px;
+    font-weight:800;
+}
+
+.status-pill{
+    padding:6px 10px;
+    border-radius:9px;
+    background:#f1f2f6;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+}
+
+.diagnosis-card h3{
+    min-height:48px;
+    margin:20px 0 18px;
+    font-size:17px;
+}
+
+.mastery-row{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.mastery-row strong{
+    color:var(--text);
+}
+
+.mastery-track{
+    height:7px;
+    margin:8px 0 13px;
+    background:#eceef5;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.mastery-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--primary),var(--primary2));
+    border-radius:10px;
+}
+
+.gap-score{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.gap-score strong{
+    color:var(--text);
+}
+
+.priority-list{
+    display:grid;
+    gap:12px;
+}
+
+.priority-card{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:18px 20px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:17px;
+}
+
+.priority-rank{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:#eeefff;
+    color:var(--primary);
+    font-weight:800;
+}
+
+.priority-info{
+    flex:1;
+}
+
+.priority-info h3{
+    margin:0 0 5px;
+    font-size:16px;
+}
+
+.priority-info span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.priority-score{
+    text-align:right;
+}
+
+.priority-score small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.priority-score strong{
+    color:var(--primary);
+}
+
+.learning-path-modern{
+    display:grid;
+    gap:12px;
+}
+
+.path-card{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:18px 20px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:17px;
+}
+
+.path-number{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:#fff;
+    font-weight:800;
+}
+
+.path-content{
+    flex:1;
+}
+
+.path-content h3{
+    margin:0 0 7px;
+    font-size:16px;
+}
+
+.path-meta{
+    display:flex;
+    gap:14px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.path-arrow{
+    color:var(--primary);
+    font-size:20px;
+    font-weight:800;
+}
+
+.empty-state{
+    padding:35px;
+    text-align:center;
+    background:#fff;
+    border:1px dashed var(--border);
+    border-radius:18px;
+    color:var(--muted);
+}
+
+.success-state{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:25px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+}
+
+.success-icon{
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    background:#edf8f2;
+    color:#2b9b63;
+    font-size:22px;
+    font-weight:800;
+}
+
+.success-state h3{
+    margin:0 0 5px;
+}
+
+.success-state p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.results-cta{
+    margin-top:60px;
+    padding:35px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:25px;
+    border-radius:22px;
+    background:#fff;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.results-cta h2{
+    margin:0 0 7px;
+}
+
+.results-cta p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.results-cta .primary-btn{
+    width:auto;
+    padding:0 25px;
+    flex-shrink:0;
+}
+
+@media(max-width:900px){
+    .diagnosis-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+    .results-hero{
+        padding:28px;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .results-hero h1{
+        font-size:34px;
+    }
+
+    .results-id{
+        width:100%;
+    }
+
+    .results-actions{
+        justify-content:stretch;
+    }
+
+    .results-dashboard-btn{
+        width:100%;
+    }
+
+    .diagnosis-grid{
+        grid-template-columns:1fr;
+    }
+
+    .results-cta{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .results-cta .primary-btn{
+        width:100%;
+    }
+}
+
+
+/* Student Dashboard - Step 5 */
+
+.dashboard-hero {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 30px;
+    padding: 42px;
+    margin-bottom: 24px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #ffffff, #f2f3ff);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
 }
 
-.brand {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+.dashboard-hero h1 {
+    margin: 8px 0 12px;
+    font-size: 42px;
+    letter-spacing: -1.5px;
 }
 
-.nav-links {
+.dashboard-hero h1 span {
+    color: var(--primary);
+}
+
+.dashboard-hero p {
+    max-width: 650px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.dashboard-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.dashboard-meta strong {
+    color: var(--primary);
+}
+
+.student-avatar {
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--primary), var(--primary2));
+    color: white;
+    font-size: 36px;
+    font-weight: 800;
+    box-shadow: 0 16px 35px rgba(80, 80, 220, .20);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    padding: 22px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(30, 40, 80, .05);
+}
+
+.stat-card span,
+.stat-card small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.stat-card strong {
+    display: block;
+    margin: 8px 0 4px;
+    font-size: 30px;
+}
+
+.dashboard-section {
+    margin-top: 50px;
+}
+
+.dashboard-section-heading {
+    margin-bottom: 20px;
+}
+
+.dashboard-section-heading .eyebrow {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.dashboard-section-heading h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.dashboard-placeholder {
+    padding: 28px;
+    text-align: center;
+    color: var(--muted);
+    background: white;
+    border: 1px dashed var(--border);
+    border-radius: 18px;
+}
+
+.concept-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.concept-card {
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.strength-card {
+    border-top: 3px solid #39a66d;
+}
+
+.concept-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.concept-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #edf8f2;
+    color: #29915c;
+    font-weight: 800;
+}
+
+.concept-card h3 {
+    margin: 17px 0 10px;
+    font-size: 17px;
+}
+
+.concept-meta,
+.gap-meta,
+.priority-meta,
+.path-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.mastery-track {
+    height: 7px;
+    margin-top: 17px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #eceef5;
+}
+
+.mastery-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #49b87b, #65cf91);
+}
+
+.gap-heading {
+    margin-top: 45px;
+}
+
+.gap-list,
+.priority-list,
+.learning-path-list,
+.reassessment-list {
+    display: grid;
+    gap: 11px;
+}
+
+.gap-card,
+.priority-card,
+.path-card,
+.reassessment-card {
     display: flex;
     align-items: center;
-    gap: 18px;
-}
-
-main {
-    width: min(1200px, 92%);
-    margin: 0 auto;
-    padding: 40px 0;
-}
-
-footer {
-    width: min(1200px, 92%);
-    margin: 0 auto;
-    padding: 24px 0 40px;
-    color: var(--muted);
-    font-size: 0.9rem;
-}
-
-.card {
-    background: var(--surface);
+    gap: 16px;
+    padding: 17px 19px;
+    background: white;
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 24px;
+    border-radius: 17px;
 }
 
-.button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    padding: 9px 18px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--primary);
-    color: #ffffff;
-    font-weight: 600;
-    cursor: pointer;
+.gap-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #fff0ed;
+    color: #df604c;
+    font-weight: 800;
 }
 
-.button:hover {
-    background: var(--primary-dark);
-    text-decoration: none;
+.gap-main,
+.priority-info,
+.path-info {
+    flex: 1;
 }
 
-.status-success {
-    color: var(--success);
+.gap-main h3,
+.priority-info h3,
+.path-info h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
 }
 
-.status-warning {
-    color: var(--warning);
+.gap-value,
+.priority-mastery,
+.priority-score {
+    text-align: right;
 }
 
-.status-danger {
-    color: var(--danger);
-}
-
-.muted {
+.gap-value small,
+.priority-score small {
+    display: block;
     color: var(--muted);
+    font-size: 9px;
 }
 
-@media (max-width: 700px) {
-    nav {
-        min-height: 56px;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 12px 0;
-    }
-
-    .nav-links {
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    main {
-        padding: 28px 0;
-    }
-
-    .card {
-        padding: 18px;
-    }
+.gap-value strong {
+    color: #df604c;
 }
 
-/* Results page */
-
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 1rem;
+.priority-rank,
+.path-number {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #eff0ff;
+    color: var(--primary);
+    font-weight: 800;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 620px;
+.priority-score strong {
+    color: var(--primary);
 }
 
-th,
-td {
-    padding: 0.8rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
+.path-arrow {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 800;
 }
 
-th {
-    font-weight: 600;
-    background: var(--background);
+.dashboard-two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 50px;
 }
 
-tbody tr:hover {
-    background: var(--background);
+.activity-card {
+    padding: 26px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(30, 40, 80, .05);
 }
 
-.learning-path {
-    margin: 1rem 0 0;
-    padding-left: 1.5rem;
+.activity-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
-.learning-path li {
-    margin-bottom: 0.8rem;
-    padding-left: 0.3rem;
+.activity-stats div,
+.before-after div {
+    padding: 14px;
+    border-radius: 13px;
+    background: #f7f8fc;
 }
 
-.learning-path strong {
+.activity-stats small,
+.before-after small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.activity-stats strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 21px;
+}
+
+.activity-last {
+    margin-top: 17px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.activity-last strong {
     color: var(--text);
 }
 
-.assessment-card h1 {
-    line-height: 1.5;
+.improvement-value-large {
+    font-size: 38px;
+    font-weight: 800;
+    color: #29915c;
 }
 
-.answer-options {
+.before-after {
     display: grid;
-    gap: 0.75rem;
-    margin: 1.5rem 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-.answer-option {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    cursor: pointer;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+.before-after strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 20px;
 }
 
-.answer-option:hover {
-    border-color: var(--primary);
-    box-shadow: var(--shadow);
+.reassessment-card > strong:first-child {
+    flex: 1;
 }
 
-.answer-option input {
-    margin-top: 0.2rem;
+.improvement-positive {
+    color: #29915c;
 }
 
-@media (max-width: 700px) {
-    th,
-    td {
-        padding: 0.65rem;
-        font-size: 0.9rem;
+
+/* Student Dashboard - Responsive */
+
+@media (max-width: 950px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .learning-path {
-        padding-left: 1.25rem;
+    .concept-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-hero {
+        padding: 30px;
+        align-items: flex-start;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 34px;
+    }
+
+    .student-avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 28px;
+        border-radius: 22px;
+    }
+
+    .concept-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gap-card,
+    .priority-card,
+    .path-card {
+        align-items: flex-start;
+    }
+
+    .gap-card {
+        flex-wrap: wrap;
+    }
+
+    .gap-main,
+    .priority-info,
+    .path-info {
+        min-width: 0;
+    }
+
+    .dashboard-section-heading h2 {
+        font-size: 24px;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-card strong {
+        font-size: 24px;
+    }
+
+    .dashboard-hero {
+        flex-direction: column-reverse;
+        padding: 24px;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 30px;
+    }
+
+    .dashboard-hero p {
+        font-size: 13px;
+    }
+
+    .dashboard-meta {
+        font-size: 10px;
+    }
+
+    .activity-card {
+        padding: 20px;
+    }
+
+    .activity-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .gap-value,
+    .priority-mastery,
+    .priority-score {
+        text-align: left;
+    }
+
+    .reassessment-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 1
+   Hero + Overview
+   ============================================================ */
+
+.teacher-hero {
+    position: relative;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.teacher-hero::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -60px;
+    top: -60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.teacher-hero .teacher-eyebrow {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.teacher-hero h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.teacher-hero p {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0.75rem 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.7;
+}
+
+.teacher-hero .teacher-mark {
+    position: absolute;
+    right: 2rem;
+    bottom: 1.5rem;
+    z-index: 1;
+    display: grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.teacher-overview {
+    margin-bottom: 2rem;
+}
+
+.teacher-overview .section-heading {
+    margin-bottom: 1rem;
+}
+
+.teacher-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.teacher-stat-card {
+    padding: 1.25rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.teacher-stat-card span {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #6b7280;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.teacher-stat-card strong {
+    display: block;
+    color: #111827;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+    .teacher-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .teacher-hero {
+        padding: 1.4rem;
+    }
+
+    .teacher-hero .teacher-mark {
+        right: 1.25rem;
+        bottom: 1.25rem;
+        width: 48px;
+        height: 48px;
+    }
+
+    .teacher-stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 2
+   Student List
+   ============================================================ */
+
+.student-list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.student-card {
+    padding: 1.25rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.student-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.1rem;
+}
+
+.student-avatar {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    place-items: center;
+    border-radius: 14px;
+    background: #111827;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.student-card-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.05rem;
+}
+
+.student-card-header span {
+    display: block;
+    margin-top: 0.2rem;
+    color: #6b7280;
+    font-size: 0.78rem;
+}
+
+.student-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.student-metrics > div {
+    padding: 0.8rem;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.student-metrics span {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.student-metrics strong {
+    color: #111827;
+    font-size: 1rem;
+}
+
+.student-card-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(17, 24, 39, 0.07);
+    color: #6b7280;
+    font-size: 0.76rem;
+}
+
+@media (max-width: 850px) {
+    .student-list-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .student-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .student-card-footer {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 3
+   Student Performance
+   ============================================================ */
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.performance-card {
+    padding: 1.25rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.performance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.performance-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.05rem;
+}
+
+.performance-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.78rem;
+}
+
+.performance-meta {
+    margin-top: 0.9rem;
+    color: #6b7280;
+    font-size: 0.76rem;
+}
+
+.performance-score {
+    min-width: 72px;
+    padding: 0.65rem 0.75rem;
+    border-radius: 14px;
+    background: #f1f5f9;
+    color: #111827;
+    text-align: center;
+    font-weight: 800;
+}
+
+.performance-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+
+.performance-columns > div {
+    padding: 0.85rem;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.performance-columns span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.performance-columns strong {
+    display: block;
+    color: #111827;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 850px) {
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .performance-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .performance-header {
+        flex-direction: column;
+    }
+
+    .performance-score {
+        min-width: auto;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 4
+   Concept Performance
+   ============================================================ */
+
+.concept-performance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.concept-card {
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.concept-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.concept-card-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.concept-card-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.concept-difficulty {
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.concept-main-score {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.concept-main-score span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.concept-main-score strong {
+    color: #111827;
+    font-size: 1.8rem;
+}
+
+.concept-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.concept-metrics > div {
+    padding: 0.75rem;
+    border-radius: 13px;
+    background: #f8fafc;
+}
+
+.concept-metrics span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+}
+
+.concept-metrics strong {
+    color: #111827;
+    font-size: 0.86rem;
+}
+
+.concept-subject {
+    margin-top: 0.85rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+@media (max-width: 1050px) {
+    .concept-performance-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .concept-performance-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 5
+   Knowledge Gaps
+   ============================================================ */
+
+.gap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.gap-card {
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.gap-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.gap-card-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.gap-card-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.gap-badge {
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.7rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.gap-score {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 16px;
+    background: #fff7ed;
+}
+
+.gap-score span {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #9a3412;
+    font-size: 0.74rem;
+}
+
+.gap-score strong {
+    color: #7c2d12;
+    font-size: 1.65rem;
+}
+
+.gap-students {
+    margin-top: 0.85rem;
+    color: #6b7280;
+    font-size: 0.78rem;
+}
+
+.gap-students strong {
+    color: #111827;
+}
+
+@media (max-width: 1050px) {
+    .gap-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .gap-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 6
+   Learning Priorities
+   ============================================================ */
+
+.priority-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.priority-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.priority-rank {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 13px;
+    background: #111827;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.priority-content {
+    min-width: 0;
+}
+
+.priority-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.priority-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.priority-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.priority-level {
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #fff7ed;
+    color: #c2410c;
+    font-size: 0.7rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.priority-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.priority-metrics > div {
+    padding: 0.75rem;
+    border-radius: 13px;
+    background: #f8fafc;
+}
+
+.priority-metrics span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+}
+
+.priority-metrics strong {
+    color: #111827;
+    font-size: 0.86rem;
+}
+
+@media (max-width: 850px) {
+    .priority-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .priority-card {
+        grid-template-columns: 1fr;
+    }
+
+    .priority-header {
+        flex-direction: column;
+    }
+
+    .priority-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 7
+   Learning Progress
+   ============================================================ */
+
+.learning-progress-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.learning-progress-card {
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.learning-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.learning-progress-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.learning-progress-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.progress-status {
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.7rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.learning-progress-step {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 15px;
+    background: #f8fafc;
+}
+
+.learning-progress-step span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #6b7280;
+    font-size: 0.72rem;
+}
+
+.learning-progress-step strong {
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+.learning-progress-date {
+    margin-top: 0.8rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+@media (max-width: 850px) {
+    .learning-progress-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .learning-progress-header {
+        flex-direction: column;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 8
+   Practice Activity
+   ============================================================ */
+
+.practice-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.practice-summary-card {
+    padding: 1.1rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.practice-summary-card span {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #6b7280;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.practice-summary-card strong {
+    color: #111827;
+    font-size: 1.55rem;
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.practice-card {
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.practice-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.practice-card-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.practice-card-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.practice-accuracy {
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 0.75rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.practice-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.practice-metrics > div {
+    padding: 0.8rem;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.practice-metrics span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+}
+
+.practice-metrics strong {
+    color: #111827;
+    font-size: 0.9rem;
+}
+
+.practice-last-attempt {
+    margin-top: 0.85rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+@media (max-width: 1050px) {
+    .practice-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .practice-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .practice-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-card-header {
+        flex-direction: column;
+    }
+}
+
+
+/* ============================================================
+   TEACHER DASHBOARD — CSS STEP 9
+   Re-assessment & Improvement
+   ============================================================ */
+
+.improvement-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.improvement-summary-card {
+    padding: 1.1rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.improvement-summary-card span {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #6b7280;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.improvement-summary-card strong {
+    color: #111827;
+    font-size: 1.55rem;
+}
+
+.improvement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.improvement-card {
+    padding: 1.2rem;
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.improvement-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.improvement-card-header h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.improvement-card-header span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #6b7280;
+    font-size: 0.74rem;
+}
+
+.improvement-score {
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 0.75rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.improvement-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.improvement-metrics > div {
+    padding: 0.8rem;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.improvement-metrics span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+}
+
+.improvement-metrics strong {
+    color: #111827;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1050px) {
+    .improvement-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .improvement-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .improvement-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .improvement-summary,
+    .improvement-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .improvement-card-header {
+        flex-direction: column;
     }
 }
