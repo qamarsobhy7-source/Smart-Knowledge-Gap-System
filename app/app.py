@@ -351,6 +351,55 @@ def submit_answer(student_id):
 
     questions = load_question_bank()
 
+    selected_subject = session.get(
+        "student_subject",
+        ""
+    ).strip()
+
+    selected_level = session.get(
+        "student_level",
+        ""
+    ).strip()
+
+    subject_id_map = {
+        "Mathematics": 1,
+        "Physics": 2,
+        "Computer Science": 3
+    }
+
+    if selected_subject not in subject_id_map:
+        return (
+            "Invalid subject selection.",
+            400
+        )
+
+    if selected_level not in {
+        "Beginner",
+        "Intermediate",
+        "Advanced"
+    }:
+        return (
+            "Invalid level selection.",
+            400
+        )
+
+    questions = questions[
+        questions["subject_id"] == subject_id_map[
+            selected_subject
+        ]
+    ]
+
+    questions = questions[
+        questions["difficulty"].astype(str).str.strip()
+        == selected_level
+    ]
+
+    if len(questions) != 30:
+        return (
+            "Assessment question set is invalid.",
+            500
+        )
+
     answered_ids = {
         answer["question_id"]
         for answer in answers
