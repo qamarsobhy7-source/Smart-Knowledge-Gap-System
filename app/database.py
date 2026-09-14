@@ -278,3 +278,73 @@ def get_assessment_answers(assessment_id):
 
         return [dict(row) for row in rows]
 
+
+def get_latest_diagnostic_assessment(student_id):
+    """
+    Return the latest Diagnostic assessment for a student.
+
+    This function is read-only and does not modify the database.
+    """
+
+    with get_connection() as connection:
+
+        row = connection.execute(
+            """
+            SELECT
+                assessment_id,
+                student_id,
+                assessment_type,
+                created_at
+            FROM assessments
+            WHERE
+                student_id = ?
+                AND assessment_type = 'Diagnostic'
+            ORDER BY
+                created_at DESC,
+                assessment_id DESC
+            LIMIT 1
+            """,
+            (
+                int(student_id),
+            )
+        ).fetchone()
+
+        if row is None:
+            return None
+
+        return dict(row)
+
+
+def get_concept_results_for_assessment(
+    assessment_id
+):
+    """
+    Return concept-level results for one assessment.
+
+    This function is read-only and does not modify the database.
+    """
+
+    with get_connection() as connection:
+
+        rows = connection.execute(
+            """
+            SELECT
+                result_id,
+                assessment_id,
+                concept_id,
+                mastery,
+                gap_level,
+                gap_score
+            FROM concept_results
+            WHERE assessment_id = ?
+            ORDER BY concept_id ASC
+            """,
+            (
+                int(assessment_id),
+            )
+        ).fetchall()
+
+        return [
+            dict(row)
+            for row in rows
+        ]

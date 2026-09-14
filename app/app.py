@@ -11,12 +11,20 @@ from flask import (
 
 try:
     from .backend_service import BackendService
-    from .repository import load_question_bank
+    from .repository import (
+        load_question_bank,
+        get_learning_content_for_concept,
+        get_practice_for_concept
+    )
     from .student_dashboard_service import get_student_dashboard_data
     from .teacher_dashboard_service import get_teacher_dashboard_data
 except ImportError:
     from backend_service import BackendService
-    from repository import load_question_bank
+    from repository import (
+        load_question_bank,
+        get_learning_content_for_concept,
+        get_practice_for_concept
+    )
     from student_dashboard_service import get_student_dashboard_data
     from teacher_dashboard_service import get_teacher_dashboard_data
 
@@ -35,6 +43,33 @@ if not app.secret_key:
     )
 
 service = BackendService()
+
+
+OPTION_KEYS = ("A", "B", "C", "D")
+
+
+def build_option_mapping(assessment_id, question_id):
+    import hashlib
+    import hmac
+
+    secret = str(app.secret_key).encode("utf-8")
+
+    ordered_options = sorted(
+        OPTION_KEYS,
+        key=lambda original: hmac.new(
+            secret,
+            f"{assessment_id}:{question_id}:{original}".encode(
+                "utf-8"
+            ),
+            hashlib.sha256
+        ).digest()
+    )
+
+    return {
+        displayed: original
+        for displayed, original
+        in zip(OPTION_KEYS, ordered_options)
+    }
 
 
 @app.route("/", methods=["GET"])
@@ -206,12 +241,357 @@ def assessment(student_id):
         remaining_questions.iloc[0].to_dict()
     )
 
+    option_mapping = build_option_mapping(
+        assessment_id=assessment_id,
+        question_id=question["question_id"]
+    )
+
+    original_options = {
+        "A": question["option_a"],
+        "B": question["option_b"],
+        "C": question["option_c"],
+        "D": question["option_d"]
+    }
+
+    displayed_options = {
+        displayed: original_options[original]
+        for displayed, original
+        in option_mapping.items()
+    }
+
+    question["option_a"] = displayed_options["A"]
+    question["option_b"] = displayed_options["B"]
+    question["option_c"] = displayed_options["C"]
+    question["option_d"] = displayed_options["D"]
+
     return render_template(
         "assessment.html",
         question=question,
         question_number=len(answers) + 1,
         total_questions=len(questions),
+        student_id=student_id,
+        is_reassessment=False
+    )
+
+
+@app.route(
+    "/reassessment/<int:student_id>",
+    methods=["GET"]
+)
+def reassessment(student_id):
+
+    try:
+        from .database import (
+            get_student,
+            get_latest_diagnostic_assessment,
+            get_concept_results_for_assessment
+        )
+    except ImportError:
+        from database import (
+            get_student,
+            get_latest_diagnostic_assessment,
+            get_concept_results_for_assessment
+        )
+
+    student = get_student(student_id)
+
+    if student is None:
+        return (
+            "Student not found.",
+            404
+        )
+
+    selected_subject = session.get(
+        "student_subject",
+        ""
+    ).strip()
+
+    selected_level = session.get(
+        "student_level",
+        ""
+    ).strip()
+
+    subject_id_map = {
+        "Mathematics": 1,
+        "Physics": 2,
+        "Computer Science": 3
+    }
+
+    if selected_subject not in subject_id_map:
+        return (
+            "Subject selection is required before reassessment.",
+            400
+        )
+
+    if selected_level not in {
+        "Beginner",
+        "Intermediate",
+        "Advanced"
+    }:
+        return (
+            "Level selection is required before reassessment.",
+            400
+        )
+
+    diagnostic = (
+        get_latest_diagnostic_assessment(
+            student_id
+        )
+    )
+
+    if diagnostic is None:
+        return (
+            "No completed Diagnostic assessment was found.",
+            404
+        )
+
+    before_results = (
+        get_concept_results_for_assessment(
+            diagnostic["assessment_id"]
+        )
+    )
+
+    if not before_results:
+        return (
+            "Diagnostic mastery results were not found.",
+            409
+        )
+
+    expected_subject_id = (
+        subject_id_map[selected_subject]
+    )
+
+    questions = load_question_bank()
+
+    questions = questions[
+        (
+            questions["subject_id"]
+            == expected_subject_id
+        )
+        & (
+            questions["difficulty"]
+            .astype(str)
+            .str.strip()
+            == selected_level
+        )
+    ].copy()
+
+    if len(questions) != 30:
+        return (
+            "Reassessment question set is invalid.",
+            500
+        )
+
+    current_concepts = set(
+        questions["concept_id"]
+        .astype(int)
+        .tolist()
+    )
+
+    diagnostic_concepts = {
+        int(item["concept_id"])
+        for item in before_results
+    }
+
+    if current_concepts != diagnostic_concepts:
+        return (
+            "The selected subject and level do not match "
+            "the previous Diagnostic assessment.",
+            409
+        )
+
+    reassessment_id = service.start_assessment(
+        student_id=student_id,
+        assessment_type="Reassessment"
+    )
+
+    session["reassessment_id"] = (
+        reassessment_id
+    )
+
+    session["reassessment_student_id"] = (
+        student_id
+    )
+
+
+    session["reassessment_diagnostic_id"] = (
+        diagnostic["assessment_id"]
+    )
+
+    session["reassessment_subject"] = (
+        selected_subject
+    )
+
+    session["reassessment_level"] = (
+        selected_level
+    )
+
+    questions = questions.sort_values(
+        ["concept_id", "question_id"]
+    ).reset_index(drop=True)
+
+    question = (
+        questions.iloc[0].to_dict()
+    )
+
+    return render_template(
+        "assessment.html",
+        question=question,
+        question_number=1,
+        total_questions=30,
+        student_id=student_id,
+        is_reassessment=True
+    )
+
+
+@app.route(
+    "/learning/<int:concept_id>",
+    methods=["GET"]
+)
+def learning_content(concept_id):
+    content = get_learning_content_for_concept(
+        concept_id
+    )
+
+    if content is None:
+        return (
+            "Learning content not found.",
+            404
+        )
+
+    student_id = request.args.get(
+        "student_id",
+        type=int
+    )
+
+    return render_template(
+        "learning_content.html",
+        content=content,
         student_id=student_id
+    )
+
+
+
+@app.route(
+    "/practice/<int:student_id>/<int:concept_id>",
+    methods=["GET", "POST"]
+)
+def practice(student_id, concept_id):
+
+    practice_questions = get_practice_for_concept(
+        concept_id
+    )
+
+    if practice_questions.empty:
+        return (
+            "Practice questions not found.",
+            404
+        )
+
+    if len(practice_questions) != 6:
+        return (
+            "Practice question set is invalid.",
+            500
+        )
+
+    if request.method == "GET":
+
+        return render_template(
+            "practice.html",
+            student_id=student_id,
+            concept_id=concept_id,
+            concept_name=(
+                practice_questions.iloc[0]["concept_name"]
+            ),
+            difficulty=(
+                practice_questions.iloc[0]["difficulty"]
+            ),
+            questions=practice_questions.to_dict(
+                orient="records"
+            )
+        )
+
+    try:
+        from .database import save_practice_attempt
+    except ImportError:
+        from database import save_practice_attempt
+
+    results = []
+
+    for _, question in practice_questions.iterrows():
+
+        question_id = str(
+            question["question_id"]
+        )
+
+        student_answer = request.form.get(
+            f"answer_{question_id}",
+            ""
+        ).strip().upper()
+
+        correct_answer = str(
+            question["correct_answer"]
+        ).strip().upper()
+
+        is_correct = (
+            student_answer == correct_answer
+            and bool(student_answer)
+        )
+
+        score = (
+            100.0
+            if is_correct
+            else 0.0
+        )
+
+        save_practice_attempt(
+            student_id=student_id,
+            question_id=question_id,
+            student_answer=student_answer,
+            is_correct=is_correct,
+            score=score
+        )
+
+        results.append(
+            {
+                "question_id": question_id,
+                "is_correct": is_correct,
+                "score": score
+            }
+        )
+
+    correct_count = sum(
+        1
+        for item in results
+        if item["is_correct"]
+    )
+
+    total_questions = len(results)
+
+    accuracy = (
+        correct_count / total_questions * 100
+        if total_questions
+        else 0.0
+    )
+
+    return render_template(
+        "practice.html",
+        student_id=student_id,
+        concept_id=concept_id,
+        concept_name=(
+            practice_questions.iloc[0]["concept_name"]
+        ),
+        difficulty=(
+            practice_questions.iloc[0]["difficulty"]
+        ),
+        questions=practice_questions.to_dict(
+            orient="records"
+        ),
+        results=results,
+        correct_count=correct_count,
+        total_questions=total_questions,
+        accuracy=accuracy,
+        completed=True
     )
 
 
@@ -273,19 +653,37 @@ def teacher_dashboard():
     methods=["POST"]
 )
 def submit_answer(student_id):
-    assessment_id = session.get("assessment_id")
-    assessment_student_id = session.get(
-        "assessment_student_id"
+    reassessment_id = session.get(
+        "reassessment_id"
+    )
+    reassessment_student_id = session.get(
+        "reassessment_student_id"
     )
 
     if (
-        assessment_id is None
-        or assessment_student_id != student_id
+        reassessment_id is not None
+        and reassessment_student_id == student_id
     ):
-        return (
-            "Assessment session is invalid.",
-            400
+        assessment_id = reassessment_id
+        is_reassessment = True
+    else:
+        assessment_id = session.get(
+            "assessment_id"
         )
+        assessment_student_id = session.get(
+            "assessment_student_id"
+        )
+
+        if (
+            assessment_id is None
+            or assessment_student_id != student_id
+        ):
+            return (
+                "Assessment session is invalid.",
+                400
+            )
+
+        is_reassessment = False
 
     question_id = request.form.get(
         "question_id",
@@ -329,9 +727,24 @@ def submit_answer(student_id):
             400
         )
 
+    question_mapping = build_option_mapping(
+        assessment_id=assessment_id,
+        question_id=question_id
+    )
+
+    original_answer = question_mapping.get(
+        student_answer
+    )
+
+    if original_answer not in {"A", "B", "C", "D"}:
+        return (
+            "Assessment option mapping is invalid.",
+            400
+        )
+
     result = service.score_answer(
         question_id=question_id,
-        student_answer=student_answer
+        student_answer=original_answer
     )
 
     service.persist_answer(
@@ -339,11 +752,6 @@ def submit_answer(student_id):
         student_answer_result=result,
         student_answer=student_answer
     )
-
-    try:
-        from .database import get_assessment_answers
-    except ImportError:
-        from database import get_assessment_answers
 
     answers = get_assessment_answers(
         assessment_id
@@ -387,12 +795,12 @@ def submit_answer(student_id):
         questions["subject_id"] == subject_id_map[
             selected_subject
         ]
-    ]
+    ].copy()
 
     questions = questions[
         questions["difficulty"].astype(str).str.strip()
         == selected_level
-    ]
+    ].copy()
 
     if len(questions) != 30:
         return (
@@ -455,6 +863,122 @@ def submit_answer(student_id):
                 "Concept name mapping failed."
             )
 
+        if is_reassessment:
+            diagnostic_id = session.get(
+                "reassessment_diagnostic_id"
+            )
+
+            if diagnostic_id is None:
+                return (
+                    "Reassessment Diagnostic reference is missing.",
+                    409
+                )
+
+            try:
+                from .database import (
+                    get_concept_results_for_assessment,
+                    save_reassessment
+                )
+            except ImportError:
+                from database import (
+                    get_concept_results_for_assessment,
+                    save_reassessment
+                )
+
+            before_results = (
+                get_concept_results_for_assessment(
+                    diagnostic_id
+                )
+            )
+
+            if not before_results:
+                return (
+                    "Diagnostic mastery results were not found.",
+                    409
+                )
+
+            before_by_concept = {
+                int(record["concept_id"]): float(
+                    record["mastery"]
+                )
+                for record in before_results
+            }
+
+            current_concepts = {
+                int(concept_id)
+                for concept_id in diagnosis_df[
+                    "concept_id"
+                ].tolist()
+            }
+
+            before_concepts = set(
+                before_by_concept.keys()
+            )
+
+            if current_concepts != before_concepts:
+                return (
+                    "Diagnostic and Reassessment concepts do not match.",
+                    409
+                )
+
+            for record in diagnosis_records:
+                concept_id = int(
+                    record["concept_id"]
+                )
+
+                before_mastery = (
+                    before_by_concept[concept_id]
+                )
+
+                after_mastery = float(
+                    record["mastery"]
+                )
+
+                improvement = (
+                    after_mastery
+                    - before_mastery
+                )
+
+                save_reassessment(
+                    student_id=student_id,
+                    concept_id=concept_id,
+                    before_mastery=before_mastery,
+                    after_mastery=after_mastery,
+                    improvement=improvement
+                )
+
+            priority_df = service.build_priority(
+                diagnosis_df
+            )
+
+            learning_path_df = (
+                service.build_learning_path(
+                    diagnosis_df,
+                    priority_df
+                )
+            )
+
+            return render_template(
+                "results.html",
+                student_id=student_id,
+                diagnosis=diagnosis_df.to_dict(
+                    orient="records"
+                ),
+                priority=priority_df.to_dict(
+                    orient="records"
+                ),
+                learning_path=learning_path_df.to_dict(
+                    orient="records"
+                ),
+                reassessment_completed=True,
+                before_mastery=before_by_concept,
+                after_mastery={
+                    int(record["concept_id"]):
+                    float(record["mastery"])
+                    for record in diagnosis_records
+                }
+            )
+
         for record in diagnosis_records:
             service.persist_concept_result(
                 assessment_id=assessment_id,
@@ -495,7 +1019,8 @@ def submit_answer(student_id):
         question=next_question,
         question_number=len(answers) + 1,
         total_questions=len(questions),
-        student_id=student_id
+        student_id=student_id,
+        is_reassessment=is_reassessment
     )
 
 

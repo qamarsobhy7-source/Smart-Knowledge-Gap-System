@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Diagnostic Assessment{% endblock %}
+{% block title %}{{ 'Reassessment' if is_reassessment else 'Diagnostic Assessment' }}{% endblock %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
 
     <div class="assessment-top">
         <div>
-            <span class="eyebrow">DIAGNOSTIC ASSESSMENT</span>
+            <span class="eyebrow">{{ "REASSESSMENT" if is_reassessment else "DIAGNOSTIC ASSESSMENT" }}</span>
             <h1>Let's discover what you know.</h1>
         </div>
 

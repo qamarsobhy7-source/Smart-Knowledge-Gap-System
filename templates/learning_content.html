@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Content{% endblock %}
+
+{% block content %}
+
+<section class="results-cta">
+    <div>
+        <span class="eyebrow">PRACTICE</span>
+        <h2>Practice this concept</h2>
+        <p>
+            Test your understanding with six practice questions
+            for this concept.
+        </p>
+    </div>
+
+    {% if student_id is not none %}
+    <a
+        class="primary-btn"
+        href="{{ url_for(
+            'practice',
+            student_id=student_id,
+            concept_id=content.concept_id
+        ) }}"
+    >
+        Start Practice →
+    </a>
+    {% endif %}
+</section>
+
+<section class="results-hero">
+    <div>
+        <span class="eyebrow">PERSONALIZED LEARNING</span>
+        <h1>{{ content.concept_name }}</h1>
+        <p>
+            Explore the learning material selected for this concept
+            based on your learning path.
+        </p>
+    </div>
+
+    <div class="results-id">
+        <span>Level</span>
+        <strong>{{ content.level }}</strong>
+    </div>
+</section>
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">LEARNING OBJECTIVE</span>
+        <h2>What you should learn</h2>
+    </div>
+
+    <article class="path-info">
+        <p>{{ content.learning_objective }}</p>
+    </article>
+
+</section>
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">EXPLANATION</span>
+        <h2>Understand the concept</h2>
+    </div>
+
+    <article class="path-info">
+        <p>{{ content.explanation }}</p>
+    </article>
+
+</section>
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">KEY POINTS</span>
+        <h2>Remember these ideas</h2>
+    </div>
+
+    <article class="path-info">
+        <p>{{ content.key_points }}</p>
+    </article>
+
+</section>
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">EXAMPLE</span>
+        <h2>Apply the concept</h2>
+    </div>
+
+    <article class="path-info">
+        <p>{{ content.example }}</p>
+    </article>
+
+</section>
+
+<section class="results-cta">
+    <div>
+        <span class="eyebrow">NEXT STEP</span>
+        <h2>Continue your learning path</h2>
+        <p>
+            Return to your dashboard when you are ready to continue
+            with the next recommended concept.
+        </p>
+    </div>
+
+    <a
+        class="primary-btn"
+        href="{{ url_for('index') }}"
+    >
+        Back to Home →
+    </a>
+</section>
+
+{% endblock %}

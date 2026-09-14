@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Practice{% endblock %}
+
+{% block content %}
+
+<section class="results-hero">
+    <div>
+        <span class="eyebrow">PRACTICE</span>
+        <h1>{{ concept_name }}</h1>
+        <p>
+            Practice this concept with six questions
+            designed to reinforce your understanding.
+        </p>
+    </div>
+
+    <div class="results-id">
+        <span>Level</span>
+        <strong>{{ difficulty }}</strong>
+    </div>
+</section>
+
+{% if not completed %}
+
+<form
+    method="post"
+    class="results-section"
+>
+
+    {% for question in questions %}
+
+    <article class="path-info">
+
+        <span class="eyebrow">
+            QUESTION {{ loop.index }} — {{ question.question_type }}
+        </span>
+
+        <h2>
+            {{ question.question_text }}
+        </h2>
+
+        <label>
+            <input
+                type="radio"
+                name="answer_{{ question.question_id }}"
+                value="A"
+                required
+            >
+            {{ question.option_a }}
+        </label>
+
+        <br>
+
+        <label>
+            <input
+                type="radio"
+                name="answer_{{ question.question_id }}"
+                value="B"
+            >
+            {{ question.option_b }}
+        </label>
+
+        <br>
+
+        <label>
+            <input
+                type="radio"
+                name="answer_{{ question.question_id }}"
+                value="C"
+            >
+            {{ question.option_c }}
+        </label>
+
+        <br>
+
+        <label>
+            <input
+                type="radio"
+                name="answer_{{ question.question_id }}"
+                value="D"
+            >
+            {{ question.option_d }}
+        </label>
+
+    </article>
+
+    {% endfor %}
+
+    <section class="results-cta">
+        <div>
+            <span class="eyebrow">SUBMIT PRACTICE</span>
+            <h2>Check your understanding</h2>
+            <p>
+                Your answers will be recorded in your practice history.
+            </p>
+        </div>
+
+        <button
+            class="primary-btn"
+            type="submit"
+        >
+            Submit Practice →
+        </button>
+    </section>
+
+</form>
+
+{% else %}
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">PRACTICE RESULT</span>
+        <h2>
+            {{ correct_count }} / {{ total_questions }} correct
+        </h2>
+    </div>
+
+    <article class="path-info">
+
+        <p>
+            Accuracy:
+            <strong>
+                {{ "%.1f"|format(accuracy) }}%
+            </strong>
+        </p>
+
+        {% for item in results %}
+
+        <p>
+            {{ item.question_id }} —
+            {% if item.is_correct %}
+                Correct
+            {% else %}
+                Incorrect
+            {% endif %}
+        </p>
+
+        {% endfor %}
+
+    </article>
+
+</section>
+
+<section class="results-cta">
+
+    <div>
+        <span class="eyebrow">NEXT STEP</span>
+        <h2>Continue learning</h2>
+        <p>
+            Return to your dashboard to review your
+            learning activity and continue your path.
+        </p>
+    </div>
+
+    <a
+        class="primary-btn"
+        href="{{ url_for(
+            'student_dashboard',
+            student_id=student_id
+        ) }}"
+    >
+        Back to Dashboard →
+    </a>
+
+</section>
+
+{% endif %}
+
+{% endblock %}

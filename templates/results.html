@@ -14,10 +14,6 @@
         </p>
     </div>
 
-    <div class="results-id">
-        <span>Student</span>
-        <strong>#{{ student_id }}</strong>
-    </div>
 </section>
 
 <div class="results-actions">
@@ -145,7 +141,10 @@
 
         {% for item in learning_path %}
 
-        <article class="path-card">
+        <a
+            class="path-card"
+            href="{{ url_for('learning_content', concept_id=item.concept_id, student_id=student_id) }}"
+        >
 
             <div class="path-number">
                 {{ loop.index }}
@@ -162,7 +161,7 @@
 
             <div class="path-arrow">→</div>
 
-        </article>
+        </a>
 
         {% endfor %}
 
@@ -179,6 +178,100 @@
     </div>
 
     {% endif %}
+</section>
+
+<section class="results-section">
+
+    <div class="section-heading">
+        <span class="eyebrow">RE-ASSESSMENT &amp; IMPROVEMENT</span>
+        <h2>Measure your learning improvement</h2>
+    </div>
+
+    {% if reassessment_completed and before_mastery and after_mastery %}
+
+    <div class="diagnosis-grid">
+
+        {% for item in diagnosis %}
+
+        {% set concept_id = item.concept_id %}
+        {% set before = before_mastery.get(concept_id) %}
+        {% set after = after_mastery.get(concept_id) %}
+
+        {% if before is not none and after is not none %}
+
+        {% set improvement = after - before %}
+
+        <article class="diagnosis-card">
+
+            <div class="diagnosis-card-top">
+                <span class="concept-index">
+                    {{ loop.index }}
+                </span>
+
+                <span class="status-pill">
+                    Improvement
+                </span>
+            </div>
+
+            <h3>{{ item.concept_name }}</h3>
+
+            <div class="mastery-row">
+                <span>Before</span>
+                <strong>{{ "%.1f"|format(before) }}%</strong>
+            </div>
+
+            <div class="mastery-row">
+                <span>After</span>
+                <strong>{{ "%.1f"|format(after) }}%</strong>
+            </div>
+
+            <div class="gap-score">
+                Improvement:
+                <strong>
+                    {% if improvement >= 0 %}+{% endif %}
+                    {{ "%.1f"|format(improvement) }}%
+                </strong>
+            </div>
+
+        </article>
+
+        {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="success-state">
+
+        <div class="success-icon">→</div>
+
+        <div>
+            <h3>Ready for re-assessment?</h3>
+
+            <p>
+                Re-assess your concepts after learning and practice
+                to compare your mastery before and after learning.
+            </p>
+
+            <a
+                class="primary-btn"
+                href="{{ url_for(
+                    'reassessment',
+                    student_id=student_id
+                ) }}"
+            >
+                Start Re-assessment →
+            </a>
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
 
 </section>
 

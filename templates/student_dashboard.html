@@ -223,7 +223,10 @@
     <div class="learning-path-list">
 
         {% for item in learning_path %}
-        <article class="path-card">
+        <a
+            class="path-card"
+            href="{{ url_for('learning_content', concept_id=item.concept_id, student_id=student_id) }}"
+        >
 
             <div class="path-number">
                 {{ loop.index }}
@@ -249,7 +252,7 @@
 
             <span class="path-arrow">→</span>
 
-        </article>
+        </a>
         {% endfor %}
 
     </div>
