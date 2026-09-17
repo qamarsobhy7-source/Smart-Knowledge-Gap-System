@@ -164,6 +164,61 @@ def get_remembered_option_mapping(assessment_id, question_id):
     )
 
 
+SESSION_QUESTION_ORDER_KEY = "question_shuffle_order"
+SESSION_SHUFFLE_SEED_KEY = "shuffle_seed"
+
+
+def get_or_create_shuffle_seed(assessment_id):
+    """
+    Return a random seed for this assessment.
+
+    A NEW random seed is generated the first time we see an
+    assessment_id in this session, ensuring that every new
+    assessment gets a different shuffle.
+    """
+    import secrets
+
+    seeds = session.get(SESSION_SHUFFLE_SEED_KEY, {})
+    key = str(assessment_id)
+
+    if key not in seeds:
+        seeds[key] = secrets.randbits(32)
+        session[SESSION_SHUFFLE_SEED_KEY] = seeds
+        session.modified = True
+
+    return seeds[key]
+
+
+def get_shuffled_question_ids(assessment_id, all_question_ids):
+    """
+    Return a shuffled list of question IDs for this assessment.
+
+    The shuffle is TRULY random: a fresh random seed is generated
+    per assessment, stored in the session, and used to shuffle
+    the questions exactly once.
+    """
+    import random
+
+    key = str(assessment_id)
+    store = session.get(SESSION_QUESTION_ORDER_KEY, {})
+
+    if key in store and len(store[key]) == len(all_question_ids):
+        return store[key]
+
+    seed = get_or_create_shuffle_seed(assessment_id)
+    rng = random.Random(seed)
+
+    shuffled = list(all_question_ids)
+    rng.shuffle(shuffled)
+
+    store[key] = shuffled
+    session[SESSION_QUESTION_ORDER_KEY] = store
+    session.modified = True
+
+    return shuffled
+
+
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -316,6 +371,19 @@ def assessment(student_id):
         answer["question_id"]
         for answer in answers
     }
+
+    # Apply shuffled order for this assessment
+    all_qids = questions["question_id"].tolist()
+    shuffled_qids = get_shuffled_question_ids(
+        assessment_id, all_qids
+    )
+
+    questions = (
+        questions
+        .set_index("question_id")
+        .loc[shuffled_qids]
+        .reset_index()
+    )
 
     remaining_questions = questions[
         ~questions["question_id"].isin(
@@ -953,6 +1021,19 @@ def submit_answer(student_id):
             "Assessment question set is invalid.",
             500
         )
+
+    # Apply the SAME shuffled order used in assessment()
+    all_qids = questions["question_id"].tolist()
+    shuffled_qids = get_shuffled_question_ids(
+        assessment_id, all_qids
+    )
+
+    questions = (
+        questions
+        .set_index("question_id")
+        .loc[shuffled_qids]
+        .reset_index()
+    )
 
     answered_ids = {
         answer["question_id"]
