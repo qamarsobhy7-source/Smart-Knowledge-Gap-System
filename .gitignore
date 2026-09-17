@@ -1,0 +1,80 @@
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ============================================================
+# Virtual Environments
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+
+# ============================================================
+# Environment Variables & Secrets
+# ============================================================
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Testing & Coverage
+# ============================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ============================================================
+# Editors & OS
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Logs & Local Data
+# ============================================================
+*.log
+logs/
+
+# ============================================================
+# Database
+# ============================================================
+# The application database is created automatically by
+# app/init_database.py. It must not be committed.
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# ============================================================
+# Backups & Development History
+# ============================================================
+BACKUPS/
+UI_BACKUPS/
+CLOSED_RUNTIME_FIXES/
+CLOSED_RUNTIME_TESTS/
+PHASE_07_5_TEACHER_DASHBOARD_FINAL/
+GITHUB_RELEASE_DB_BACKUP_BEFORE_CLEANUP/
+GITHUB_RELEASE_GITIGNORE_BACKUP/
+*.before_*
+*.bak
+
+# ============================================================
+# Colab / Notebooks
+# ============================================================
+.ipynb_checkpoints/

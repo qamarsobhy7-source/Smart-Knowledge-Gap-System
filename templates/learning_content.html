@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{{ content.concept_name }} — Learning Content{% endblock %}
+
+{% block content %}
+
+<section class="learning-page">
+
+    <div class="learning-hero" data-animate>
+        <span class="eyebrow">LEARNING CONTENT</span>
+        <h1>{{ content.concept_name }}</h1>
+        <p>
+            Study this concept, then practice it to reinforce your understanding.
+        </p>
+    </div>
+
+    {# ============================================================ #}
+    {# EXPLANATION #}
+    {# ============================================================ #}
+    {% if content.explanation %}
+    <div class="learning-section" data-animate>
+        <h2>📖 Explanation</h2>
+        <p>{{ content.explanation }}</p>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# KEY POINTS #}
+    {# ============================================================ #}
+    {% if content.key_points %}
+    <div class="learning-section" data-animate>
+        <h2>🔑 Key Points</h2>
+        {% set points = content.key_points.split(';') if ';' in content.key_points else content.key_points.split('•') %}
+        <ul>
+            {% for point in points %}
+                {% if point.strip() %}
+                <li>{{ point.strip() }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# EXAMPLES #}
+    {# ============================================================ #}
+    {% if content.examples %}
+    <div class="learning-section" data-animate>
+        <h2>💡 Examples</h2>
+        <p>{{ content.examples }}</p>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# STUDY TIPS #}
+    {# ============================================================ #}
+    {% if content.study_tips %}
+    <div class="learning-section" data-animate>
+        <h2>🎯 Study Tips</h2>
+        <p>{{ content.study_tips }}</p>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# COMMON MISCONCEPTIONS #}
+    {# ============================================================ #}
+    {% if content.common_misconceptions %}
+    <div class="learning-section" data-animate>
+        <h2>⚠️ Common Misconceptions</h2>
+        <p>{{ content.common_misconceptions }}</p>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# CTA #}
+    {# ============================================================ #}
+    {% if student_id %}
+    <div class="results-cta" data-animate>
+        <div>
+            <span class="eyebrow">NEXT STEP</span>
+            <h2>Ready to practice?</h2>
+            <p>
+                Test your understanding of <strong>{{ content.concept_name }}</strong>
+                with 6 practice questions.
+            </p>
+        </div>
+
+        <a class="primary-btn"
+           href="{{ url_for('practice', student_id=student_id, concept_id=content.concept_id) }}">
+            Start Practice →
+        </a>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

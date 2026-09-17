@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Knowledge Gap — Discover What You Know{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-copy" data-animate>
+        <span class="eyebrow">PERSONALIZED LEARNING PLATFORM</span>
+
+        <h1>
+            Discover what you know.
+            <span>Learn what you need.</span>
+        </h1>
+
+        <p>
+            Assess your knowledge concept by concept, discover your learning gaps,
+            and receive a personalized path built around your current mastery.
+        </p>
+
+        <div class="hero-points">
+            <div><b>01</b><span>Choose your subject</span></div>
+            <div><b>02</b><span>Select your level</span></div>
+            <div><b>03</b><span>Build your path</span></div>
+        </div>
+    </div>
+
+    <div class="start-card" data-animate>
+
+        <div class="card-icon">✦</div>
+
+        <h2>Start your learning journey</h2>
+
+        <p>Tell us about yourself and choose your learning track.</p>
+
+        {% if error %}
+            <div class="toast toast-error toast-visible" style="margin-bottom: 1rem; position: relative; transform: none;">
+                <span class="toast-icon">✕</span>
+                <span class="toast-message">{{ error }}</span>
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/register">
+
+            <div class="form-group">
+                <label for="name">Student name</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    required
+                    maxlength="120"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input
+                    id="age"
+                    name="age"
+                    type="number"
+                    min="5"
+                    max="100"
+                    placeholder="Your age"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject" required>
+                    <option value="">Choose a subject</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Computer Science">Computer Science</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="level">Level</label>
+                <select id="level" name="level" required>
+                    <option value="">Choose your level</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+            <button class="primary-btn btn-full btn-lg" type="submit">
+                Start Assessment →
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="section-heading" data-animate>
+        <span class="eyebrow">HOW IT WORKS</span>
+        <h2>A learning experience built around you.</h2>
+    </div>
+
+    <div class="feature-grid">
+
+        <article class="feature-card" data-animate>
+            <span class="feature-number">01</span>
+            <h3>Diagnostic Assessment</h3>
+            <p>
+                Analyze performance concept by concept instead of relying only
+                on a total score. Every concept is measured separately.
+            </p>
+        </article>
+
+        <article class="feature-card" data-animate>
+            <span class="feature-number">02</span>
+            <h3>Knowledge Gaps</h3>
+            <p>
+                Identify exactly which concepts need attention and which ones
+                are already strong — with a mastery score for each.
+            </p>
+        </article>
+
+        <article class="feature-card" data-animate>
+            <span class="feature-number">03</span>
+            <h3>Personalized Path</h3>
+            <p>
+                Follow a prerequisite-aware learning path designed around
+                your current needs and priority gaps.
+            </p>
+        </article>
+
+    </div>
+
+</section>
+
+{% endblock %}

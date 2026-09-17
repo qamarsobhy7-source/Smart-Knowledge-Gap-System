@@ -1,0 +1,88 @@
+{
+  "dashboard": "Teacher Dashboard",
+  "purpose": "Provide teacher-level visibility into students, diagnostic performance, knowledge gaps, learning priorities, learning progress, practice activity, and reassessment improvement.",
+  "data_sources": [
+    "students",
+    "assessments",
+    "answers",
+    "concept_results",
+    "learning_progress",
+    "practice_attempts",
+    "reassessments",
+    "concepts"
+  ],
+  "sections": [
+    "Teacher Overview",
+    "Student List",
+    "Student Performance",
+    "Concept Performance",
+    "Knowledge Gaps",
+    "Learning Priorities",
+    "Learning Progress",
+    "Practice Activity",
+    "Re-assessment and Improvement"
+  ],
+  "student_list_fields": [
+    "student_id",
+    "full_name",
+    "created_at",
+    "assessment_count",
+    "latest_assessment_type",
+    "latest_assessment_date",
+    "overall_mastery",
+    "concepts_assessed",
+    "practice_attempts",
+    "learning_progress_records",
+    "reassessments"
+  ],
+  "student_performance_fields": [
+    "student_id",
+    "full_name",
+    "assessment_id",
+    "assessment_type",
+    "assessment_created_at",
+    "overall_mastery",
+    "strong_concepts",
+    "weak_concepts",
+    "critical_concepts"
+  ],
+  "concept_performance_fields": [
+    "concept_id",
+    "concept_name",
+    "subject_id",
+    "difficulty",
+    "students_assessed",
+    "average_mastery",
+    "minimum_mastery",
+    "maximum_mastery"
+  ],
+  "knowledge_gap_fields": [
+    "concept_id",
+    "concept_name",
+    "students_with_gap",
+    "average_mastery"
+  ],
+  "activity_fields": [
+    "practice_attempts",
+    "learning_progress_records",
+    "reassessments",
+    "average_before_mastery",
+    "average_after_mastery",
+    "average_improvement"
+  ],
+  "rules": {
+    "read_only": true,
+    "no_student_data_modification": true,
+    "no_diagnostic_logic_duplication": true,
+    "student_dashboard_logic_remains_unchanged": true,
+    "ml_role": "Supporting prediction layer only; not the primary diagnosis authority.",
+    "development_data": {
+      "allowed": true,
+      "must_be_labeled": true
+    }
+  },
+  "empty_production_database": {
+    "allowed": true,
+    "expected_behavior": "Dashboard must render safely with zero students and zero activity records."
+  }
+}

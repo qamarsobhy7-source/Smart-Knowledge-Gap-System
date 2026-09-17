@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard — {{ student.full_name }}{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    {# ============================================================ #}
+    {# HERO #}
+    {# ============================================================ #}
+    <div class="dashboard-hero" data-animate>
+        <span class="eyebrow">STUDENT DASHBOARD</span>
+        <h1>Welcome back, {{ student.full_name }} 👋</h1>
+        <p>
+            {% if overall_mastery is not none %}
+                Your overall mastery across all assessed concepts is
+                <strong>{{ "%.1f"|format(overall_mastery) }}%</strong>.
+                Keep closing your knowledge gaps to improve.
+            {% else %}
+                Take your first diagnostic assessment to discover your
+                strengths and knowledge gaps.
+            {% endif %}
+        </p>
+    </div>
+
+    {# ============================================================ #}
+    {# STATS GRID #}
+    {# ============================================================ #}
+    {% if assessment %}
+    <div class="stats-grid" data-animate>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">📊</div>
+            <div class="stat-card-value">
+                {% if overall_mastery is not none %}{{ "%.0f"|format(overall_mastery) }}%{% else %}—{% endif %}
+            </div>
+            <div class="stat-card-label">Overall Mastery</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon success">💪</div>
+            <div class="stat-card-value">{{ strengths|length }}</div>
+            <div class="stat-card-label">Strong Concepts</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon warning">🎯</div>
+            <div class="stat-card-value">{{ knowledge_gaps|length }}</div>
+            <div class="stat-card-label">Knowledge Gaps</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon info">📝</div>
+            <div class="stat-card-value">{{ practice_summary.total_attempts or 0 }}</div>
+            <div class="stat-card-label">Practice Attempts</div>
+        </div>
+
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# LEARNING PATH #}
+    {# ============================================================ #}
+    {% if learning_path %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">PERSONALIZED LEARNING PATH</span>
+                <h2>Your recommended journey</h2>
+            </div>
+        </div>
+
+        <div class="learning-path-modern">
+            {% for item in learning_path %}
+            <a
+                class="path-card"
+                href="{{ url_for('learning_content', concept_id=item.concept_id, student_id=student.student_id) }}"
+                data-animate
+            >
+                <div class="path-number">{{ loop.index }}</div>
+                <div class="path-content">
+                    <h3>{{ item.concept_name }}</h3>
+                    <div class="path-meta">
+                        <span>{{ item.difficulty }}</span>
+                        <span>Mastery {{ "%.1f"|format(item.mastery) }}%</span>
+                    </div>
+                </div>
+                <div class="path-arrow">→</div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# STRENGTHS #}
+    {# ============================================================ #}
+    {% if strengths %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">YOUR STRENGTHS</span>
+                <h2>Concepts you've mastered</h2>
+            </div>
+        </div>
+
+        <div class="diagnosis-grid">
+            {% for item in strengths %}
+            <article class="diagnosis-card" data-animate>
+                <div class="diagnosis-card-top">
+                    <span class="concept-index">{{ loop.index }}</span>
+                    <span class="status-pill strong">{{ item.gap_level or 'Strong' }}</span>
+                </div>
+                <h3>{{ item.concept_name }}</h3>
+                <div class="mastery-row">
+                    <span>Mastery</span>
+                    <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+                </div>
+                <div class="mastery-track">
+                    <div class="mastery-fill" style="width: {{ item.mastery|float }}%; background: var(--gradient-success);"></div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# KNOWLEDGE GAPS #}
+    {# ============================================================ #}
+    {% if knowledge_gaps %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">KNOWLEDGE GAPS</span>
+                <h2>Concepts to improve</h2>
+            </div>
+        </div>
+
+        <div class="diagnosis-grid">
+            {% for item in knowledge_gaps %}
+            <article class="diagnosis-card" data-animate>
+                <div class="diagnosis-card-top">
+                    <span class="concept-index">{{ loop.index }}</span>
+                    <span class="status-pill {{ item.gap_level|lower|replace(' ', '-') }}">
+                        {{ item.gap_level }}
+                    </span>
+                </div>
+                <h3>{{ item.concept_name }}</h3>
+                <div class="mastery-row">
+                    <span>Mastery</span>
+                    <strong>{{ "%.1f"|format(item.mastery) }}%</strong>
+                </div>
+                <div class="mastery-track">
+                    <div class="mastery-fill" style="width: {{ item.mastery|float }}%;"></div>
+                </div>
+                <div class="gap-score">
+                    Gap score: <strong>{{ "%.1f"|format(item.gap_score) }}</strong>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# LEARNING PRIORITIES #}
+    {# ============================================================ #}
+    {% if learning_priorities %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">PRIORITIES</span>
+                <h2>Where to focus first</h2>
+            </div>
+        </div>
+
+        <div class="priority-list">
+            {% for item in learning_priorities %}
+            <article class="priority-card" data-animate>
+                <div class="priority-rank">{{ item.priority_rank }}</div>
+                <div class="priority-info">
+                    <h3>{{ item.concept_name }}</h3>
+                    <span>{{ item.priority_level }}</span>
+                </div>
+                <div class="priority-score">
+                    <small>Priority</small>
+                    <strong>{{ "%.3f"|format(item.priority_score) }}</strong>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# PRACTICE ACTIVITY #}
+    {# ============================================================ #}
+    {% if practice_summary and practice_summary.total_attempts > 0 %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">PRACTICE ACTIVITY</span>
+                <h2>Your practice performance</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon info">📝</div>
+                <div class="stat-card-value">{{ practice_summary.total_attempts }}</div>
+                <div class="stat-card-label">Total Attempts</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon success">✓</div>
+                <div class="stat-card-value">{{ practice_summary.correct_attempts }}</div>
+                <div class="stat-card-label">Correct</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon">🎯</div>
+                <div class="stat-card-value">
+                    {% if practice_summary.accuracy is not none %}
+                        {{ "%.0f"|format(practice_summary.accuracy) }}%
+                    {% else %}—{% endif %}
+                </div>
+                <div class="stat-card-label">Accuracy</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# REASSESSMENT / IMPROVEMENT #}
+    {# ============================================================ #}
+    {% if reassessment_summary and reassessment_summary.total_reassessments and reassessment_summary.total_reassessments > 0 %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">IMPROVEMENT</span>
+                <h2>Before vs After</h2>
+            </div>
+        </div>
+
+        {% if reassessments %}
+        <div class="diagnosis-grid">
+            {% for item in reassessments %}
+            <article class="diagnosis-card" data-animate>
+                <div class="diagnosis-card-top">
+                    <span class="concept-index">{{ loop.index }}</span>
+                    <span class="status-pill">
+                        {% if item.improvement >= 0 %}+{% endif %}{{ "%.1f"|format(item.improvement) }}%
+                    </span>
+                </div>
+                <h3>{{ item.concept_name }}</h3>
+                <div class="mastery-row">
+                    <span>Before</span>
+                    <strong>{{ "%.1f"|format(item.before_mastery) }}%</strong>
+                </div>
+                <div class="mastery-row">
+                    <span>After</span>
+                    <strong>{{ "%.1f"|format(item.after_mastery) }}%</strong>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# EMPTY STATE — NO ASSESSMENT YET #}
+    {# ============================================================ #}
+    {% if not assessment %}
+    <div class="success-state" data-animate>
+        <div class="success-icon">🎓</div>
+        <div>
+            <h3>Ready to start?</h3>
+            <p>
+                You haven't taken a diagnostic assessment yet.
+                Complete your first assessment to unlock your personalized
+                learning path.
+            </p>
+            <a class="primary-btn" href="{{ url_for('index') }}">
+                Take Assessment →
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Confetti when mastery is high
+    document.addEventListener('DOMContentLoaded', () => {
+        {% if overall_mastery is not none and overall_mastery >= 80 %}
+        setTimeout(() => {
+            if (typeof launchConfetti === 'function') {
+                launchConfetti();
+            }
+        }, 500);
+        {% endif %}
+    });
+</script>
+{% endblock %}

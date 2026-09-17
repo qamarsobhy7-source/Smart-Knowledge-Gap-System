@@ -1,0 +1,46 @@
+learning_step,concept_id,concept_name,subject_id,difficulty,mastery,gap_level,priority_score,priority_level,prerequisite_gaps,blocked_by_prerequisite
+1,1,Number Systems,1,Beginner,50.000000000000014,Weak,0.825,High,[],False
+2,31,Computational Thinking,3,Beginner,50.000000000000014,Weak,0.825,High,[],False
+3,33,Programming Fundamentals,3,Beginner,50.000000000000014,Weak,0.8499999999999999,High,[31],True
+4,35,Computer Systems Basics,3,Beginner,50.000000000000014,Weak,0.8499999999999999,High,[31],True
+5,32,Algorithms,3,Beginner,50.000000000000014,Weak,0.7749999999999999,Medium,[31],True
+6,36,Data Structures,3,Intermediate,50.000000000000014,Weak,0.8499999999999999,High,"[32, 33]",True
+7,16,Measurement and Units,2,Beginner,50.000000000000014,Weak,0.7499999999999999,Medium,[],False
+8,2,Algebraic Expressions,1,Beginner,50.000000000000014,Weak,0.6999999999999998,Medium,[1],True
+9,3,Linear Equations,1,Beginner,50.000000000000014,Weak,0.8499999999999999,High,[2],True
+10,5,Basic Geometry,1,Beginner,50.000000000000014,Weak,0.6999999999999998,Medium,[1],True
+11,7,Functions,1,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[3],True
+12,8,Systems of Equations,1,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[3],True
+13,10,Probability,1,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[1],True
+14,11,Limits,1,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,[7],True
+15,12,Derivatives,1,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,[11],True
+16,17,Motion,2,Beginner,50.000000000000014,Weak,0.6999999999999998,Medium,[16],True
+17,18,Forces,2,Beginner,50.000000000000014,Weak,0.8499999999999999,High,[17],True
+18,19,Energy,2,Beginner,50.000000000000014,Weak,0.7749999999999999,Medium,[18],True
+19,20,Electricity Basics,2,Beginner,50.000000000000014,Weak,0.6999999999999998,Medium,[16],True
+20,24,Waves,2,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[16],True
+21,25,Electric Circuits,2,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[20],True
+22,26,Thermodynamics,2,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,[19],True
+23,29,Modern Physics,2,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,[26],True
+24,40,Operating Systems Basics,3,Intermediate,50.000000000000014,Weak,0.6999999999999998,Medium,[35],True
+25,41,Algorithm Analysis,3,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,[36],True
+26,43,Artificial Intelligence Fundamentals,3,Advanced,50.000000000000014,Weak,0.6999999999999998,Medium,"[32, 36]",True
+27,4,Ratios and Proportions,1,Beginner,50.000000000000014,Weak,0.6249999999999999,Medium,[1],True
+28,6,Quadratic Equations,1,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[3],True
+29,9,Trigonometry,1,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[5],True
+30,13,Integrals,1,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[12],True
+31,14,Linear Algebra,1,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[8],True
+32,15,Advanced Probability,1,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[10],True
+33,21,Momentum,2,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[18],True
+34,22,Work and Power,2,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[19],True
+35,23,Circular Motion,2,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[18],True
+36,27,Electromagnetism,2,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[25],True
+37,28,Optics,2,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[24],True
+38,30,Quantum Physics Basics,2,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[29],True
+39,34,Data Representation,3,Beginner,50.000000000000014,Weak,0.6249999999999999,Medium,[31],True
+40,37,Object-Oriented Programming,3,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[33],True
+41,38,Database Fundamentals,3,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[33],True
+42,39,Computer Networks,3,Intermediate,50.000000000000014,Weak,0.6249999999999999,Medium,[35],True
+43,42,Advanced Data Structures,3,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,"[36, 41]",True
+44,44,Machine Learning Fundamentals,3,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,[43],True
+45,45,Computer Architecture,3,Advanced,50.000000000000014,Weak,0.6249999999999999,Medium,"[35, 40]",True

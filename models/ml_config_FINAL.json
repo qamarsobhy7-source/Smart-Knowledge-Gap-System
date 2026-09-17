@@ -1,0 +1,17 @@
+{
+  "phase": "Phase 9",
+  "purpose": "Supporting Prediction Layer",
+  "features": [
+    "before_mastery"
+  ],
+  "target": "target_status",
+  "model": "StandardScaler + LogisticRegression",
+  "training_samples": 540,
+  "testing_samples": 135,
+  "development_dataset_samples": 675,
+  "evaluation_type": "Development Evaluation",
+  "synthetic_data": true,
+  "diagnosis_authority": "Rules and knowledge-gap engine",
+  "ml_role": "Supporting prediction layer",
+  "note": "Metrics are based on synthetic/development data and must not be interpreted as real-world student performance."
+}

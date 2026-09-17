@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard — Smart Knowledge Gap{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    {# ============================================================ #}
+    {# HERO #}
+    {# ============================================================ #}
+    <div class="dashboard-hero" data-animate>
+        <span class="eyebrow">TEACHER DASHBOARD</span>
+        <h1>Teacher Overview</h1>
+        <p>
+            Monitor student progress, identify class-wide knowledge gaps,
+            and track learning improvement across all subjects.
+        </p>
+    </div>
+
+    {# ============================================================ #}
+    {# STATS GRID — OVERVIEW #}
+    {# ============================================================ #}
+    {% if overview %}
+    <div class="stats-grid" data-animate>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">👥</div>
+            <div class="stat-card-value">{{ overview.total_students or 0 }}</div>
+            <div class="stat-card-label">Total Students</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon success">📊</div>
+            <div class="stat-card-value">{{ overview.completed_diagnostic_assessments or 0 }}</div>
+            <div class="stat-card-label">Completed Diagnostics</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon info">🎯</div>
+            <div class="stat-card-value">{{ overview.total_concept_results or 0 }}</div>
+            <div class="stat-card-label">Concept Results</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon warning">📝</div>
+            <div class="stat-card-value">{{ overview.total_practice_attempts or 0 }}</div>
+            <div class="stat-card-label">Practice Attempts</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon info">📚</div>
+            <div class="stat-card-value">{{ overview.total_learning_progress_records or 0 }}</div>
+            <div class="stat-card-label">Learning Progress</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon success">📈</div>
+            <div class="stat-card-value">{{ overview.total_reassessments or 0 }}</div>
+            <div class="stat-card-label">Re-assessments</div>
+        </div>
+
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# STUDENT PERFORMANCE #}
+    {# ============================================================ #}
+    {% if student_performance %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">STUDENT OVERVIEW</span>
+                <h2>Student Performance</h2>
+            </div>
+        </div>
+
+        <div class="student-list">
+            {% for student in student_performance %}
+            <div class="student-item" data-animate>
+                <div class="student-avatar">
+                    {{ student.full_name[0]|upper if student.full_name else '?' }}
+                </div>
+                <div class="student-info">
+                    <h4>{{ student.full_name }}</h4>
+                    <small>
+                        {% if student.assessment_type %}
+                            {{ student.assessment_type }}
+                        {% else %}
+                            No assessment yet
+                        {% endif %}
+                    </small>
+                </div>
+                <div class="student-mastery">
+                    <strong>
+                        {% if student.overall_mastery is not none %}
+                            {{ "%.0f"|format(student.overall_mastery) }}%
+                        {% else %}—{% endif %}
+                    </strong>
+                    <small>Mastery</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# CONCEPT PERFORMANCE #}
+    {# ============================================================ #}
+    {% if concept_performance %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">CONCEPTS</span>
+                <h2>Concept Performance</h2>
+            </div>
+        </div>
+
+        <div class="concept-list">
+            {% for concept in concept_performance %}
+            <div class="concept-row" data-animate>
+                <div class="concept-row-header">
+                    <h4>{{ concept.concept_name }}</h4>
+                    <strong>
+                        {% if concept.average_mastery is not none %}
+                            {{ "%.1f"|format(concept.average_mastery) }}%
+                        {% else %}—{% endif %}
+                    </strong>
+                </div>
+                <div class="mastery-track">
+                    <div class="mastery-fill" style="width: {{ concept.average_mastery|float if concept.average_mastery else 0 }}%;"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# KNOWLEDGE GAPS #}
+    {# ============================================================ #}
+    {% if knowledge_gaps %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">KNOWLEDGE GAPS</span>
+                <h2>Class-wide Gaps</h2>
+            </div>
+        </div>
+
+        <div class="diagnosis-grid">
+            {% for gap in knowledge_gaps %}
+            <article class="diagnosis-card" data-animate>
+                <div class="diagnosis-card-top">
+                    <span class="concept-index">{{ loop.index }}</span>
+                    <span class="status-pill weak">Gap</span>
+                </div>
+                <h3>{{ gap.concept_name }}</h3>
+                {% if gap.students_with_gap is defined %}
+                <div class="mastery-row">
+                    <span>Students affected</span>
+                    <strong>{{ gap.students_with_gap or 0 }}</strong>
+                </div>
+                {% endif %}
+                {% if gap.average_mastery is defined and gap.average_mastery is not none %}
+                <div class="gap-score">
+                    Average mastery: <strong>{{ "%.1f"|format(gap.average_mastery) }}%</strong>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# LEARNING PRIORITIES #}
+    {# ============================================================ #}
+    {% if learning_priorities %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">PRIORITIES</span>
+                <h2>Learning Priorities</h2>
+            </div>
+        </div>
+
+        <div class="priority-list">
+            {% for item in learning_priorities %}
+            <article class="priority-card" data-animate>
+                <div class="priority-rank">{{ loop.index }}</div>
+                <div class="priority-info">
+                    <h3>{{ item.concept_name }}</h3>
+                    <span>{{ item.priority_level or 'Priority' }}</span>
+                </div>
+                <div class="priority-score">
+                    <small>Priority</small>
+                    <strong>
+                        {% if item.priority_score is not none %}
+                            {{ "%.2f"|format(item.priority_score) }}
+                        {% else %}—{% endif %}
+                    </strong>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# PRACTICE ACTIVITY #}
+    {# ============================================================ #}
+    {% if practice_activity %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">PRACTICE</span>
+                <h2>Practice Activity</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon info">📝</div>
+                <div class="stat-card-value">{{ practice_activity.practice_attempts or 0 }}</div>
+                <div class="stat-card-label">Total Attempts</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon success">📚</div>
+                <div class="stat-card-value">{{ practice_activity.learning_progress_records or 0 }}</div>
+                <div class="stat-card-label">Learning Progress</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# REASSESSMENT & IMPROVEMENT #}
+    {# ============================================================ #}
+    {% if reassessment_and_improvement %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">IMPROVEMENT</span>
+                <h2>Re-assessment &amp; Improvement</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon info">📊</div>
+                <div class="stat-card-value">{{ reassessment_and_improvement.reassessments or 0 }}</div>
+                <div class="stat-card-label">Re-assessments</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon warning">📥</div>
+                <div class="stat-card-value">
+                    {% if reassessment_and_improvement.average_before_mastery is not none %}
+                        {{ "%.1f"|format(reassessment_and_improvement.average_before_mastery) }}%
+                    {% else %}—{% endif %}
+                </div>
+                <div class="stat-card-label">Avg Before</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon success">📤</div>
+                <div class="stat-card-value">
+                    {% if reassessment_and_improvement.average_after_mastery is not none %}
+                        {{ "%.1f"|format(reassessment_and_improvement.average_after_mastery) }}%
+                    {% else %}—{% endif %}
+                </div>
+                <div class="stat-card-label">Avg After</div>
+            </div>
+
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon success">📈</div>
+                <div class="stat-card-value">
+                    {% if reassessment_and_improvement.average_improvement is not none %}
+                        {% if reassessment_and_improvement.average_improvement >= 0 %}+{% endif %}{{ "%.1f"|format(reassessment_and_improvement.average_improvement) }}%
+                    {% else %}—{% endif %}
+                </div>
+                <div class="stat-card-label">Avg Improvement</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# ACTIVITY SUMMARY #}
+    {# ============================================================ #}
+    {% if activity_summary %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">ACTIVITY</span>
+                <h2>Learning Activity</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            {% for key, value in activity_summary.items() %}
+            <div class="stat-card" data-animate>
+                <div class="stat-card-icon">📌</div>
+                <div class="stat-card-value">{{ value if value is not none else '—' }}</div>
+                <div class="stat-card-label">{{ key|replace('_', ' ')|title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# EMPTY STATE #}
+    {# ============================================================ #}
+    {% if overview and overview.total_students == 0 %}
+    <div class="success-state" data-animate>
+        <div class="success-icon">👥</div>
+        <div>
+            <h3>No students yet</h3>
+            <p>
+                Once students complete their diagnostic assessments,
+                their performance and learning progress will appear here.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

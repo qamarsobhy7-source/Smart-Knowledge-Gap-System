@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Practice — {{ concept_name }}{% endblock %}
+
+{% block content %}
+
+<section class="practice-page">
+
+    {# ============================================================ #}
+    {# HEADER #}
+    {# ============================================================ #}
+    <div class="practice-hero" data-animate>
+        <span class="eyebrow">PRACTICE MODE</span>
+        <h1>{{ concept_name }}</h1>
+        <p>
+            {% if completed %}
+                Review your answers below and see how you did.
+            {% else %}
+                Answer all {{ questions|length }} questions to reinforce this concept.
+            {% endif %}
+        </p>
+    </div>
+
+    {# ============================================================ #}
+    {# SUMMARY (shown after submit) #}
+    {# ============================================================ #}
+    {% if completed %}
+    <div class="practice-summary" data-animate>
+        <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+            YOUR SCORE
+        </span>
+        <div class="score-display">
+            {{ correct_count }} / {{ total_questions }}
+        </div>
+        <p>
+            {% if accuracy >= 80 %}
+                🎉 Excellent! You've mastered this concept.
+            {% elif accuracy >= 60 %}
+                👍 Good job! Keep practicing to strengthen it.
+            {% elif accuracy >= 40 %}
+                💪 Keep going — review the content and try again.
+            {% else %}
+                📚 Review the learning content and try once more.
+            {% endif %}
+        </p>
+        <p style="margin-top: 0.5rem; font-size: 1rem; opacity: 0.9;">
+            Accuracy: <strong>{{ "%.1f"|format(accuracy) }}%</strong>
+        </p>
+    </div>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# FORM #}
+    {# ============================================================ #}
+    {% if not completed %}
+    <form method="POST" id="practiceForm">
+    {% endif %}
+
+    {% for question in questions %}
+
+    {% set qid = question.question_id %}
+
+    {# نحدد حالة السؤال في حالة الإنهاء #}
+    {% set result = results|selectattr('question_id', 'equalto', qid)|first if results else None %}
+    {% set is_correct = result.is_correct if result else None %}
+
+    <div class="practice-question
+        {% if completed %}
+            {% if is_correct %}practice-result-correct{% else %}practice-result-wrong{% endif %}
+        {% endif %}"
+        data-animate
+    >
+
+        <div class="practice-question-number">
+            Question {{ loop.index }} of {{ questions|length }}
+        </div>
+
+        <h3>{{ question.question_text }}</h3>
+
+        <div class="practice-options">
+
+            {% for opt_letter, opt_text in [
+                ('A', question.option_a),
+                ('B', question.option_b),
+                ('C', question.option_c),
+                ('D', question.option_d)
+            ] %}
+
+            <label class="practice-option">
+                <input
+                    type="radio"
+                    name="answer_{{ qid }}"
+                    value="{{ opt_letter }}"
+                    {% if completed %}disabled{% endif %}
+                    {% if completed and result and result.student_answer == opt_letter %}checked{% endif %}
+                    required
+                >
+                <span class="option-letter">{{ opt_letter }}</span>
+                <span class="option-text">{{ opt_text }}</span>
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+        {% if completed %}
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <span class="result-badge {% if is_correct %}correct{% else %}wrong{% endif %}">
+                {% if is_correct %}✓ Correct{% else %}✕ Incorrect{% endif %}
+            </span>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+    {# ============================================================ #}
+    {# SUBMIT BUTTON #}
+    {# ============================================================ #}
+    {% if not completed %}
+    <div class="sticky-actions">
+        <button type="submit" class="primary-btn assessment-btn" id="submitBtn">
+            Submit Practice →
+        </button>
+    </div>
+    </form>
+    {% endif %}
+
+    {# ============================================================ #}
+    {# ACTIONS #}
+    {# ============================================================ #}
+    {% if completed and student_id %}
+    <div class="results-actions" style="margin-top: 2rem;">
+        <a class="primary-btn"
+           href="{{ url_for('student_dashboard', student_id=student_id) }}">
+            Back to Dashboard →
+        </a>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Disable submit after click
+        const form = document.getElementById('practiceForm');
+        const btn = document.getElementById('submitBtn');
+
+        if (form && btn) {
+            form.addEventListener('submit', () => {
+                btn.disabled = true;
+                btn.innerHTML = 'Submitting...';
+            });
+        }
+
+        // Confetti on great score
+        {% if completed and accuracy and accuracy >= 80 %}
+        setTimeout(() => {
+            if (typeof launchConfetti === 'function') {
+                launchConfetti();
+            }
+        }, 400);
+        {% endif %}
+    });
+</script>
+{% endblock %}
