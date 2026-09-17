@@ -60,6 +60,45 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# RE-ASSESSMENT CTA (Prominent) #}
+    {# ============================================================ #}
+    {% if assessment %}
+    <section class="dashboard-section">
+        <div class="results-cta" data-animate>
+            <div>
+                <span class="eyebrow">
+                    {% if reassessment_summary and reassessment_summary.total_reassessments and reassessment_summary.total_reassessments > 0 %}
+                        RE-ASSESSMENT COMPLETE
+                    {% else %}
+                        NEXT STEP
+                    {% endif %}
+                </span>
+
+                {% if reassessment_summary and reassessment_summary.total_reassessments and reassessment_summary.total_reassessments > 0 %}
+                    <h2>Ready to measure your improvement?</h2>
+                    <p>
+                        You've completed a re-assessment. Review your before vs after
+                        mastery to see how much you've improved.
+                    </p>
+                    <a class="primary-btn" href="{{ url_for('reassessment', student_id=student.student_id) }}">
+                        Start New Re-assessment →
+                    </a>
+                {% else %}
+                    <h2>Ready for re-assessment?</h2>
+                    <p>
+                        Take the diagnostic again after studying and practicing
+                        to measure your learning improvement.
+                    </p>
+                    <a class="primary-btn" href="{{ url_for('reassessment', student_id=student.student_id) }}">
+                        Start Re-assessment →
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
     {# LEARNING PATH #}
     {# ============================================================ #}
     {% if learning_path %}
