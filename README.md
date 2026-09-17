@@ -121,3 +121,5 @@ For every weak concept the student receives:
 ### 📈 Before vs After Improvement
 
 After completing the learning path, the student takes a **re-assessment**. The system then computes:
+
+<!-- Force redeploy: 2026-09-17 19:34:58 -->
