@@ -60,6 +60,46 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# CHARTS (if student has diagnosis) #}
+    {# ============================================================ #}
+    {% if assessment and diagnosis %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">VISUAL ANALYTICS</span>
+                <h2>Your progress at a glance</h2>
+            </div>
+        </div>
+
+        <div class="charts-grid" data-animate>
+
+            {# --- Doughnut: Mastery Distribution --- #}
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3>Mastery Distribution</h3>
+                    <span class="chart-card-subtitle">By Level</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="masteryDistributionChart"></canvas>
+                </div>
+            </div>
+
+            {# --- Bar: Per-Concept Mastery --- #}
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3>Concept Mastery</h3>
+                    <span class="chart-card-subtitle">Per Concept</span>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="conceptMasteryChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
     {# DOWNLOAD PDF REPORT #}
     {# ============================================================ #}
     {% if assessment %}
@@ -370,5 +410,161 @@
         }, 500);
         {% endif %}
     });
+
+    // ============================================================
+    // DASHBOARD CHARTS
+    // ============================================================
+    {% if assessment and diagnosis %}
+    document.addEventListener('DOMContentLoaded', () => {
+        // Get theme
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const textColor = isDark ? '#E5E7EB' : '#374151';
+        const gridColor = isDark ? 'rgba(148,163,184,0.15)' : 'rgba(107,114,128,0.1)';
+
+        // ---- Chart 1: Mastery Distribution (Doughnut) ----
+        const distributionData = {
+            strong: {{ diagnosis | selectattr('gap_level', 'equalto', 'Strong') | list | length }},
+            adequate: {{ diagnosis | selectattr('gap_level', 'equalto', 'Adequate') | list | length }},
+            weak: {{ diagnosis | selectattr('gap_level', 'equalto', 'Weak') | list | length }},
+            critical: {{ diagnosis | selectattr('gap_level', 'equalto', 'Critical') | list | length }}
+        };
+
+        const total = distributionData.strong + distributionData.adequate
+                    + distributionData.weak + distributionData.critical;
+
+        const distCtx = document.getElementById('masteryDistributionChart');
+        if (distCtx && total > 0) {
+            new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Strong', 'Adequate', 'Weak', 'Critical'],
+                    datasets: [{
+                        data: [
+                            distributionData.strong,
+                            distributionData.adequate,
+                            distributionData.weak,
+                            distributionData.critical
+                        ],
+                        backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
+                        borderColor: isDark ? '#111827' : '#FFFFFF',
+                        borderWidth: 3,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '62%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: textColor,
+                                font: { family: 'Inter', size: 12, weight: '600' },
+                                padding: 16,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? '#1F2937' : '#111827',
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#E5E7EB',
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const pct = total > 0 ? (value / total * 100).toFixed(0) : 0;
+                                    return ' ' + context.label + ': ' + value + ' concepts (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ---- Chart 2: Per-Concept Mastery (Bar) ----
+        const conceptNames = [
+            {% for item in diagnosis %}
+            "{{ item.concept_name }}",
+            {% endfor %}
+        ];
+
+        const conceptMasteries = [
+            {% for item in diagnosis %}
+            {{ item.mastery }},
+            {% endfor %}
+        ];
+
+        const conceptColors = conceptMasteries.map(m => {
+            if (m >= 80) return '#10B981';
+            if (m >= 60) return '#3B82F6';
+            if (m >= 40) return '#F59E0B';
+            return '#EF4444';
+        });
+
+        const cmCtx = document.getElementById('conceptMasteryChart');
+        if (cmCtx) {
+            new Chart(cmCtx, {
+                type: 'bar',
+                data: {
+                    labels: conceptNames,
+                    datasets: [{
+                        label: 'Mastery (%)',
+                        data: conceptMasteries,
+                        backgroundColor: conceptColors,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        barThickness: 'flex',
+                        maxBarThickness: 48
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: isDark ? '#1F2937' : '#111827',
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#E5E7EB',
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return ' Mastery: ' + context.parsed.y.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: textColor,
+                                font: { family: 'Inter', size: 11 },
+                                callback: function(value) { return value + '%'; }
+                            },
+                            grid: { color: gridColor }
+                        },
+                        x: {
+                            ticks: {
+                                color: textColor,
+                                font: { family: 'Inter', size: 11 },
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    });
+    {% endif %}
 </script>
 {% endblock %}
