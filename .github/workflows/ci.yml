@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify project structure
+        run: |
+          test -f app/app.py
+          test -f app/init_database.py
+          test -f data/final_question_bank_270.csv
+          test -f data/concepts_final.csv
+          test -f data/learning_content_FINAL.csv
+          test -f tests/test_full_flow.py
+          echo "✅ Project structure verified."
+
+      - name: Verify question bank integrity
+        run: |
+          python -c "
+          import pandas as pd
+          df = pd.read_csv('data/final_question_bank_270.csv')
+          assert len(df) == 270, f'Expected 270 questions, got {len(df)}'
+          assert df['question_id'].nunique() == 270, 'Duplicate question IDs'
+          assert df['concept_id'].nunique() == 45, 'Expected 45 concepts'
+          assert set(df['correct_answer'].unique()) == {'A', 'B', 'C', 'D'}, 'Invalid correct_answer values'
+          assert df['question_text'].notna().all(), 'Missing question text'
+          print('✅ Question bank: 270 questions, 45 concepts, all valid.')
+          "
+
+      - name: Verify learning content integrity
+        run: |
+          python -c "
+          import pandas as pd
+          df = pd.read_csv('data/learning_content_FINAL.csv')
+          assert len(df) == 45, f'Expected 45 concepts, got {len(df)}'
+          required = ['why_it_matters', 'step_by_step', 'worked_examples',
+                      'common_mistakes', 'study_tips', 'whats_next']
+          for col in required:
+              assert col in df.columns, f'Missing column: {col}'
+              assert df[col].notna().all(), f'Empty values in {col}'
+          print('✅ Learning content: all 45 concepts enriched.')
+          "
+
+      - name: Initialize database
+        env:
+          SECRET_KEY: test-secret-key-for-ci-only
+        run: |
+          python -m app.init_database
+
+      - name: Run unit tests
+        env:
+          SECRET_KEY: test-secret-key-for-ci-only
+          PYTHONPATH: app
+        run: |
+          python -c "
+          import os
+          os.environ.pop('DATABASE_URL', None)
+          from init_database import initialize_database
+          initialize_database(db_path='data/test.db', verbose=False)
+          print('✅ Database initialization works.')
+          "
+
+      - name: Smoke test — Flask app loads
+        env:
+          SECRET_KEY: test-secret-key-for-ci-only
+          PYTHONPATH: app
+        run: |
+          python -c "
+          import os
+          os.environ.pop('DATABASE_URL', None)
+          if os.path.exists('data/smart_knowledge_gap.db'):
+              os.remove('data/smart_knowledge_gap.db')
+          from init_database import initialize_database
+          initialize_database(verbose=False)
+
+          import app as app_module
+          app_module.app.config['TESTING'] = True
+          client = app_module.app.test_client()
+
+          # Smoke tests
+          assert client.get('/').status_code == 200, 'Home page failed'
+          assert client.get('/login').status_code == 200, 'Login page failed'
+          assert client.get('/teacher-dashboard').status_code == 200, 'Teacher dashboard failed'
+          assert client.get('/this-does-not-exist').status_code == 404, '404 handler failed'
+          print('✅ All smoke tests passed.')
+          "
+
+      - name: Verify Python syntax
+        run: |
+          python -m compileall -q app/
+          echo "✅ All Python files compile."

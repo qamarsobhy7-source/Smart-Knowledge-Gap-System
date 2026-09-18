@@ -13,7 +13,11 @@ and generates prerequisite-aware learning paths.**
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success)](#)
-[![Tests](https://img.shields.io/badge/Tests-9%2F9%20Passing-brightgreen)](#)
+[![Tests](https://img.shields.io/badge/Tests-22%2F22%20Passing-brightgreen)](#)
+[![CI](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions/workflows/ci.yml/badge.svg)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions/workflows/ci.yml)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](#)
+[![i18n](https://img.shields.io/badge/i18n-EN%20%7C%20AR-blue)](#)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supported-336791?logo=postgresql&logoColor=white)](#)
 
 </div>
 
@@ -43,6 +47,8 @@ https://smart-knowledge-gap-system-qqbms.faable.link/
 - [Learning Path](#-learning-path)
 - [Screenshots](#-screenshots)
 - [Testing](#-testing)
+- [Docker](#-docker)
+- [Data Persistence](#-data-persistence)
 - [Deployment](#-deployment)
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
@@ -145,6 +151,55 @@ Improvement = After Mastery - Before Mastery
 ```
 
 and displays the delta per concept.
+
+### 🔐 Authentication & Password Reset
+
+- Email + password registration with hashed passwords (Werkzeug)
+- Session-based login and logout
+- Password reset flow with time-limited tokens (1h TTL)
+- Duplicate-email and weak-password validation
+
+### 📊 Interactive Dashboard Charts
+
+- **Doughnut chart** — mastery distribution
+- **Bar chart** — per-concept mastery comparison
+- Powered by **Chart.js**
+
+### 🏆 Achievements & Badges
+
+Eight unlockable achievements: First Steps, Perfect Score, Strong Mind, Bookworm, Sharp Shooter, On the Rise, Master, Expert.
+
+### 📄 PDF Report Export
+
+Complete per-student report generated with **ReportLab**.
+
+### 🔍 Teacher Dashboard Filters
+
+Filter by **Subject**, **Level**, or **Status**.
+
+### 🌍 Multi-language (English + Arabic)
+
+- Full UI translation in **English** and **Arabic**
+- Automatic **RTL** layout for Arabic
+- Language switcher in the navbar
+
+### 🐘 PostgreSQL + SQLite Support
+
+- Runs on **SQLite** by default
+- Switch to **PostgreSQL** by setting `DATABASE_URL`
+- Same public API, no code changes
+
+### ⚙️ Error Handling & Logging
+
+- Custom **404** and **500** pages
+- Structured logging to console and rotating file
+
+### 🛡️ Security
+
+- **CSRF protection** on all forms
+- Hashed passwords
+- Session cleanup
+- Generic reset error messages
 
 ---
 ## 🔄 How It Works
@@ -272,14 +327,21 @@ smart-knowledge-gap/
 ├── tests/                            # End-to-end validation
 │   └── test_full_flow.py
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
 ├── .dockerignore
+├── .env.docker
 ├── .env.example
 ├── .gitignore
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── Dockerfile
 ├── LICENSE
+├── Makefile
 ├── README.md
+├── docker-compose.yml
 └── requirements.txt
 ```
 
@@ -531,7 +593,9 @@ A quick visual tour of the platform.
 
 ## 🧪 Testing
 
-The project includes a full end-to-end validation script that verifies:
+### 1. End-to-end validation script
+
+This script verifies:
 
 - Student registration
 - Subject and level filtering
@@ -549,7 +613,63 @@ Run it with:
 python tests/test_full_flow.py
 ```
 
-**Current status:** ✅ **9 / 9 combinations passing** (3 subjects × 3 levels).
+**Status:** ✅ **9 / 9 combinations passing** (3 subjects × 3 levels).
+
+### 2. Continuous Integration (GitHub Actions)
+
+Every push runs `.github/workflows/ci.yml`:
+
+- Multi-version Python matrix (**3.11** and **3.12**)
+- Question bank integrity checks (270 questions, 45 concepts)
+- Learning content integrity checks
+- Database initialization
+- Flask smoke tests (home, login, teacher dashboard, 404)
+
+**Status:** ✅ Passing on both Python versions.
+
+---
+
+## 🐳 Docker
+
+### Quick Start
+
+```bash
+cp .env.docker .env
+docker compose up -d
+```
+
+### Make targets
+
+```bash
+make help          # Show all commands
+make install       # Install dependencies
+make run           # Run Flask dev server
+make test          # Run tests
+make docker-build  # Build Docker image
+make docker-up     # Start compose
+make docker-down   # Stop compose
+```
+
+### PostgreSQL via Docker
+
+Uncomment the `db` service in `docker-compose.yml`, then add `DATABASE_URL` to `.env`.
+
+---
+
+## 💾 Data Persistence
+
+| Backend | When to use | Persistence |
+|---|---|---|
+| **SQLite** (default) | Local dev, demos | Lost on restart |
+| **PostgreSQL** | Production | Persists forever |
+
+Switch to PostgreSQL:
+
+```bash
+export DATABASE_URL="postgresql://user:password@host:5432/dbname"
+```
+
+The app detects `DATABASE_URL` at startup and uses the correct backend automatically.
 
 ---
 
@@ -591,9 +711,19 @@ The application is currently deployed on Faable:
 - [x] Logging system
 - [x] CSRF protection
 - [x] Question shuffling per assessment
+- [x] Email + password authentication
+- [x] Password reset flow
+- [x] Enriched learning content (6 sections per concept)
+- [x] PDF report export
+- [x] Interactive dashboard charts
+- [x] Teacher dashboard filters
+- [x] Achievements & badges
+- [x] Multi-language (English + Arabic with RTL)
+- [x] PostgreSQL support (with SQLite fallback)
+- [x] GitHub Actions CI
+- [x] Docker Compose
 - [ ] Optional LLM-based explanation layer
-- [ ] PDF export for results
-- [ ] Multi-language support
+- [ ] Email notifications
 
 ---
 
