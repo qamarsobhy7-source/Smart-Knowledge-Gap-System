@@ -60,7 +60,35 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# ============================================================ #}
+    {# AI INSIGHTS (ML predictions + SHAP + RL + Cluster) #}
+    {# ============================================================ #}
+    {% if assessment %}
+    <section class="dashboard-section">
+        <div class="results-cta" data-animate style="background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);">
+            <div>
+                <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+                    🤖 AI INSIGHTS
+                </span>
+                <h2>Discover your AI-powered insights</h2>
+                <p>
+                    Get personalized predictions from our machine learning layer:
+                    your learning cluster, at-risk concepts, SHAP explanations,
+                    and RL-recommended next steps.
+                </p>
+                <a class="primary-btn"
+                   href="{{ url_for('ml_insights', student_id=student.student_id) }}"
+                   style="background: white; color: #7C3AED;">
+                    Open AI Insights →
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
     {# AI ASSISTANT (Chat) #}
+    {# ============================================================ #}
     {# ============================================================ #}
     <section class="dashboard-section">
         <div class="results-cta" data-animate style="background: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);">
