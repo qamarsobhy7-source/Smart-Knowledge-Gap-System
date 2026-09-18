@@ -56,6 +56,46 @@ class _PostgresCursor:
         return None
 
 
+class _SQLiteCursor:
+    """A cursor wrapper that returns dicts instead of sqlite3.Row."""
+
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    def fetchone(self):
+        row = self._cursor.fetchone()
+        if row is None:
+            return None
+        if isinstance(row, dict):
+            return row
+        # sqlite3.Row → dict
+        try:
+            return dict(row)
+        except Exception:
+            return row
+
+    def fetchall(self):
+        rows = self._cursor.fetchall()
+        result = []
+        for row in rows:
+            if isinstance(row, dict):
+                result.append(row)
+            else:
+                try:
+                    result.append(dict(row))
+                except Exception:
+                    result.append(row)
+        return result
+
+    @property
+    def rowcount(self):
+        return self._cursor.rowcount
+
+    @property
+    def lastrowid(self):
+        return self._cursor.lastrowid
+
+
 class _Connection:
     """A unified connection wrapper for SQLite and PostgreSQL."""
 
@@ -75,7 +115,8 @@ class _Connection:
             )
             cursor.execute(query, params)
             return _PostgresCursor(cursor)
-        return self._conn.execute(query, params)
+        cursor = self._conn.execute(query, params)
+        return _SQLiteCursor(cursor)
 
     def commit(self):
         self._conn.commit()
