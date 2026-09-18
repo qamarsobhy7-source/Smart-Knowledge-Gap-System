@@ -115,7 +115,7 @@ class DQNAgent:
             return random.randrange(self.action_dim)
 
         with torch.no_grad():
-            state_t = torch.tensor([state], dtype=torch.float32)
+            state_t = torch.from_numpy(state.reshape(1, -1)).float()
             q_values = self.q_net(state_t)
             return int(q_values.argmax(dim=1).item())
 
@@ -329,7 +329,7 @@ def plan_learning_path(agent, initial_mastery, n_steps=10):
     path = []
     for _ in range(n_steps):
         with torch.no_grad():
-            state_t = torch.tensor([state], dtype=torch.float32)
+            state_t = torch.from_numpy(state.reshape(1, -1)).float()
             q_values = agent.q_net(state_t)
             action = int(q_values.argmax(dim=1).item())
 
