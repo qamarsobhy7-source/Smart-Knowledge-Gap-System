@@ -7,6 +7,11 @@ from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash,
+)
+
 import pandas as pd
 from flask import (
     Flask,
@@ -167,6 +172,34 @@ def inject_csrf_token():
     return {
         "csrf_token": generate_csrf_token,
         "csrf_field_name": CSRF_FORM_FIELD,
+    }
+
+
+# ============================================================
+# AUTH HELPERS
+# ============================================================
+
+def login_required(f):
+    """Decorator: require a logged-in student."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "student_id" not in session:
+            return redirect(url_for("login_page"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def current_student_id():
+    """Return the currently logged-in student ID."""
+    return session.get("student_id")
+
+
+@app.context_processor
+def inject_current_student():
+    """Make the current student available in all templates."""
+    return {
+        "current_student_id": current_student_id(),
+        "current_student_name": session.get("student_name"),
     }
 
 # Ensure database schema exists before creating the service
@@ -386,6 +419,16 @@ def register_student():
         request.form.get("name", "")
     ).strip()
 
+    email = request.form.get(
+        "email",
+        ""
+    ).strip().lower()
+
+    password = request.form.get(
+        "password",
+        ""
+    )
+
     age = request.form.get(
         "age",
         ""
@@ -401,31 +444,64 @@ def register_student():
         ""
     ).strip()
 
+    # ---- Validation ----
     if not full_name:
-        return (
-            render_template(
-                "index.html",
-                error="Student name is required."
-            ),
-            400
-        )
+        return render_template(
+            "index.html",
+            error="Student name is required."
+        ), 400
 
     if len(full_name) > 120:
-        return (
-            render_template(
-                "index.html",
-                error="Student name is too long."
-            ),
-            400
+        return render_template(
+            "index.html",
+            error="Student name is too long."
+        ), 400
+
+    if not email or "@" not in email:
+        return render_template(
+            "index.html",
+            error="A valid email is required."
+        ), 400
+
+    if len(password) < 6:
+        return render_template(
+            "index.html",
+            error="Password must be at least 6 characters."
+        ), 400
+
+    # ---- Check duplicate email ----
+    existing = service.get_student_by_email(email)
+    if existing is not None:
+        return render_template(
+            "index.html",
+            error="This email is already registered. Please log in."
+        ), 400
+
+    # ---- Create student ----
+    password_hash = generate_password_hash(password)
+
+    try:
+        student_id = service.register_student(
+            full_name=full_name,
+            email=email,
+            password_hash=password_hash
         )
+    except ValueError as exc:
+        return render_template(
+            "index.html",
+            error=str(exc)
+        ), 400
 
-    student_id = service.register_student(
-        full_name=full_name
-    )
-
+    # ---- Log the student in ----
+    session["student_id"] = student_id
+    session["student_name"] = full_name
     session["student_age"] = age
     session["student_subject"] = subject
     session["student_level"] = level
+
+    app.logger.info(
+        "New student registered: %s (id=%s)", email, student_id
+    )
 
     return redirect(
         url_for(
@@ -433,6 +509,69 @@ def register_student():
             student_id=student_id
         )
     )
+
+
+@app.route("/login", methods=["GET"])
+def login_page():
+    """Show the login form."""
+    if current_student_id() is not None:
+        return redirect(
+            url_for("assessment", student_id=current_student_id())
+        )
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def login_submit():
+    """Process the login form."""
+    email = request.form.get("email", "").strip().lower()
+    password = request.form.get("password", "")
+
+    if not email or not password:
+        return render_template(
+            "login.html",
+            error="Email and password are required."
+        ), 400
+
+    student = service.get_student_by_email(email)
+
+    if student is None:
+        return render_template(
+            "login.html",
+            error="Invalid email or password."
+        ), 401
+
+    if not student.get("password_hash"):
+        return render_template(
+            "login.html",
+            error="This account has no password set."
+        ), 401
+
+    if not check_password_hash(student["password_hash"], password):
+        return render_template(
+            "login.html",
+            error="Invalid email or password."
+        ), 401
+
+    # Success
+    session["student_id"] = student["student_id"]
+    session["student_name"] = student["full_name"]
+
+    app.logger.info(
+        "Student logged in: %s (id=%s)",
+        email, student["student_id"]
+    )
+
+    return redirect(
+        url_for("assessment", student_id=student["student_id"])
+    )
+
+
+@app.route("/logout", methods=["POST", "GET"])
+def logout():
+    """Log the student out and clear the session."""
+    session.clear()
+    return redirect(url_for("index"))
 
 
 @app.route(
@@ -865,6 +1004,28 @@ def practice(student_id, concept_id):
 
     if request.method == "GET":
 
+        # Build a practice session ID (for shuffle key)
+        practice_session_key = (
+            f"practice_session_{student_id}_{concept_id}"
+        )
+
+        if practice_session_key not in session:
+            import secrets
+            session[practice_session_key] = secrets.token_hex(8)
+            session.modified = True
+
+        practice_session_id = session[practice_session_key]
+
+        # Apply option shuffling to each question
+        shuffled_questions = []
+        for _, q_row in practice_questions.iterrows():
+            q_dict = q_row.to_dict()
+            q_dict = prepare_question_for_display(
+                question=q_dict,
+                assessment_id=f"practice_{practice_session_id}"
+            )
+            shuffled_questions.append(q_dict)
+
         return render_template(
             "practice.html",
             student_id=student_id,
@@ -875,9 +1036,7 @@ def practice(student_id, concept_id):
             difficulty=(
                 practice_questions.iloc[0]["difficulty"]
             ),
-            questions=practice_questions.to_dict(
-                orient="records"
-            )
+            questions=shuffled_questions
         )
 
     try:
@@ -885,6 +1044,19 @@ def practice(student_id, concept_id):
     except ImportError:
         from database import save_practice_attempt
 
+    # Retrieve the practice session ID (same one used at display time)
+    practice_session_key = (
+        f"practice_session_{student_id}_{concept_id}"
+    )
+
+    if practice_session_key not in session:
+        import secrets
+        session[practice_session_key] = secrets.token_hex(8)
+        session.modified = True
+
+    practice_session_id = session[practice_session_key]
+
+    # Build a results list with the ORIGINAL question info
     results = []
 
     for _, question in practice_questions.iterrows():
@@ -893,18 +1065,29 @@ def practice(student_id, concept_id):
             question["question_id"]
         )
 
-        student_answer = request.form.get(
+        # The student submitted a DISPLAYED letter.
+        # We must map it back to the ORIGINAL letter before scoring.
+        displayed_answer = request.form.get(
             f"answer_{question_id}",
             ""
         ).strip().upper()
+
+        # Get the same option mapping that was used at display time
+        option_mapping = get_remembered_option_mapping(
+            assessment_id=f"practice_{practice_session_id}",
+            question_id=question_id
+        )
+
+        # displayed -> original
+        original_answer = option_mapping.get(displayed_answer, "")
 
         correct_answer = str(
             question["correct_answer"]
         ).strip().upper()
 
         is_correct = (
-            student_answer == correct_answer
-            and bool(student_answer)
+            original_answer == correct_answer
+            and bool(original_answer)
         )
 
         score = (
@@ -916,7 +1099,7 @@ def practice(student_id, concept_id):
         save_practice_attempt(
             student_id=student_id,
             question_id=question_id,
-            student_answer=student_answer,
+            student_answer=original_answer,
             is_correct=is_correct,
             score=score
         )
@@ -925,7 +1108,8 @@ def practice(student_id, concept_id):
             {
                 "question_id": question_id,
                 "is_correct": is_correct,
-                "score": score
+                "score": score,
+                "student_answer": displayed_answer
             }
         )
 
@@ -943,6 +1127,16 @@ def practice(student_id, concept_id):
         else 0.0
     )
 
+    # Rebuild shuffled questions for display
+    shuffled_questions = []
+    for _, q_row in practice_questions.iterrows():
+        q_dict = q_row.to_dict()
+        q_dict = prepare_question_for_display(
+            question=q_dict,
+            assessment_id=f"practice_{practice_session_id}"
+        )
+        shuffled_questions.append(q_dict)
+
     return render_template(
         "practice.html",
         student_id=student_id,
@@ -953,9 +1147,7 @@ def practice(student_id, concept_id):
         difficulty=(
             practice_questions.iloc[0]["difficulty"]
         ),
-        questions=practice_questions.to_dict(
-            orient="records"
-        ),
+        questions=shuffled_questions,
         results=results,
         correct_count=correct_count,
         total_questions=total_questions,
@@ -968,6 +1160,7 @@ def practice(student_id, concept_id):
     "/dashboard/<int:student_id>",
     methods=["GET"]
 )
+@login_required
 def student_dashboard(student_id):
     try:
         dashboard_data = get_student_dashboard_data(

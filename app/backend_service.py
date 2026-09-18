@@ -6,14 +6,16 @@ try:
         create_student,
         create_assessment,
         save_answer,
-        save_concept_result
+        save_concept_result,
+        get_student_by_email
     )
 except ImportError:
     from database import (
         create_student,
         create_assessment,
         save_answer,
-        save_concept_result
+        save_concept_result,
+        get_student_by_email
     )
 
 try:
@@ -187,12 +189,23 @@ class BackendService:
 
     def register_student(
         self,
-        full_name
+        full_name,
+        email=None,
+        password_hash=None
     ):
 
         return create_student(
-            full_name
+            full_name=full_name,
+            email=email,
+            password_hash=password_hash
         )
+
+    def get_student_by_email(
+        self,
+        email
+    ):
+
+        return get_student_by_email(email)
 
     # --------------------------------------------------------
     # ASSESSMENT CREATION

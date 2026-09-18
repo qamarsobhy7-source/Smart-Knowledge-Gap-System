@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Log In — Smart Knowledge Gap{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-copy" data-animate>
+        <span class="eyebrow">WELCOME BACK</span>
+
+        <h1>
+            Log in to continue
+            <span>your learning journey.</span>
+        </h1>
+
+        <p>
+            Sign in with your email and password to access your learning
+            dashboard, knowledge gaps, and personalized learning path.
+        </p>
+
+        <div class="hero-points">
+            <div><b>01</b><span>Continue your assessment</span></div>
+            <div><b>02</b><span>Track your progress</span></div>
+            <div><b>03</b><span>Close your gaps</span></div>
+        </div>
+    </div>
+
+    <div class="start-card" data-animate>
+
+        <div class="card-icon">&#10022;</div>
+
+        <h2>Log in to your account</h2>
+
+        <p>Enter your email and password below.</p>
+
+        {% if error %}
+            <div class="toast toast-error toast-visible" style="margin-bottom: 1rem; position: relative; transform: none;">
+                <span class="toast-icon">&#10005;</span>
+                <span class="toast-message">{{ error }}</span>
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+
+            <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <button class="primary-btn btn-full btn-lg" type="submit">
+                Log In &rarr;
+            </button>
+
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
+            Don't have an account?
+            <a href="/" style="font-weight: 600;">Create one now</a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

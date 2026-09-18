@@ -26,10 +26,15 @@ PRAGMA foreign_keys = ON;
 -- STUDENTS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS students (
-    student_id   INTEGER PRIMARY KEY AUTOINCREMENT,
-    full_name    TEXT    NOT NULL,
-    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    student_id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name     TEXT    NOT NULL,
+    email         TEXT    UNIQUE,
+    password_hash TEXT,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_students_email
+    ON students(email);
 
 -- ============================================================
 -- ASSESSMENTS

@@ -14,20 +14,56 @@ def get_connection():
     return connection
 
 
-def create_student(full_name):
+def create_student(full_name, email=None, password_hash=None):
     if not full_name or not str(full_name).strip():
         raise ValueError("Student name is required.")
 
-    with get_connection() as connection:
-        cursor = connection.execute(
-            """
-            INSERT INTO students (full_name)
-            VALUES (?)
-            """,
-            (str(full_name).strip(),)
-        )
+    if email is not None:
+        email = str(email).strip().lower()
+        if not email:
+            email = None
 
-        return cursor.lastrowid
+    with get_connection() as connection:
+        try:
+            cursor = connection.execute(
+                """
+                INSERT INTO students (full_name, email, password_hash)
+                VALUES (?, ?, ?)
+                """,
+                (
+                    str(full_name).strip(),
+                    email,
+                    password_hash,
+                )
+            )
+            return cursor.lastrowid
+        except sqlite3.IntegrityError:
+            raise ValueError("Email is already registered.")
+
+
+def get_student_by_email(email):
+    """Return the student with the given email, or None."""
+    if not email:
+        return None
+
+    email = str(email).strip().lower()
+
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT
+                student_id,
+                full_name,
+                email,
+                password_hash,
+                created_at
+            FROM students
+            WHERE email = ?
+            """,
+            (email,)
+        ).fetchone()
+
+        return dict(row) if row else None
 
 
 def get_student(student_id):
