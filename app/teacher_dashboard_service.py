@@ -48,7 +48,13 @@ def _empty_teacher_dashboard():
     }
 
 
-def _get_student_records(connection, concepts_df):
+def _get_student_records(
+    connection,
+    concepts_df,
+    subject_filter=None,
+    level_filter=None,
+    status_filter=None
+):
     rows = connection.execute(
         """
         SELECT
@@ -191,6 +197,19 @@ def _get_student_records(connection, concepts_df):
                 )
             }
         )
+
+        # ---- Apply filters ----
+    if subject_filter:
+        records = [r for r in records if r.get("subject") == subject_filter]
+    if level_filter:
+        records = [r for r in records if r.get("level") == level_filter]
+    if status_filter:
+        if status_filter == "at_risk":
+            records = [r for r in records if float(r.get("mastery") or 0) < 60]
+        elif status_filter == "strong":
+            records = [r for r in records if float(r.get("mastery") or 0) >= 80]
+        elif status_filter == "critical":
+            records = [r for r in records if float(r.get("mastery") or 0) < 40]
 
     return records
 
@@ -904,7 +923,11 @@ def _get_reassessment_and_improvement(
     return records
 
 
-def get_teacher_dashboard_data():
+def get_teacher_dashboard_data(
+    subject_filter=None,
+    level_filter=None,
+    status_filter=None
+):
     concepts_df = load_concepts()
 
     if concepts_df.empty:
@@ -962,7 +985,10 @@ def get_teacher_dashboard_data():
 
         student_records = _get_student_records(
             connection,
-            concepts_df
+            concepts_df,
+            subject_filter=subject_filter,
+            level_filter=level_filter,
+            status_filter=status_filter
         )
 
         student_performance = (

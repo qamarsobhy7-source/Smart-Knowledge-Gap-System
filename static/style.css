@@ -2671,3 +2671,79 @@ textarea:focus {
     color: var(--color-text);
     font-family: var(--font-heading);
 }
+
+
+/* ============================================================
+   TEACHER DASHBOARD — FILTERS
+   ============================================================ */
+.filters-form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.filters-form:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: var(--space-4);
+    align-items: end;
+}
+
+.filters-grid .form-group {
+    margin-bottom: 0;
+}
+
+.filters-grid label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: end;
+}
+
+.filter-actions .primary-btn,
+.filter-actions .btn {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .filters-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-actions {
+        grid-column: span 2;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 600px) {
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+        grid-column: span 1;
+    }
+
+    .filter-actions .primary-btn,
+    .filter-actions .btn {
+        flex: 1;
+    }
+}

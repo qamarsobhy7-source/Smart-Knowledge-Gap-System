@@ -19,6 +19,56 @@
     </div>
 
     {# ============================================================ #}
+    {# FILTERS #}
+    {# ============================================================ #}
+    <section class="dashboard-section">
+        <form method="GET" action="{{ url_for('teacher_dashboard') }}" class="filters-form" data-animate>
+            <div class="filters-grid">
+
+                <div class="form-group">
+                    <label for="filter-subject">Subject</label>
+                    <select id="filter-subject" name="subject">
+                        <option value="">All Subjects</option>
+                        <option value="Mathematics" {% if current_filters.subject == 'Mathematics' %}selected{% endif %}>Mathematics</option>
+                        <option value="Physics" {% if current_filters.subject == 'Physics' %}selected{% endif %}>Physics</option>
+                        <option value="Computer Science" {% if current_filters.subject == 'Computer Science' %}selected{% endif %}>Computer Science</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filter-level">Level</label>
+                    <select id="filter-level" name="level">
+                        <option value="">All Levels</option>
+                        <option value="Beginner" {% if current_filters.level == 'Beginner' %}selected{% endif %}>Beginner</option>
+                        <option value="Intermediate" {% if current_filters.level == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                        <option value="Advanced" {% if current_filters.level == 'Advanced' %}selected{% endif %}>Advanced</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filter-status">Status</label>
+                    <select id="filter-status" name="status">
+                        <option value="">All Students</option>
+                        <option value="at_risk" {% if current_filters.status == 'at_risk' %}selected{% endif %}>At Risk (&lt; 60%)</option>
+                        <option value="strong" {% if current_filters.status == 'strong' %}selected{% endif %}>Strong (&ge; 80%)</option>
+                        <option value="critical" {% if current_filters.status == 'critical' %}selected{% endif %}>Critical (&lt; 40%)</option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="primary-btn">
+                        Apply Filters
+                    </button>
+                    <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary">
+                        Reset
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </section>
+
+    {# ============================================================ #}
     {# STATS GRID — OVERVIEW #}
     {# ============================================================ #}
     {% if overview %}

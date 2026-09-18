@@ -1260,8 +1260,17 @@ def download_report(student_id):
     methods=["GET"]
 )
 def teacher_dashboard():
+    # Read filters from query params
+    subject_filter = request.args.get("subject", "").strip() or None
+    level_filter = request.args.get("level", "").strip() or None
+    status_filter = request.args.get("status", "").strip() or None
+
     try:
-        dashboard_data = get_teacher_dashboard_data()
+        dashboard_data = get_teacher_dashboard_data(
+            subject_filter=subject_filter,
+            level_filter=level_filter,
+            status_filter=status_filter
+        )
     except Exception:
         app.logger.exception(
             "Teacher dashboard failed."
@@ -1270,6 +1279,13 @@ def teacher_dashboard():
             "Unable to load the teacher dashboard.",
             500
         )
+
+    # Pass current filter values to the template
+    dashboard_data["current_filters"] = {
+        "subject": subject_filter or "",
+        "level": level_filter or "",
+        "status": status_filter or "",
+    }
 
     return render_template(
         "teacher_dashboard.html",
