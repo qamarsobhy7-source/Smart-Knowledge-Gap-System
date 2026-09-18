@@ -2464,3 +2464,100 @@ textarea:focus {
         justify-content: center;
     }
 }
+
+
+/* ============================================================
+   ERROR PAGES (404 / 500)
+   ============================================================ */
+.error-page {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding: var(--space-12) var(--space-6);
+    animation: fadeInUp 600ms ease-out;
+}
+
+.error-hero {
+    position: relative;
+    margin-bottom: var(--space-8);
+    display: inline-block;
+    padding: var(--space-8) var(--space-10);
+}
+
+.error-code {
+    font-family: var(--font-heading);
+    font-size: clamp(80px, 15vw, 160px);
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    letter-spacing: -0.05em;
+    opacity: 0.9;
+}
+
+.error-hero-danger .error-code {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.error-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(60px, 10vw, 100px);
+    opacity: 0.15;
+    pointer-events: none;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.error-page h1 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+}
+
+.error-message {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.error-actions .primary-btn,
+.error-actions .btn {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+}
+
+@media (max-width: 480px) {
+    .error-page {
+        padding: var(--space-8) var(--space-4);
+    }
+
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .error-actions .primary-btn,
+    .error-actions .btn {
+        width: 100%;
+    }
+}

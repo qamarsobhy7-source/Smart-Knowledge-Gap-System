@@ -1,4 +1,9 @@
 import os
+import logging
+import sys
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
+
 import pandas as pd
 from flask import (
     Flask,
@@ -43,6 +48,57 @@ if not app.secret_key:
     raise RuntimeError(
         "SECRET_KEY environment variable is required."
     )
+
+
+# ============================================================
+# LOGGING CONFIGURATION
+# ============================================================
+
+def configure_logging(flask_app):
+    """
+    Configure application logging.
+
+    Logs to:
+        - console (stdout) for development
+        - a rotating file (logs/app.log) for production debugging
+    """
+    log_level = os.environ.get("LOG_LEVEL", "INFO").upper()
+
+    log_dir = Path(__file__).resolve().parent.parent / "logs"
+    log_dir.mkdir(exist_ok=True)
+
+    formatter = logging.Formatter(
+        "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    console_handler.setLevel(log_level)
+
+    # Rotating file handler
+    file_handler = RotatingFileHandler(
+        log_dir / "app.log",
+        maxBytes=5 * 1024 * 1024,  # 5 MB
+        backupCount=3,
+        encoding="utf-8"
+    )
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(log_level)
+
+    flask_app.logger.handlers.clear()
+    flask_app.logger.addHandler(console_handler)
+    flask_app.logger.addHandler(file_handler)
+    flask_app.logger.setLevel(log_level)
+
+    flask_app.logger.info(
+        "Logging configured (level=%s, file=%s)",
+        log_level, log_dir / "app.log"
+    )
+
+
+configure_logging(app)
 
 # Ensure database schema exists before creating the service
 if not database_exists():
@@ -126,6 +182,27 @@ def build_option_mapping(assessment_id, question_id):
 SESSION_MAPPINGS_KEY = "option_mappings"
 
 
+MAX_SESSION_MAPPINGS = 200
+
+
+def _cleanup_session_storage():
+    """
+    Keep the Flask session small.
+
+    Removes the oldest option-mappings if the session grows
+    beyond MAX_SESSION_MAPPINGS entries.
+    """
+    store = session.get(SESSION_MAPPINGS_KEY, {})
+
+    if len(store) > MAX_SESSION_MAPPINGS:
+        # Keep the most recent MAX_SESSION_MAPPINGS entries
+        items = list(store.items())
+        # Order in dict is insertion order in Python 3.7+
+        recent = dict(items[-MAX_SESSION_MAPPINGS:])
+        session[SESSION_MAPPINGS_KEY] = recent
+        session.modified = True
+
+
 def remember_option_mapping(assessment_id, question_id):
     """
     Compute the option mapping for a question and store it
@@ -141,6 +218,8 @@ def remember_option_mapping(assessment_id, question_id):
     store[f"{assessment_id}:{question_id}"] = mapping
     session[SESSION_MAPPINGS_KEY] = store
     session.modified = True
+
+    _cleanup_session_storage()
 
     return mapping
 
@@ -214,6 +293,13 @@ def get_shuffled_question_ids(assessment_id, all_question_ids):
     store[key] = shuffled
     session[SESSION_QUESTION_ORDER_KEY] = store
     session.modified = True
+
+    # Bound the number of stored shuffle orders per session
+    MAX_SESSION_SHUFFLES = 20
+    if len(store) > MAX_SESSION_SHUFFLES:
+        items = list(store.items())
+        session[SESSION_QUESTION_ORDER_KEY] = dict(items[-MAX_SESSION_SHUFFLES:])
+        session.modified = True
 
     return shuffled
 
@@ -1254,6 +1340,53 @@ def submit_answer(student_id):
         student_id=student_id,
         is_reassessment=is_reassessment
     )
+
+
+# ============================================================
+# ERROR HANDLERS
+# ============================================================
+
+@app.errorhandler(404)
+def not_found_error(error):
+    """Handle 404 Not Found errors."""
+    app.logger.warning(
+        "404 Not Found: %s",
+        request.path
+    )
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    """Handle 500 Internal Server errors."""
+    app.logger.error(
+        "500 Internal Server Error on %s",
+        request.path,
+        exc_info=True
+    )
+    return render_template("500.html"), 500
+
+
+@app.errorhandler(Exception)
+def handle_unexpected_error(error):
+    """
+    Handle unexpected exceptions.
+
+    In debug mode, we let Flask show the standard debugger.
+    In production, we log the error and show a friendly 500 page.
+    """
+    # Let HTTPExceptions pass through
+    from werkzeug.exceptions import HTTPException
+
+    if isinstance(error, HTTPException):
+        return error
+
+    app.logger.exception(
+        "Unexpected error on %s: %s",
+        request.path,
+        str(error)
+    )
+    return render_template("500.html"), 500
 
 
 if __name__ == "__main__":
