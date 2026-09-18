@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}AI Assistant — Smart Knowledge Gap{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-hero" data-animate style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);">
+        <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+            AI ASSISTANT
+        </span>
+        <h1 style="color: white;">Ask me anything about your concepts</h1>
+        <p style="color: rgba(255,255,255,0.9);">
+            Powered by Gemini + RAG. All answers are grounded in the
+            project content — no hallucination.
+        </p>
+    </div>
+
+    {% if not llm_available %}
+    <div class="success-state" data-animate style="background: var(--color-danger-light); border-color: var(--color-danger); margin-bottom: 1.5rem;">
+        <div class="success-icon" style="background: var(--gradient-warm);">!</div>
+        <div>
+            <h3 style="color: var(--color-danger);">AI Assistant not configured</h3>
+            <p style="color: var(--color-text-secondary);">
+                The GEMINI_API_KEY environment variable is missing.
+                Please contact the administrator.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    <section class="dashboard-section">
+        <div class="chat-container" data-animate>
+            <div id="chatMessages" class="chat-messages">
+                <div class="chat-message chat-message-assistant">
+                    <div class="chat-avatar">🤖</div>
+                    <div class="chat-bubble">
+                        <p>Hi! I am your AI study assistant. 👋</p>
+                        <p>I can help you understand any concept, explain why an answer is wrong, give examples, or recommend what to study next.</p>
+                        <p>Ask me anything!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chatSuggestions" class="chat-suggestions">
+                <button type="button" class="chat-suggestion" data-q="What is an algorithm?">What is an algorithm?</button>
+                <button type="button" class="chat-suggestion" data-q="Explain momentum in simple terms">Explain momentum</button>
+                <button type="button" class="chat-suggestion" data-q="What should I study first?">What should I study first?</button>
+                <button type="button" class="chat-suggestion" data-q="Give me an example of derivatives">Example of derivatives</button>
+                <button type="button" class="chat-suggestion" data-q="Why are my answers wrong in Algorithms?">Why are my answers wrong?</button>
+            </div>
+
+            <form id="chatForm" class="chat-input-form">
+                <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Ask me anything..." autocomplete="off" maxlength="1000" {% if not llm_available %}disabled{% endif %}>
+                <button type="submit" class="primary-btn chat-send-btn" id="chatSendBtn" {% if not llm_available %}disabled{% endif %}>
+                    Send
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <div class="results-actions" style="margin-top: 2rem;">
+        <a class="primary-btn" href="{{ url_for('student_dashboard', student_id=student_id) }}">
+            Back to Dashboard
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("chatForm");
+        var input = document.getElementById("chatInput");
+        var messagesEl = document.getElementById("chatMessages");
+        var suggestionsEl = document.getElementById("chatSuggestions");
+        var sendBtn = document.getElementById("chatSendBtn");
+
+        var csrfToken = form.querySelector('input[name="csrf_token"]').value;
+        var history = [];
+
+        function addMessage(role, text, sources) {
+            var wrapper = document.createElement("div");
+            wrapper.className = "chat-message chat-message-" + role;
+
+            var avatar = document.createElement("div");
+            avatar.className = "chat-avatar";
+            avatar.textContent = role === "user" ? "👤" : "🤖";
+
+            var bubble = document.createElement("div");
+            bubble.className = "chat-bubble";
+
+            var paragraph = document.createElement("p");
+            paragraph.textContent = text;
+            bubble.appendChild(paragraph);
+
+            if (sources && sources.length > 0) {
+                var sourcesDiv = document.createElement("div");
+                sourcesDiv.className = "chat-sources";
+                var label = document.createElement("div");
+                label.className = "chat-sources-label";
+                label.textContent = "Sources:";
+                sourcesDiv.appendChild(label);
+                sources.forEach(function(s) {
+                    var tag = document.createElement("span");
+                    tag.className = "chat-source-tag";
+                    tag.textContent = s.type + " · " + s.concept;
+                    sourcesDiv.appendChild(tag);
+                });
+                bubble.appendChild(sourcesDiv);
+            }
+
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(bubble);
+            messagesEl.appendChild(wrapper);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function addLoading() {
+            var wrapper = document.createElement("div");
+            wrapper.className = "chat-message chat-message-assistant";
+            wrapper.id = "chatLoading";
+            wrapper.innerHTML = '<div class="chat-avatar">🤖</div><div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>';
+            messagesEl.appendChild(wrapper);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function removeLoading() {
+            var el = document.getElementById("chatLoading");
+            if (el) el.remove();
+        }
+
+        async function sendMessage(message) {
+            if (!message.trim()) return;
+
+            addMessage("user", message);
+            history.push({ role: "user", content: message });
+            input.value = "";
+            input.disabled = true;
+            sendBtn.disabled = true;
+
+            addLoading();
+
+            try {
+                var response = await fetch("/chat/ask", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        history: history.slice(-4)
+                    })
+                });
+
+                var data = await response.json();
+                removeLoading();
+
+                if (data.error) {
+                    addMessage("assistant", "Error: " + data.error);
+                } else {
+                    addMessage("assistant", data.answer, data.sources);
+                    history.push({ role: "assistant", content: data.answer });
+                }
+            } catch (err) {
+                removeLoading();
+                addMessage("assistant", "Connection error. Please try again.");
+            }
+
+            input.disabled = false;
+            sendBtn.disabled = false;
+            input.focus();
+        }
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            sendMessage(input.value);
+        });
+
+        if (suggestionsEl) {
+            suggestionsEl.querySelectorAll(".chat-suggestion").forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    sendMessage(btn.dataset.q);
+                });
+            });
+        }
+
+        input.focus();
+    });
+</script>
+{% endblock %}

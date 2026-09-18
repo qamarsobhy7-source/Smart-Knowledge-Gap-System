@@ -60,6 +60,29 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# AI ASSISTANT (Chat) #}
+    {# ============================================================ #}
+    <section class="dashboard-section">
+        <div class="results-cta" data-animate style="background: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);">
+            <div>
+                <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+                    🤖 AI ASSISTANT
+                </span>
+                <h2>Chat with your AI study assistant</h2>
+                <p>
+                    Ask any question about your concepts and get instant,
+                    grounded answers from Gemini + RAG.
+                </p>
+                <a class="primary-btn"
+                   href="{{ url_for('chat_page') }}"
+                   style="background: white; color: #4338CA;">
+                    Start Chatting →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {# ============================================================ #}
     {# ACHIEVEMENTS / BADGES #}
     {# ============================================================ #}
     {% if achievements %}

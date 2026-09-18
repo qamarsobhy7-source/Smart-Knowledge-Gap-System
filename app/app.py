@@ -47,6 +47,10 @@ try:
         explain_risk,
         explain_performance,
     )
+    from .ml.llm_service import (
+        chat as llm_chat,
+        is_available as llm_is_available,
+    )
 except ImportError:
     from backend_service import BackendService
     from repository import (
@@ -68,6 +72,10 @@ except ImportError:
         get_model_metrics,
         explain_risk,
         explain_performance,
+    )
+    from ml.llm_service import (
+        chat as llm_chat,
+        is_available as llm_is_available,
     )
 
 
@@ -2094,6 +2102,81 @@ def ml_metrics_page():
         metrics=metrics,
         models_available=models_available(),
     )
+
+
+
+# ============================================================
+# AI ASSISTANT (LLM + RAG)
+# ============================================================
+
+@app.route("/chat", methods=["GET"])
+@login_required
+def chat_page():
+    """Show the AI assistant chat page."""
+    student_id = current_student_id()
+
+    return render_template(
+        "chat.html",
+        student_id=student_id,
+        llm_available=llm_is_available(),
+    )
+
+
+@app.route("/chat/ask", methods=["POST"])
+@login_required
+def chat_ask():
+    """Process a chat message and return the AI answer."""
+    from flask import jsonify
+
+    if not llm_is_available():
+        return jsonify({
+            "error": "AI assistant is not configured. Please set GEMINI_API_KEY."
+        }), 503
+
+    data = request.get_json(silent=True) or {}
+    message = str(data.get("message", "")).strip()
+
+    if not message:
+        return jsonify({"error": "Message is required."}), 400
+
+    if len(message) > 1000:
+        return jsonify({"error": "Message is too long."}), 400
+
+    history = data.get("history", [])
+    if not isinstance(history, list):
+        history = []
+
+    subject_name = session.get("student_subject", "")
+    level = session.get("student_level", "")
+
+    try:
+        result = llm_chat(
+            message=message,
+            conversation_history=history,
+            subject_name=subject_name,
+            level=level,
+            top_k=5,
+        )
+    except Exception:
+        app.logger.exception("Chat request failed")
+        return jsonify({"error": "AI assistant is temporarily unavailable."}), 500
+
+    if result.get("error"):
+        return jsonify({"error": result["error"]}), 500
+
+    sources = []
+    for src in result.get("sources", [])[:3]:
+        meta = src.get("metadata", {})
+        sources.append({
+            "type": meta.get("type", "content"),
+            "concept": meta.get("concept_name", ""),
+            "text": src.get("text", "")[:200],
+        })
+
+    return jsonify({
+        "answer": result.get("answer", ""),
+        "sources": sources,
+    })
 
 
 # ============================================================

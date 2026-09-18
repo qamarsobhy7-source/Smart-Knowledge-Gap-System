@@ -65,6 +65,14 @@
                 </svg>
                 <span>{{ t('nav.teacher') }}</span>
             </a>
+            {% if current_student_id %}
+            <a href="{{ url_for('chat_page') }}" class="nav-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>AI Chat</span>
+            </a>
+            {% endif %}
 
             {% if current_student_id %}
                 <a href="{{ url_for('student_dashboard', student_id=current_student_id) }}" class="nav-link">
