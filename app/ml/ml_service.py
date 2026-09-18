@@ -25,6 +25,7 @@ _models = {
     "performance": None,
     "recommender": None,
     "clusterer": None,
+    "rl_agent": None,
 }
 
 
@@ -56,6 +57,13 @@ def _load_clusterer():
     return _models["clusterer"]
 
 
+def _load_rl_agent():
+    if _models["rl_agent"] is None:
+        from .rl_dqn_agent import load_dqn_agent
+        _models["rl_agent"] = load_dqn_agent()
+    return _models["rl_agent"]
+
+
 # ============================================================
 # PUBLIC API
 # ============================================================
@@ -67,6 +75,7 @@ def models_available():
         "recommender": (MODELS_DIR / "concept_recommender.joblib").exists(),
         "clusterer": (MODELS_DIR / "student_clusterer.joblib").exists(),
         "knowledge_tracing": (MODELS_DIR / "knowledge_tracing_model.pt").exists(),
+        "rl_agent": (MODELS_DIR / "rl_dqn_agent.pt").exists(),
     }
 
 
@@ -265,6 +274,58 @@ def explain_performance(features):
     return explanation
 
 
+# ============================================================
+# RL — ADAPTIVE LEARNING PATH
+# ============================================================
+def plan_adaptive_path(student_mastery_dict, n_steps=10, concepts_df=None):
+    """
+    Use the trained RL agent to plan a personalized learning path.
+
+    Args:
+        student_mastery_dict: {concept_id: mastery (0-100)}
+        n_steps: number of concepts to recommend
+        concepts_df: DataFrame with concept_id order (must be sorted)
+
+    Returns:
+        list of dicts: recommended concept IDs + names in order
+    """
+    agent = _load_rl_agent()
+    if agent is None:
+        return []
+
+    import numpy as np
+
+    # We assume the agent was trained on 45 concepts in order 1..45
+    n_concepts = agent.action_dim
+
+    # Build mastery vector (0..1) in concept_id order
+    mastery_vec = np.zeros(n_concepts, dtype=np.float32)
+    for i in range(n_concepts):
+        concept_id = i + 1
+        mastery_pct = student_mastery_dict.get(concept_id, 50.0)
+        mastery_vec[i] = float(mastery_pct) / 100.0
+
+    from .rl_dqn_agent import plan_learning_path
+
+    path_indices = plan_learning_path(agent, mastery_vec, n_steps=n_steps)
+
+    results = []
+    for idx in path_indices:
+        concept_id = idx + 1
+        concept_name = ""
+        if concepts_df is not None:
+            row = concepts_df[concepts_df["concept_id"] == concept_id]
+            if not row.empty:
+                concept_name = str(row.iloc[0]["concept_name"])
+
+        results.append({
+            "concept_id": concept_id,
+            "concept_name": concept_name,
+        })
+
+    return results
+
+
 def get_model_metrics():
     """Load all metrics JSON files from disk."""
     metrics = {}
@@ -273,6 +334,8 @@ def get_model_metrics():
         "risk_predictor": METRICS_DIR / "risk_predictor_metrics.json",
         "performance_predictor": METRICS_DIR / "performance_predictor_metrics.json",
         "clusterer": METRICS_DIR / "clusterer_metrics.json",
+        "knowledge_tracing_metrics": METRICS_DIR / "knowledge_tracing_metrics.json",
+        "rl_dqn_metrics": METRICS_DIR / "rl_dqn_metrics.json",
     }
 
     for name, path in files.items():

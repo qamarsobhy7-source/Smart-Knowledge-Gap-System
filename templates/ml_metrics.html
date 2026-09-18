@@ -55,6 +55,20 @@
                 </div>
                 <div class="stat-card-label">Student Clusterer</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">🧠</div>
+                <div class="stat-card-value">
+                    {% if models_available.knowledge_tracing %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">Knowledge Tracing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon success">🎯</div>
+                <div class="stat-card-value">
+                    {% if models_available.rl_agent %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">RL Agent (DQN)</div>
+            </div>
         </div>
     </section>
 
@@ -207,6 +221,74 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# RL DQN METRICS #}
+    {% if metrics.rl_dqn_metrics %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">REINFORCEMENT LEARNING</span>
+                <h2>RL Agent (DQN)</h2>
+            </div>
+            <span class="chart-card-subtitle">
+                {{ metrics.rl_dqn_metrics.model }}
+            </span>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon success">🎯</div>
+                <div class="stat-card-value">
+                    {{ metrics.rl_dqn_metrics.n_episodes }}
+                </div>
+                <div class="stat-card-label">Training Episodes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">📊</div>
+                <div class="stat-card-value">
+                    {{ "%.1f"|format(metrics.rl_dqn_metrics.avg_reward_eval_50) }}
+                </div>
+                <div class="stat-card-label">Avg Eval Reward</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">🏆</div>
+                <div class="stat-card-value">
+                    {{ "%.1f"|format(metrics.rl_dqn_metrics.avg_reward_best_50_train) }}
+                </div>
+                <div class="stat-card-label">Best Train Reward</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# KT METRICS #}
+    {% if metrics.knowledge_tracing_metrics %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">KNOWLEDGE TRACING</span>
+                <h2>LSTM Model</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon success">✓</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.knowledge_tracing_metrics.accuracy * 100) }}%
+                </div>
+                <div class="stat-card-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">📊</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.knowledge_tracing_metrics.auc * 100) }}%
+                </div>
+                <div class="stat-card-label">ROC-AUC</div>
+            </div>
         </div>
     </section>
     {% endif %}

@@ -1,0 +1,13 @@
+{
+  "task": "reinforcement_learning",
+  "model": "DQN",
+  "purpose": "Adaptive Learning Path",
+  "evaluation_type": "Development Evaluation",
+  "synthetic_data": true,
+  "n_episodes": 1000,
+  "final_epsilon": 0.0,
+  "avg_reward_last_50_train": 20.068259220682084,
+  "avg_reward_best_50_train": 23.61871594981104,
+  "avg_reward_eval_50": 18.76701565045118,
+  "std_reward_eval_50": 2.3049298719085547
+}

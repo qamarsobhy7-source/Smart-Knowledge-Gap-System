@@ -46,6 +46,7 @@ try:
         get_model_metrics,
         explain_risk,
         explain_performance,
+        plan_adaptive_path,
     )
     from .ml.llm_service import (
         chat as llm_chat,
@@ -72,6 +73,7 @@ except ImportError:
         get_model_metrics,
         explain_risk,
         explain_performance,
+        plan_adaptive_path,
     )
     from ml.llm_service import (
         chat as llm_chat,
@@ -2079,6 +2081,25 @@ def ml_insights(student_id):
             app.logger.exception("SHAP explanation failed")
             explanation = None
 
+    # ---- RL Adaptive Path ----
+    adaptive_path = []
+    try:
+        adaptive_path = plan_adaptive_path(
+            student_mastery_dict=mastery_map,
+            n_steps=8,
+            concepts_df=concepts_df,
+        )
+        app.logger.info(
+            "RL adaptive path generated: %d concepts for student %s",
+            len(adaptive_path), student_id
+        )
+    except Exception as exc:
+        app.logger.exception(
+            "RL path planning failed for student %s: %s",
+            student_id, exc
+        )
+        adaptive_path = []
+
     return render_template(
         "ml_insights.html",
         student=student,
@@ -2090,6 +2111,7 @@ def ml_insights(student_id):
         models_available=models_available(),
         explanation=explanation,
         explanation_text=explanation_text,
+        adaptive_path=adaptive_path,
     )
 
 
