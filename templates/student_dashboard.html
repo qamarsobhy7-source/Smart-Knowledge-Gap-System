@@ -60,6 +60,38 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# ACHIEVEMENTS / BADGES #}
+    {# ============================================================ #}
+    {% if achievements %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">ACHIEVEMENTS</span>
+                <h2>Your badges</h2>
+            </div>
+            <span class="chart-card-subtitle">
+                {{ achievements | selectattr('earned') | list | length }} / {{ achievements | length }} earned
+            </span>
+        </div>
+
+        <div class="badges-grid" data-animate>
+            {% for badge in achievements %}
+            <div class="badge-card {% if badge.earned %}badge-earned{% else %}badge-locked{% endif %}">
+                <div class="badge-icon">{{ badge.icon }}</div>
+                <h4 class="badge-name">{{ badge.name }}</h4>
+                <p class="badge-desc">{{ badge.description }}</p>
+                {% if badge.earned %}
+                    <span class="badge-status badge-status-earned">✓ Earned</span>
+                {% else %}
+                    <span class="badge-status badge-status-locked">Locked</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
     {# CHARTS (if student has diagnosis) #}
     {# ============================================================ #}
     {% if assessment and diagnosis %}

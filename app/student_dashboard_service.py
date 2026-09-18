@@ -392,6 +392,117 @@ def _get_student_activity_data(
         "reassessments": reassessment_records
     }
 
+def _calculate_achievements(
+    diagnosis,
+    strengths,
+    knowledge_gaps,
+    overall_mastery,
+    practice_summary,
+    reassessments,
+    learning_progress,
+):
+    """
+    Compute achievements (badges) based on student's data.
+
+    Returns a list of dicts: {id, name, description, icon, earned (bool)}
+    """
+    achievements = []
+
+    # 1. First Steps
+    achievements.append({
+        "id": "first_steps",
+        "name": "First Steps",
+        "description": "Complete your first diagnostic assessment",
+        "icon": "🌱",
+        "earned": bool(diagnosis),
+    })
+
+    # 2. Perfect Score
+    perfect = any(
+        float(item.get("mastery") or 0) >= 100.0
+        for item in (diagnosis or [])
+    )
+    achievements.append({
+        "id": "perfect_score",
+        "name": "Perfect Score",
+        "description": "Achieve 100% mastery in a single concept",
+        "icon": "🎯",
+        "earned": perfect,
+    })
+
+    # 3. Strong Mind
+    achievements.append({
+        "id": "strong_mind",
+        "name": "Strong Mind",
+        "description": "Master at least 4 concepts",
+        "icon": "💪",
+        "earned": len(strengths or []) >= 4,
+    })
+
+    # 4. On the Rise (improvement in re-assessment)
+    has_improvement = any(
+        float(item.get("improvement") or 0) > 0
+        for item in (reassessments or [])
+    )
+    achievements.append({
+        "id": "on_the_rise",
+        "name": "On the Rise",
+        "description": "Show improvement in a re-assessment",
+        "icon": "📈",
+        "earned": has_improvement,
+    })
+
+    # 5. Sharp Shooter (practice 100%)
+    practice_accuracy = None
+    if practice_summary:
+        practice_accuracy = practice_summary.get("accuracy")
+    achievements.append({
+        "id": "sharp_shooter",
+        "name": "Sharp Shooter",
+        "description": "Achieve 100% accuracy in practice",
+        "icon": "🎯",
+        "earned": practice_accuracy is not None and float(practice_accuracy) >= 100.0,
+    })
+
+    # 6. Bookworm (learning progress)
+    achievements.append({
+        "id": "bookworm",
+        "name": "Bookworm",
+        "description": "Study at least one learning content section",
+        "icon": "📚",
+        "earned": bool(learning_progress),
+    })
+
+    # 7. Master (overall mastery >= 90%)
+    achievements.append({
+        "id": "master",
+        "name": "Master",
+        "description": "Reach an overall mastery of 90% or higher",
+        "icon": "🏆",
+        "earned": (
+            overall_mastery is not None
+            and float(overall_mastery) >= 90.0
+        ),
+    })
+
+    # 8. Expert (all concepts strong + no gaps)
+    all_strong = (
+        diagnosis
+        and len(knowledge_gaps or []) == 0
+        and len(strengths or []) == len(diagnosis)
+    )
+    achievements.append({
+        "id": "expert",
+        "name": "Expert",
+        "description": "Master every assessed concept",
+        "icon": "⭐",
+        "earned": bool(all_strong),
+    })
+
+    return achievements
+
+
+
 def get_student_dashboard_data(student_id):
 
     if student_id is None:
@@ -729,5 +840,14 @@ def get_student_dashboard_data(student_id):
         "practice_attempts": activity_data["practice_attempts"],
         "learning_progress": activity_data["learning_progress"],
         "reassessment_summary": activity_data["reassessment_summary"],
-        "reassessments": activity_data["reassessments"]
+        "reassessments": activity_data["reassessments"],
+        "achievements": _calculate_achievements(
+            diagnosis=diagnosis_records,
+            strengths=strength_records,
+            knowledge_gaps=gap_records,
+            overall_mastery=overall_mastery,
+            practice_summary=activity_data["practice_summary"],
+            reassessments=activity_data["reassessments"],
+            learning_progress=activity_data["learning_progress"],
+        ),
     }
