@@ -1,6 +1,9 @@
 import os
 import logging
 import sys
+import secrets
+import hmac
+from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
@@ -11,7 +14,9 @@ from flask import (
     request,
     redirect,
     url_for,
-    session
+    session,
+    abort,
+    g
 )
 
 try:
@@ -99,6 +104,70 @@ def configure_logging(flask_app):
 
 
 configure_logging(app)
+
+
+# ============================================================
+# CSRF PROTECTION
+# ============================================================
+
+CSRF_SESSION_KEY = "_csrf_token"
+CSRF_FORM_FIELD = "csrf_token"
+CSRF_HEADER_NAME = "X-CSRF-Token"
+
+
+def generate_csrf_token():
+    """Generate or retrieve the CSRF token for the current session."""
+    if CSRF_SESSION_KEY not in session:
+        session[CSRF_SESSION_KEY] = secrets.token_urlsafe(32)
+        session.modified = True
+    return session[CSRF_SESSION_KEY]
+
+
+def validate_csrf_token(token):
+    """Validate a submitted CSRF token against the session token."""
+    session_token = session.get(CSRF_SESSION_KEY)
+    if not session_token or not token:
+        return False
+    return hmac.compare_digest(session_token, token)
+
+
+@app.before_request
+def csrf_protect():
+    """
+    Validate CSRF tokens on all state-changing requests
+    (POST, PUT, PATCH, DELETE).
+
+    Skips requests that have no session yet (e.g. first visit).
+    """
+    if request.method in ("GET", "HEAD", "OPTIONS", "TRACE"):
+        return
+
+    # If there's no session token yet, we cannot validate.
+    # This handles the very first POST that establishes the session.
+    if CSRF_SESSION_KEY not in session:
+        return
+
+    submitted_token = (
+        request.form.get(CSRF_FORM_FIELD)
+        or request.headers.get(CSRF_HEADER_NAME)
+    )
+
+    if not validate_csrf_token(submitted_token):
+        app.logger.warning(
+            "CSRF validation failed for %s %s",
+            request.method,
+            request.path
+        )
+        abort(400, description="CSRF validation failed.")
+
+
+@app.context_processor
+def inject_csrf_token():
+    """Make csrf_token() available inside all Jinja templates."""
+    return {
+        "csrf_token": generate_csrf_token,
+        "csrf_field_name": CSRF_FORM_FIELD,
+    }
 
 # Ensure database schema exists before creating the service
 if not database_exists():

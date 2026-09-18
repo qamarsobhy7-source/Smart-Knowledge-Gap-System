@@ -44,6 +44,8 @@
             id="assessmentForm"
         >
 
+            <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
+
             <input
                 type="hidden"
                 name="question_id"

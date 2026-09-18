@@ -54,6 +54,8 @@
     {# ============================================================ #}
     {% if not completed %}
     <form method="POST" id="practiceForm">
+
+            <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
     {% endif %}
 
     {% for question in questions %}
