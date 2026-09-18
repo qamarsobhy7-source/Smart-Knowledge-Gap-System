@@ -26,11 +26,13 @@ PRAGMA foreign_keys = ON;
 -- STUDENTS
 -- ============================================================
 CREATE TABLE IF NOT EXISTS students (
-    student_id    INTEGER PRIMARY KEY AUTOINCREMENT,
-    full_name     TEXT    NOT NULL,
-    email         TEXT    UNIQUE,
-    password_hash TEXT,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    student_id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name               TEXT    NOT NULL,
+    email                   TEXT    UNIQUE,
+    password_hash           TEXT,
+    password_reset_token    TEXT,
+    password_reset_expires  TIMESTAMP,
+    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS idx_students_email
@@ -226,5 +228,54 @@ def database_exists(db_path=None):
         connection.close()
 
 
+def migrate_existing_database(db_path=None, verbose=True):
+    """
+    Add new columns to an existing database if they don't exist.
+
+    Currently handles:
+        - students.password_reset_token
+        - students.password_reset_expires
+    """
+    if db_path is None:
+        db_path = DB_PATH
+    else:
+        db_path = Path(db_path)
+
+    if not db_path.exists():
+        return False
+
+    connection = sqlite3.connect(db_path)
+    try:
+        cursor = connection.cursor()
+
+        # Get existing columns
+        cursor.execute("PRAGMA table_info(students)")
+        existing_cols = {row[1] for row in cursor.fetchall()}
+
+        added = []
+
+        if "password_reset_token" not in existing_cols:
+            cursor.execute(
+                "ALTER TABLE students ADD COLUMN password_reset_token TEXT"
+            )
+            added.append("password_reset_token")
+
+        if "password_reset_expires" not in existing_cols:
+            cursor.execute(
+                "ALTER TABLE students ADD COLUMN password_reset_expires TIMESTAMP"
+            )
+            added.append("password_reset_expires")
+
+        connection.commit()
+
+        if verbose and added:
+            print(f"✅ Migrated DB: added columns {added}")
+
+        return len(added) > 0
+    finally:
+        connection.close()
+
+
 if __name__ == "__main__":
     initialize_database()
+    migrate_existing_database()

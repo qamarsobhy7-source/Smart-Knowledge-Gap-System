@@ -66,6 +66,74 @@ def get_student_by_email(email):
         return dict(row) if row else None
 
 
+def set_password_reset_token(email, token, expires_at):
+    """
+    Save a password-reset token for the given email.
+
+    Returns True if a matching student was found, False otherwise.
+    """
+    if not email:
+        return False
+
+    email = str(email).strip().lower()
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            UPDATE students
+            SET password_reset_token = ?,
+                password_reset_expires = ?
+            WHERE email = ?
+            """,
+            (str(token), expires_at, email)
+        )
+        return cursor.rowcount > 0
+
+
+def get_student_by_reset_token(token):
+    """
+    Return the student whose reset token matches, or None.
+
+    Also checks that the token has not expired.
+    """
+    if not token:
+        return None
+
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT
+                student_id,
+                full_name,
+                email,
+                password_hash,
+                password_reset_token,
+                password_reset_expires
+            FROM students
+            WHERE password_reset_token = ?
+            """,
+            (str(token),)
+        ).fetchone()
+
+        return dict(row) if row else None
+
+
+def update_password(student_id, password_hash):
+    """Update the password hash for a student and clear the reset token."""
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            UPDATE students
+            SET password_hash = ?,
+                password_reset_token = NULL,
+                password_reset_expires = NULL
+            WHERE student_id = ?
+            """,
+            (password_hash, int(student_id))
+        )
+        return cursor.rowcount > 0
+
+
 def get_student(student_id):
     with get_connection() as connection:
         row = connection.execute(

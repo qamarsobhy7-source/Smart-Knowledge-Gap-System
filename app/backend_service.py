@@ -7,7 +7,10 @@ try:
         create_assessment,
         save_answer,
         save_concept_result,
-        get_student_by_email
+        get_student_by_email,
+        set_password_reset_token,
+        get_student_by_reset_token,
+        update_password
     )
 except ImportError:
     from database import (
@@ -15,7 +18,10 @@ except ImportError:
         create_assessment,
         save_answer,
         save_concept_result,
-        get_student_by_email
+        get_student_by_email,
+        set_password_reset_token,
+        get_student_by_reset_token,
+        update_password
     )
 
 try:
@@ -206,6 +212,37 @@ class BackendService:
     ):
 
         return get_student_by_email(email)
+
+    def set_password_reset_token(
+        self,
+        email,
+        token,
+        expires_at
+    ):
+
+        return set_password_reset_token(
+            email=email,
+            token=token,
+            expires_at=expires_at
+        )
+
+    def get_student_by_reset_token(
+        self,
+        token
+    ):
+
+        return get_student_by_reset_token(token)
+
+    def update_password(
+        self,
+        student_id,
+        password_hash
+    ):
+
+        return update_password(
+            student_id=student_id,
+            password_hash=password_hash
+        )
 
     # --------------------------------------------------------
     # ASSESSMENT CREATION

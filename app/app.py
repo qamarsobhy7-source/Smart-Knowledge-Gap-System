@@ -3,6 +3,7 @@ import logging
 import sys
 import secrets
 import hmac
+from datetime import datetime, timedelta
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -630,6 +631,170 @@ def logout():
     """Log the student out and clear the session."""
     session.clear()
     return redirect(url_for("index"))
+
+
+# ============================================================
+# PASSWORD RESET
+# ============================================================
+
+RESET_TOKEN_TTL_MINUTES = 60
+
+
+@app.route("/forgot-password", methods=["GET"])
+def forgot_password_page():
+    """Show the 'forgot password' form."""
+    return render_template("forgot_password.html")
+
+
+@app.route("/forgot-password", methods=["POST"])
+def forgot_password_submit():
+    """Generate a reset token and (for now) show the reset link."""
+    email = request.form.get("email", "").strip().lower()
+
+    if not email:
+        return render_template(
+            "forgot_password.html",
+            error="Please enter your email address."
+        ), 400
+
+    student = service.get_student_by_email(email)
+
+    # Always show the same message (avoid user enumeration)
+    generic_message = (
+        "If an account with that email exists, "
+        "a password reset link has been generated."
+    )
+
+    reset_link = None
+
+    if student is not None:
+        token = secrets.token_urlsafe(32)
+        expires_at = (
+            datetime.utcnow() + timedelta(minutes=RESET_TOKEN_TTL_MINUTES)
+        ).isoformat()
+
+        service.set_password_reset_token(
+            email=email,
+            token=token,
+            expires_at=expires_at,
+        )
+
+        reset_link = url_for(
+            "reset_password_page",
+            token=token,
+            _external=True,
+        )
+
+        app.logger.info(
+            "Password reset requested for %s — token issued", email
+        )
+
+    return render_template(
+        "forgot_password.html",
+        message=generic_message,
+        reset_link=reset_link,
+        dev_mode=True,
+    )
+
+
+@app.route("/reset-password/<token>", methods=["GET"])
+def reset_password_page(token):
+    """Show the reset password form."""
+    if not token:
+        return redirect(url_for("login_page"))
+
+    student = service.get_student_by_reset_token(token)
+
+    if student is None:
+        return render_template(
+            "reset_password.html",
+            error="Invalid or missing reset token.",
+            token=None,
+        ), 400
+
+    # Check expiry
+    expires = student.get("password_reset_expires")
+    if expires:
+        try:
+            expires_dt = datetime.fromisoformat(str(expires))
+            if datetime.utcnow() > expires_dt:
+                return render_template(
+                    "reset_password.html",
+                    error="This reset link has expired. Please request a new one.",
+                    token=None,
+                ), 400
+        except Exception:
+            pass
+
+    return render_template(
+        "reset_password.html",
+        token=token,
+    )
+
+
+@app.route("/reset-password/<token>", methods=["POST"])
+def reset_password_submit(token):
+    """Process the reset password form."""
+    if not token:
+        return redirect(url_for("login_page"))
+
+    student = service.get_student_by_reset_token(token)
+
+    if student is None:
+        return render_template(
+            "reset_password.html",
+            error="Invalid or missing reset token.",
+            token=None,
+        ), 400
+
+    # Check expiry
+    expires = student.get("password_reset_expires")
+    if expires:
+        try:
+            expires_dt = datetime.fromisoformat(str(expires))
+            if datetime.utcnow() > expires_dt:
+                return render_template(
+                    "reset_password.html",
+                    error="This reset link has expired. Please request a new one.",
+                    token=None,
+                ), 400
+        except Exception:
+            pass
+
+    password = request.form.get("password", "")
+    password_confirm = request.form.get("password_confirm", "")
+
+    if len(password) < 6:
+        return render_template(
+            "reset_password.html",
+            error="Password must be at least 6 characters.",
+            token=token,
+        ), 400
+
+    if password != password_confirm:
+        return render_template(
+            "reset_password.html",
+            error="Passwords do not match.",
+            token=token,
+        ), 400
+
+    new_hash = generate_password_hash(password)
+
+    service.update_password(
+        student_id=student["student_id"],
+        password_hash=new_hash,
+    )
+
+    app.logger.info(
+        "Password reset successfully for %s",
+        student.get("email"),
+    )
+
+    return render_template(
+        "reset_password.html",
+        success=True,
+        token=None,
+    )
 
 
 @app.route(
