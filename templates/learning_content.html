@@ -14,9 +14,23 @@
         </p>
     </div>
 
-    {# ============================================================ #}
-    {# EXPLANATION #}
-    {# ============================================================ #}
+    {# ===== OVERVIEW ===== #}
+    {% if content.learning_objective %}
+    <div class="learning-section" data-animate>
+        <h2>🎯 Learning Objective</h2>
+        <p>{{ content.learning_objective }}</p>
+    </div>
+    {% endif %}
+
+    {# ===== WHY IT MATTERS ===== #}
+    {% if content.why_it_matters %}
+    <div class="learning-section" data-animate>
+        <h2>💡 Why It Matters</h2>
+        <p>{{ content.why_it_matters }}</p>
+    </div>
+    {% endif %}
+
+    {# ===== EXPLANATION ===== #}
     {% if content.explanation %}
     <div class="learning-section" data-animate>
         <h2>📖 Explanation</h2>
@@ -24,9 +38,15 @@
     </div>
     {% endif %}
 
-    {# ============================================================ #}
-    {# KEY POINTS #}
-    {# ============================================================ #}
+    {# ===== STEP BY STEP ===== #}
+    {% if content.step_by_step %}
+    <div class="learning-section" data-animate>
+        <h2>🪜 Step-by-Step</h2>
+        <div style="white-space: pre-line; line-height: 1.9; color: var(--color-text-secondary);">{{ content.step_by_step }}</div>
+    </div>
+    {% endif %}
+
+    {# ===== KEY POINTS ===== #}
     {% if content.key_points %}
     <div class="learning-section" data-animate>
         <h2>🔑 Key Points</h2>
@@ -41,39 +61,47 @@
     </div>
     {% endif %}
 
-    {# ============================================================ #}
-    {# EXAMPLES #}
-    {# ============================================================ #}
-    {% if content.examples %}
+    {# ===== EXAMPLES ===== #}
+    {% if content.example %}
     <div class="learning-section" data-animate>
-        <h2>💡 Examples</h2>
-        <p>{{ content.examples }}</p>
+        <h2>📝 Example</h2>
+        <p>{{ content.example }}</p>
     </div>
     {% endif %}
 
-    {# ============================================================ #}
-    {# STUDY TIPS #}
-    {# ============================================================ #}
+    {# ===== WORKED EXAMPLES ===== #}
+    {% if content.worked_examples %}
+    <div class="learning-section" data-animate>
+        <h2>💼 Worked Examples</h2>
+        <div style="white-space: pre-line; line-height: 1.9; color: var(--color-text-secondary);">{{ content.worked_examples }}</div>
+    </div>
+    {% endif %}
+
+    {# ===== COMMON MISTAKES ===== #}
+    {% if content.common_mistakes %}
+    <div class="learning-section" data-animate>
+        <h2>⚠️ Common Mistakes</h2>
+        <div style="white-space: pre-line; line-height: 1.9; color: var(--color-text-secondary);">{{ content.common_mistakes }}</div>
+    </div>
+    {% endif %}
+
+    {# ===== STUDY TIPS ===== #}
     {% if content.study_tips %}
     <div class="learning-section" data-animate>
-        <h2>🎯 Study Tips</h2>
-        <p>{{ content.study_tips }}</p>
+        <h2>🎓 Study Tips</h2>
+        <div style="white-space: pre-line; line-height: 1.9; color: var(--color-text-secondary);">{{ content.study_tips }}</div>
     </div>
     {% endif %}
 
-    {# ============================================================ #}
-    {# COMMON MISCONCEPTIONS #}
-    {# ============================================================ #}
-    {% if content.common_misconceptions %}
+    {# ===== WHAT'S NEXT ===== #}
+    {% if content.whats_next %}
     <div class="learning-section" data-animate>
-        <h2>⚠️ Common Misconceptions</h2>
-        <p>{{ content.common_misconceptions }}</p>
+        <h2>🚀 What's Next</h2>
+        <p>{{ content.whats_next }}</p>
     </div>
     {% endif %}
 
-    {# ============================================================ #}
-    {# CTA #}
-    {# ============================================================ #}
+    {# ===== CTA ===== #}
     {% if student_id %}
     <div class="results-cta" data-animate>
         <div>
@@ -87,7 +115,7 @@
 
         <a class="primary-btn"
            href="{{ url_for('practice', student_id=student_id, concept_id=content.concept_id) }}">
-            Start Practice →
+            Start Practice &rarr;
         </a>
     </div>
     {% endif %}

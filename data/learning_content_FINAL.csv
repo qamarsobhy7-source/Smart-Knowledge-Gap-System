@@ -1,46 +1,827 @@
-content_id,subject_id,level,concept_id,concept_name,prerequisites,learning_objective,explanation,key_points,example
-CONTENT_11,1,Advanced,11,Limits,7,Understand the concept of a limit and use limits to describe the behavior of functions as inputs approach specific values.,"A limit describes the value that a function approaches as its input gets closer to a particular value. The function does not necessarily need to be defined at that exact input. Limits are fundamental to calculus because they provide the foundation for continuity and derivatives. When the values from both sides approach the same number, the two-sided limit exists.",A limit describes approaching behavior; the input approaches a value rather than necessarily reaching it; left-hand and right-hand limits must agree for a two-sided limit to exist; limits are foundational to calculus.,"For f(x) = x + 2, as x approaches 3, the function approaches 5. Therefore, the limit of f(x) as x approaches 3 is 5."
-CONTENT_12,1,Advanced,12,Derivatives,11,Understand derivatives as rates of change and use basic differentiation rules to find derivatives of functions.,"The derivative measures how rapidly a function changes with respect to its input. Geometrically, it represents the slope of the tangent line to a curve at a point. The derivative is defined using a limit of the average rate of change. Basic rules allow derivatives of common functions to be calculated efficiently.",The derivative represents instantaneous rate of change; it is the slope of the tangent line; the power rule is used for functions such as x^n; derivatives can describe velocity when position is given as a function of time.,"For f(x) = x², the derivative is f'(x) = 2x. At x = 3, the instantaneous rate of change is 2(3) = 6."
-CONTENT_13,1,Advanced,13,Integrals,12,Understand integration as accumulation and use basic integration rules to find antiderivatives and simple definite integrals.,"Integration is closely related to differentiation. An indefinite integral finds a family of antiderivatives, while a definite integral measures accumulated quantity over an interval. The Fundamental Theorem of Calculus connects differentiation and integration. Integration can therefore be used to calculate areas, accumulated change, and other quantities.",An antiderivative differentiates back to the original function; indefinite integrals include a constant of integration; definite integrals produce a numerical accumulated quantity; integration can represent area under a curve.,"The indefinite integral of 2x is x² + C because the derivative of x² + C is 2x. For the definite integral from 0 to 2, the accumulated value is [x²] from 0 to 2 = 4."
-CONTENT_14,1,Advanced,14,Linear Algebra,8,Understand vectors and matrices as mathematical structures and use basic linear algebra operations to represent and solve relationships between quantities.,"Linear algebra studies vectors, matrices, and linear relationships. A vector contains quantities with magnitude and direction or can represent an ordered list of values. A matrix organizes numbers into rows and columns. Matrix and vector operations are useful for representing systems of equations, transformations, and multidimensional data.",Vectors represent ordered quantities; matrices organize values in rows and columns; vector addition combines corresponding components; matrix multiplication follows specific dimensional rules; linear algebra is widely used in computing and data science.,"Given vectors (2, 3) and (4, 1), their sum is obtained by adding corresponding components: (2 + 4, 3 + 1) = (6, 4)."
-CONTENT_15,1,Advanced,15,Advanced Probability,10,Understand advanced probability concepts and use probability distributions and conditional reasoning to analyze uncertain events.,"Advanced probability extends basic probability to situations involving dependent events, conditional information, and random variables. Conditional probability measures the likelihood of an event given that another event has occurred. Probability distributions describe how probabilities are assigned across possible values of a random variable.",Conditional probability incorporates additional information; independent events do not change each other's probabilities; random variables represent possible numerical outcomes; probability distributions describe how likely different outcomes are.,"Suppose a bag contains 3 red balls and 2 blue balls. If one red ball has already been removed without replacement, the probability of drawing another red ball is 2/4 = 1/2 because only 2 red and 4 total balls remain."
-CONTENT_1,1,Beginner,1,Number Systems,,"Understand how numbers are represented and classified, and use basic properties of numbers to solve simple problems.","Number systems organize numbers into useful groups. Natural numbers are counting numbers such as 1, 2, 3, and so on. Whole numbers include zero as well. Integers include positive and negative whole numbers. Rational numbers can be written as a ratio of two integers with a nonzero denominator, such as 3/4 or -2. Understanding these categories helps determine which operations and properties can be applied to a number.",Natural numbers are used for counting; whole numbers include zero; integers include positive and negative whole numbers; rational numbers can be expressed as a fraction of integers; zero is an integer and a rational number.,The number -3 is an integer because it is a negative whole number. It is also rational because it can be written as -3/1.
-CONTENT_2,1,Beginner,2,Algebraic Expressions,1,Understand algebraic expressions and simplify them by combining like terms and applying basic algebraic operations.,"An algebraic expression combines numbers, variables, and operations. A variable represents a value that may change. Terms containing the same variable raised to the same power are called like terms and can be combined. For example, 3x and 5x are like terms, so their sum is 8x. Unlike terms, such as 3x and 5y, cannot be combined directly.",A variable represents an unknown or changing value; a coefficient is a number multiplied by a variable; like terms have matching variable parts; only like terms can be combined directly.,"Simplify 3x + 5x - 2. The like terms 3x and 5x combine to give 8x, so the simplified expression is 8x - 2."
-CONTENT_3,1,Beginner,3,Linear Equations,2,Solve simple linear equations by using inverse operations while maintaining equality on both sides.,"A linear equation contains a variable whose highest exponent is one. To solve an equation, the goal is to isolate the variable. The same operation must be applied to both sides of an equation so that equality is preserved. Addition and subtraction undo each other, while multiplication and division undo each other.",Keep both sides balanced; isolate the variable; use inverse operations; verify the solution by substituting it back into the original equation.,"For 2x + 4 = 10, subtract 4 from both sides to get 2x = 6. Then divide both sides by 2, giving x = 3. Substituting 3 into the original equation gives 10, so the solution is correct."
-CONTENT_4,1,Beginner,4,Ratios and Proportions,1,Understand ratios and proportions and use them to compare quantities and solve problems involving equivalent relationships.,A ratio compares two quantities using division. A proportion states that two ratios are equal. Equivalent ratios describe the same relationship even when their numbers are different. Proportions can be solved by finding the unknown value that preserves the relationship between the quantities.,A ratio compares quantities; equivalent ratios represent the same relationship; a proportion sets two ratios equal; cross multiplication can be used to solve many simple proportions.,"If 2 notebooks cost 40 pounds, the cost of 5 notebooks at the same unit price is found from 2/40 = 5/x. Cross multiplication gives 2x = 200, so x = 100 pounds."
-CONTENT_5,1,Beginner,5,Basic Geometry,1,Understand basic geometric shapes and use their fundamental properties to solve simple geometry problems.,"Basic geometry studies shapes, sizes, positions, and relationships between objects. Common shapes include triangles, rectangles, squares, and circles. Different shapes have different properties. For example, a rectangle has four right angles and opposite sides of equal length. Perimeter measures the total distance around a shape, while area measures the amount of surface inside it.",Perimeter measures distance around a shape; area measures the surface inside a shape; a rectangle has four right angles; a square has four equal sides and four right angles.,"A rectangle has length 6 cm and width 4 cm. Its perimeter is 2(6 + 4) = 20 cm, while its area is 6 × 4 = 24 cm²."
-CONTENT_6,1,Intermediate,6,Quadratic Equations,3,"Solve quadratic equations by factoring, completing the square, and the quadratic formula.","A quadratic equation has the form ax² + bx + c = 0, where a ≠ 0. Its solutions can be found by factoring, completing the square, or using the quadratic formula x = (-b ± √(b²-4ac))/(2a). The discriminant b²-4ac determines the number and type of solutions: two real, one real, or two complex. Graphs of quadratic equations are parabolas.",Quadratic equations have the form ax² + bx + c = 0 with a ≠ 0; the quadratic formula gives solutions; the discriminant b²-4ac tells how many real solutions exist; graphs are parabolas; solutions can be found by factoring when possible.,"For x² - 5x + 6 = 0, factoring gives (x-2)(x-3) = 0, so x = 2 or x = 3."
-CONTENT_7,1,Intermediate,7,Functions,3,"Understand functions, domain, range, and how to evaluate and interpret them.","A function is a rule that assigns exactly one output to each input. The set of valid inputs is the domain, and the set of possible outputs is the range. A function can be represented by an equation, a table, or a graph. The notation f(x) denotes the output of function f when the input is x. A relation is a function only if each input maps to exactly one output.",A function maps each input to exactly one output; the domain is the set of valid inputs; the range is the set of possible outputs; f(x) denotes the output for input x; a relation is a function only if each input has one output.,"For f(x) = x² - 2x + 3, f(4) = 4² - 2(4) + 3 = 16 - 8 + 3 = 11."
-CONTENT_8,1,Intermediate,8,Systems of Equations,3,"Solve systems of linear equations by substitution, elimination, and graphing.","A system of equations contains two or more equations that must be satisfied at the same time. For two linear equations, the solution is the point where the lines intersect. Common methods include substitution, elimination, and graphing. A system can have one solution (lines intersect), no solution (parallel lines), or infinitely many solutions (same line).","A system must satisfy all equations at once; the solution is the intersection point; methods include substitution, elimination, and graphing; systems may have one solution, no solution, or infinitely many; the solution is an ordered pair.","For x + y = 9 and x - y = 3, adding the equations gives 2x = 12, so x = 6 and y = 3. The solution is (6, 3)."
-CONTENT_9,1,Intermediate,9,Trigonometry,5,Understand trigonometric ratios in right triangles and apply them to solve problems.,"Trigonometry studies relationships between angles and side lengths in triangles. In a right triangle, the three main ratios are sine, cosine, and tangent, defined as sin(θ) = opposite/hypotenuse, cos(θ) = adjacent/hypotenuse, and tan(θ) = opposite/adjacent. These ratios are used to solve for unknown sides or angles. They also extend to circles and periodic phenomena.",Trigonometry studies angles and sides; sine = opposite/hypotenuse; cosine = adjacent/hypotenuse; tangent = opposite/adjacent; these ratios solve right-triangle problems; trigonometry models periodic behavior.,"In a right triangle with opposite side 5, adjacent side 12, and hypotenuse 13, sin(θ) = 5/13, cos(θ) = 12/13, and tan(θ) = 5/12."
-CONTENT_10,1,Intermediate,10,Probability,1,"Understand basic probability, calculate probabilities of simple events, and use the complement rule.","Probability measures how likely an event is to occur. For equally likely outcomes, the probability of an event equals the number of favorable outcomes divided by the total number of possible outcomes. Probabilities range from 0 (impossible) to 1 (certain). The complement of an event has probability 1 minus the probability of the event, since an event and its complement together account for all outcomes.",Probability measures likelihood; P(event) = favorable / total; probabilities range from 0 to 1; the complement rule is P(not A) = 1 - P(A); probabilities of independent events multiply.,A fair six-sided die has probability 1/6 of rolling a 3. The probability of NOT rolling a 3 is 1 - 1/6 = 5/6.
-CONTENT_26,2,Advanced,26,Thermodynamics,19,"Understand temperature, heat, the laws of thermodynamics, and heat transfer.","Thermodynamics studies heat, work, and energy in physical systems. Temperature measures the average kinetic energy of particles. Heat is energy transferred because of a temperature difference. The first law states that energy is conserved (ΔU = Q - W). The second law states that entropy in an isolated system never decreases. Heat transfers by conduction, convection, and radiation.","Temperature measures average kinetic energy; heat flows from hot to cold; the first law is energy conservation; the second law describes entropy; heat transfers by conduction, convection, and radiation.",A hot cup of coffee cools because heat flows from the coffee to the cooler surrounding air until both reach thermal equilibrium.
-CONTENT_27,2,Advanced,27,Electromagnetism,25,Understand electric and magnetic fields and their relationship (electromagnetism).,"Electromagnetism studies the relationship between electric and magnetic phenomena. A moving charge produces a magnetic field, and a changing magnetic field produces an electric field. Electromagnetic waves are oscillating electric and magnetic fields that travel through space. In vacuum, all electromagnetic waves travel at the speed of light (c ≈ 3 × 10⁸ m/s).",Moving charges produce magnetic fields; changing magnetic fields produce electric fields; electromagnetic waves combine both fields; all electromagnetic waves travel at the speed of light in vacuum; light is an electromagnetic wave.,An electric current flowing through a wire produces a magnetic field around the wire — this is how electromagnets work.
-CONTENT_28,2,Advanced,28,Optics,24,"Understand light behavior including reflection, refraction, and lenses/mirrors.","Optics studies the behavior of light. Light travels in straight lines in a uniform medium. Reflection occurs when light bounces off a surface, following the law of reflection (angle of incidence equals angle of reflection). Refraction occurs when light changes speed as it passes between media, bending its path. Lenses and mirrors form images by controlling reflection and refraction.","Light travels in straight lines in a uniform medium; reflection follows the law of reflection; refraction bends light when it changes speed; lenses and mirrors form images; optics explains vision, cameras, and telescopes.",A straw appears bent in a glass of water because light refracts when passing from water to air.
-CONTENT_29,2,Advanced,29,Modern Physics,26,Understand modern physics concepts including relativity and the photon model of light.,Modern physics developed in the early 20th century and includes relativity and quantum theory. Einstein's theory of relativity describes how space and time are linked and how mass and energy are equivalent (E = mc²). Light behaves as both a wave and a particle (photon). These ideas replaced some classical assumptions and led to new technologies.,Modern physics includes relativity and quantum theory; E = mc² relates mass and energy; light behaves as both wave and particle; relativity describes high-speed and high-gravity phenomena; these ideas changed our view of space and time.,"Atomic clocks in GPS satellites must account for relativity, otherwise their timing drifts and GPS positions become inaccurate."
-CONTENT_30,2,Advanced,30,Quantum Physics Basics,29,"Understand basic quantum concepts: quantization, wave-particle duality, and uncertainty.","Quantum physics describes the behavior of matter and energy at very small scales. Energy is quantized — it comes in discrete packets called quanta. Particles such as electrons show wave-particle duality, behaving sometimes like waves and sometimes like particles. Heisenberg's uncertainty principle states that certain pairs of properties (such as position and momentum) cannot both be known with arbitrary precision.","Energy is quantized in discrete packets; light and matter show wave-particle duality; the uncertainty principle limits how precisely certain properties can be known; quantum physics describes behavior at very small scales; quantum ideas underlie lasers, semiconductors, and modern electronics.","An electron in an atom can only occupy certain discrete energy levels. When it jumps between levels, it emits or absorbs a photon of a specific energy."
-CONTENT_16,2,Beginner,16,Measurement and Units,,"Understand the purpose of standard units and the SI system, and use unit conversions correctly.","Measurement is the process of comparing a physical quantity to a standard unit. Standard units make measurements comparable and consistent across the world. The International System of Units (SI) defines seven base units, including the meter (length), kilogram (mass), and second (time). Derived units combine base units, such as the newton (force) and joule (energy).",Standard units make measurements comparable; the SI system defines base units; the meter measures length; the kilogram measures mass; the second measures time; derived units combine base units; unit conversion ensures consistency.,A length of 1.5 m equals 150 cm because 1 m = 100 cm. SI units allow scientists everywhere to compare results.
-CONTENT_17,2,Beginner,17,Motion,16,"Describe motion using displacement, velocity, and acceleration, and interpret motion graphs.","Motion describes how an object changes position over time. Displacement is the change in position in a given direction. Velocity is the rate of change of displacement, and acceleration is the rate of change of velocity. Motion can be described using equations and graphs. Average velocity differs from instantaneous velocity.","Displacement has direction and magnitude; velocity is the rate of change of displacement; acceleration is the rate of change of velocity; motion graphs show position, velocity, and acceleration over time; average and instantaneous values differ.","A car traveling 60 m in 3 s has an average velocity of 20 m/s. If it slows from 20 m/s to 0 m/s in 4 s, its acceleration is -5 m/s²."
-CONTENT_18,2,Beginner,18,Forces,17,Apply Newton's three laws to describe how forces affect motion.,A force is a push or pull that can change an object's motion. Newton's first law states that an object stays at rest or moves at constant velocity unless acted on by a net force. The second law states that F = ma (net force equals mass times acceleration). The third law states that for every action there is an equal and opposite reaction.,Forces change motion; Newton's first law describes inertia; Newton's second law is F = ma; Newton's third law describes action-reaction pairs; net force determines acceleration.,A 10 kg object pushed with a net force of 20 N accelerates at 2 m/s² because a = F/m = 20/10 = 2 m/s².
-CONTENT_19,2,Beginner,19,Energy,18,"Understand different forms of energy, energy conservation, and energy transfer.","Energy is the capacity to cause change or perform work. Common forms include kinetic energy (motion), gravitational potential energy (position), thermal energy, chemical energy, and electrical energy. Energy can be transferred between forms but cannot be created or destroyed (conservation of energy). Work is the transfer of energy by a force.",Energy is the capacity to do work; kinetic energy depends on motion; potential energy depends on position; energy is conserved; energy can transfer between forms; work transfers energy.,"A ball at the top of a ramp has gravitational potential energy. As it rolls down, its potential energy converts into kinetic energy, while total energy stays the same."
-CONTENT_20,2,Beginner,20,Electricity Basics,16,"Understand electric charge, current, voltage, and basic electric interactions.",Electricity basics describe the behavior of electric charge. Like charges repel and opposite charges attract. Electric current is the rate at which charge flows. Voltage is the potential difference that drives current. Electric fields describe the force a charge would feel. These ideas form the foundation for studying circuits and electromagnetism.,Like charges repel; opposite charges attract; current is the flow of charge; voltage drives current; electric fields describe forces on charges; these concepts underpin all electrical phenomena.,"In a simple circuit with a battery, the battery provides voltage that pushes electrons through the wire, producing a current."
-CONTENT_21,2,Intermediate,21,Momentum,18,"Understand momentum, impulse, and the conservation of momentum.","Momentum describes how much motion an object has. It equals mass times velocity, so both mass and velocity matter. Momentum is a vector, so direction matters. Impulse is the change in momentum caused by a force acting over time. In an isolated system, total momentum is conserved.",Momentum equals mass times velocity; momentum is a vector; impulse equals force times time; impulse equals change in momentum; total momentum is conserved in isolated systems.,"A 2 kg ball moving at 10 m/s has momentum 20 kg·m/s. If it stops, its momentum changes by 20 kg·m/s — this is the impulse it experienced."
-CONTENT_22,2,Intermediate,22,Work and Power,19,"Understand mechanical work and power, and how they relate to force, distance, and time.",Mechanical work is done when a force causes an object to move through a displacement in a relevant direction. Work equals force times displacement times the cosine of the angle between them. Power measures how quickly work is performed. Two systems can do the same work but with different power if they take different amounts of time.,Work requires force and displacement; work equals F × d × cos(θ); no displacement means no work; power equals work divided by time; greater power means work is done faster.,"A force of 10 N moves an object 4 m in the direction of the force, doing 40 J of work. If this happens in 2 s, the power is 20 W."
-CONTENT_23,2,Intermediate,23,Circular Motion,18,"Understand circular motion, centripetal acceleration, and centripetal force.","Circular motion occurs when an object follows a curved circular path. Even if the object's speed is constant, its velocity changes because velocity is a vector — the direction keeps changing. This change produces centripetal acceleration directed toward the center of the circle. The force that provides this acceleration is the centripetal force.","Circular motion follows a curved path; velocity changes direction even at constant speed; centripetal acceleration points toward the center; centripetal force provides the required acceleration; without a centripetal force, the object moves in a straight line.","A car turning in a circle is kept on the path by friction, which acts as the centripetal force. If the friction is removed, the car slides off in a straight line."
-CONTENT_24,2,Intermediate,24,Waves,16,"Describe wave properties including frequency, wavelength, amplitude, and speed, and apply v = f λ.","A wave transfers energy from one place to another without requiring the material itself to travel the whole distance. Important wave properties include frequency (cycles per second), wavelength (distance between successive peaks), amplitude (size of the disturbance), and speed. For a given medium, wave speed equals frequency times wavelength (v = f λ).",Waves transfer energy; frequency measures cycles per second; wavelength is the distance between peaks; amplitude describes the disturbance size; wave speed equals frequency times wavelength (v = f λ).,A wave with frequency 5 Hz and wavelength 4 m has speed v = 5 × 4 = 20 m/s.
-CONTENT_25,2,Intermediate,25,Electric Circuits,20,Analyze series and parallel circuits using Ohm's law and power relationships.,"A circuit is a closed path through which electric charge can flow. Ohm's law states that V = I R (voltage equals current times resistance). In a series circuit, the same current flows through every component, and resistances add. In a parallel circuit, each component has its own branch, voltage is the same across branches, and currents add. Electrical power is P = VI.",A circuit provides a continuous path for charge; V = I R (Ohm's law); series circuits share current and add resistance; parallel circuits share voltage and add currents; power P = VI.,A 12 V battery connected to a 3 Ω resistor produces a current I = V/R = 12/3 = 4 A.
-CONTENT_41,3,Advanced,41,Algorithm Analysis,36,Analyze algorithms using Big-O notation and compare their time and space efficiency.,"Algorithm analysis measures how efficiently an algorithm uses time and space. Big-O notation describes how an algorithm's runtime grows as the input size increases. Common complexities include O(1) for constant time, O(log n) for logarithmic time, O(n) for linear time, O(n log n) for linearithmic time, and O(n²) for quadratic time. Analyzing algorithms helps choose the most efficient solution.",Algorithm analysis measures time and space efficiency; Big-O notation describes growth rate; O(1) is constant time; O(log n) is logarithmic; O(n) is linear; O(n²) is quadratic; choosing efficient algorithms improves performance.,Linear search has O(n) time because it may check every element. Binary search has O(log n) time because it cuts the search space in half at each step. So binary search is much faster for large sorted lists.
-CONTENT_42,3,Advanced,42,Advanced Data Structures,"36,41","Understand advanced data structures such as trees, hash tables, and graphs.","Advanced data structures organize information in ways that support specialized operations efficiently. Trees represent hierarchical relationships, with a root node and child nodes. A binary search tree keeps data sorted for fast search, insert, and delete operations. A hash table uses a hash function to map keys to values, giving average O(1) lookup. Graphs represent relationships between objects using nodes and edges.",Trees represent hierarchical data; a binary search tree supports fast search; a hash table maps keys to values in average O(1) time; graphs represent relationships; choosing the right structure depends on the operations needed.,A file system is a tree structure. A social network can be modeled as a graph where nodes are people and edges are friendships. A hash table stores key-value pairs like a dictionary.
-CONTENT_43,3,Advanced,43,Artificial Intelligence Fundamentals,"32,36","Understand the scope of artificial intelligence, including search, reasoning, and learning.","Artificial intelligence (AI) studies how to build systems that perform tasks that normally require human intelligence. AI includes search algorithms, reasoning, planning, natural language processing, computer vision, and machine learning. Search algorithms explore possible states to find solutions. Knowledge representation encodes facts and rules. AI systems range from rule-based experts to modern deep learning models.","AI builds systems that perform intelligent tasks; AI includes search, reasoning, planning, and learning; rule-based systems use explicit knowledge; machine learning learns from data; AI applications include language, vision, and decision-making.","A chess-playing program uses search algorithms to explore possible moves. A voice assistant uses natural language processing to understand your words, and machine learning to improve its responses."
-CONTENT_44,3,Advanced,44,Machine Learning Fundamentals,43,"Understand the fundamentals of machine learning: features, labels, supervised and unsupervised learning, and evaluation metrics.","Machine learning allows a system to learn patterns from data and use those patterns to make predictions. Features are input variables; labels are target outputs. Supervised learning uses labeled data to train models for classification or regression. Unsupervised learning finds structure in unlabeled data, such as clusters. Model performance is measured using metrics like accuracy, precision, recall, and F1 score.",Machine learning learns patterns from data; features are inputs; labels are target outputs; supervised learning uses labeled data; unsupervised learning finds structure without labels; models are evaluated with metrics like accuracy and F1.,"A spam filter is trained on labeled emails (spam or not spam). After training, it predicts whether new emails are spam. Accuracy measures how often the predictions are correct."
-CONTENT_45,3,Advanced,45,Computer Architecture,"35,40","Describe the main ideas of computer architecture, including the von Neumann model, CPU instruction cycle, pipelining, and caches.","Computer architecture describes how a computer is organized internally. The von Neumann architecture separates the CPU, memory, and I/O. Instructions and data share the same memory. The CPU fetches instructions, decodes them, and executes them in cycles. Pipelining allows multiple instructions to be processed at once. Caches reduce the average time to access memory.","Computer architecture describes internal organization; the von Neumann model separates CPU, memory, and I/O; instructions and data share memory; the CPU executes an instruction cycle; pipelining processes multiple instructions; caches speed up memory access.","When the CPU executes x = a + b, it fetches the instruction, decodes it, loads a and b from memory, adds them, and stores the result back into memory — all organized by the architecture."
-CONTENT_31,3,Beginner,31,Computational Thinking,,"Understand computational thinking and its core pillars: decomposition, pattern recognition, abstraction, and algorithm design.","Computational thinking is a structured way of solving problems using ideas commonly used in computer science. Decomposition breaks a complex problem into smaller parts. Pattern recognition identifies similarities between problems. Abstraction focuses on the essential details while ignoring the irrelevant ones. Algorithm design produces a clear step-by-step procedure. Together, these pillars help solve problems in computing and beyond.",Computational thinking is a structured problem-solving approach; decomposition splits problems into smaller parts; pattern recognition finds similarities; abstraction focuses on what matters; algorithm design produces clear step-by-step solutions; these pillars apply far beyond programming.,"Planning a school event uses decomposition (break into budgeting, scheduling, invitations, setup), pattern recognition (similar past events), and abstraction (focus on essentials)."
-CONTENT_32,3,Beginner,32,Algorithms,31,"Define algorithms, describe their key properties, and design simple algorithms for everyday problems.","An algorithm is a finite sequence of clear, well-defined steps for solving a problem. Algorithms take input, process it through a specific sequence of operations, and produce output. The same problem can be solved by different algorithms, and they may differ in efficiency. A well-designed algorithm is unambiguous, finite, and always produces the correct result for valid inputs.",An algorithm is a finite sequence of steps; it must be clear and unambiguous; different algorithms can solve the same problem with different efficiency; algorithms take input and produce output; algorithms form the foundation of all computer programs.,"A simple algorithm to find the larger of two numbers: 1) Read the first number. 2) Read the second number. 3) If the first is greater than the second, output the first; otherwise output the second."
-CONTENT_33,3,Beginner,33,Programming Fundamentals,31,"Understand the basic building blocks of programs: variables, data types, operators, and input/output.","Programming fundamentals cover the basic building blocks of writing computer programs. A variable is a named place in memory that stores a value. Data types describe what kind of value a variable holds, such as integers, floating-point numbers, strings, and Boolean values. Operators perform calculations and comparisons on values. Input and output allow programs to interact with users and other systems.",Variables store values in named locations; data types describe the kind of value; integers represent whole numbers; strings represent text; Boolean values represent true or false; operators perform arithmetic and comparisons; input/output let programs interact with the world.,"In a program, age = 18 stores an integer in the variable 'age'. name = 'Sara' stores a string. is_student = True stores a Boolean. total = age + 5 uses the addition operator."
-CONTENT_34,3,Beginner,34,Data Representation,31,Explain how computers represent data using binary and how different media are encoded.,"Data representation describes how information is stored and encoded inside a computer. Digital computers use binary representation, where every piece of data is encoded as a sequence of 0s and 1s. A single binary digit is called a bit, and a group of 8 bits is a byte. The same binary pattern can represent different things (numbers, text, images, audio) depending on how it is interpreted.",Computers use binary (0 and 1) to represent all data; a bit is a single binary digit; a byte is 8 bits; text is encoded using standards such as ASCII and Unicode; images are stored as numeric pixel data; the meaning of a binary pattern depends on its interpretation.,The decimal number 5 is written in binary as 101 (which equals 4 + 0 + 1). The letter 'A' is stored as the byte 01000001 in ASCII encoding.
-CONTENT_35,3,Beginner,35,Computer Systems Basics,31,Identify the main hardware components of a computer system and describe their roles.,"A computer system combines hardware and software to process information. The CPU (Central Processing Unit) executes instructions and processes data. RAM provides fast, temporary working memory for programs that are currently running. Persistent storage (such as SSD or HDD) keeps data even after the power is turned off. Input devices send data to the computer, and output devices present the results.",The CPU executes instructions; RAM provides temporary working memory; storage devices keep data after power off; input devices send data into the system; output devices present results; software instructions run using the hardware resources.,"When you open a web browser, its code is loaded from storage into RAM. The CPU executes the browser's instructions, and the monitor (an output device) shows the web page."
-CONTENT_36,3,Intermediate,36,Data Structures,"32,33","Understand common data structures (lists, stacks, queues, dictionaries) and when to use each.","Data structures organize information so that programs can store and work with it efficiently. Common data structures include lists, stacks, queues, and dictionaries. A list stores an ordered collection of items. A stack follows Last-In-First-Out (LIFO) order. A queue follows First-In-First-Out (FIFO) order. A dictionary stores key-value pairs. Choosing the right data structure makes programs faster and easier to understand.",Data structures organize information; lists store ordered collections; stacks follow LIFO order; queues follow FIFO order; dictionaries store key-value pairs; choosing the right data structure affects efficiency.,"A list [10, 20, 30] stores items in order. A stack of plates follows LIFO — the last plate placed is the first removed. A queue at a ticket counter follows FIFO — the first person in line is served first."
-CONTENT_37,3,Intermediate,37,Object-Oriented Programming,33,"Understand the core concepts of object-oriented programming: classes, objects, encapsulation, inheritance, and polymorphism.","Object-oriented programming (OOP) organizes software around objects that combine data and behavior. A class defines the structure and behavior of objects. An object is an instance of a class. Encapsulation keeps data and methods together. Inheritance allows a class to reuse and extend another class. Polymorphism allows different classes to be used through the same interface. OOP helps build large, maintainable programs.",OOP organizes code around objects; a class defines structure and behavior; an object is an instance of a class; encapsulation bundles data with methods; inheritance reuses code; polymorphism allows different classes to be used through the same interface.,"A class 'Car' might have attributes like color and speed, and methods like start() and brake(). An object myCar = Car('red') is an instance of the Car class."
-CONTENT_38,3,Intermediate,38,Database Fundamentals,33,"Understand the fundamentals of relational databases: tables, rows, columns, keys, relationships, and SQL.","A database stores organized information so that applications can retrieve and update it efficiently. In a relational database, data is stored in tables with rows and columns. Each table has a primary key that uniquely identifies each row. Tables are connected through relationships using foreign keys. SQL is the standard language used to query and modify relational databases.",A database stores organized data; relational databases use tables; rows are records; columns are fields; a primary key uniquely identifies each row; foreign keys connect tables; SQL is used to query and modify data.,"A school database might have a 'Students' table with columns (student_id, name, age) and a 'Grades' table with columns (student_id, subject, grade). The two tables can be joined using the shared student_id."
-CONTENT_39,3,Intermediate,39,Computer Networks,35,"Understand how computer networks work: protocols, IP addresses, DNS, and packet-switched communication.","Computer networks connect devices so they can share data and resources. The internet is a global network of networks. Devices communicate using protocols such as TCP/IP. IP addresses identify devices on a network, and domain names (like example.com) are translated into IP addresses by DNS. Data is broken into packets that travel across the network and are reassembled at the destination.",Networks connect devices to share data; the internet is a global network of networks; TCP/IP are core communication protocols; IP addresses identify devices; DNS translates domain names into IP addresses; data is sent as packets that are reassembled at the receiver.,"When you visit a website, your browser sends a request through your router to a DNS server, which translates the domain name into an IP address. The web server responds with data sent as packets that your computer reassembles into the page."
-CONTENT_40,3,Intermediate,40,Operating Systems Basics,35,"Describe the role of an operating system in managing processes, memory, files, and devices.","An operating system (OS) manages hardware and provides services to applications. It controls processes, memory, files, and devices. Common operating systems include Windows, macOS, Linux, Android, and iOS. The OS provides a user interface, schedules CPU time among processes, manages memory allocation, and enforces security. Applications interact with hardware through the OS.",An OS manages hardware resources; it schedules processes; it manages memory; it handles files and devices; it provides a user interface; applications interact with hardware through the OS.,"When you open two applications, the OS shares CPU time between them. It also allocates memory to each program and manages access to the disk."
+content_id,subject_id,level,concept_id,concept_name,prerequisites,learning_objective,explanation,key_points,example,why_it_matters,step_by_step,worked_examples,common_mistakes,study_tips,whats_next
+CONTENT_11,1,Advanced,11,Limits,7,Understand the concept of a limit and use limits to describe the behavior of functions as inputs approach specific values.,"A limit describes the value that a function approaches as its input gets closer to a particular value. The function does not necessarily need to be defined at that exact input. Limits are fundamental to calculus because they provide the foundation for continuity and derivatives. When the values from both sides approach the same number, the two-sided limit exists.",A limit describes approaching behavior; the input approaches a value rather than necessarily reaching it; left-hand and right-hand limits must agree for a two-sided limit to exist; limits are foundational to calculus.,"For f(x) = x + 2, as x approaches 3, the function approaches 5. Therefore, the limit of f(x) as x approaches 3 is 5.","Limits are the foundation of calculus. They describe what happens as we approach a value — even if we never quite reach it. Limits enable derivatives, integrals, and the entire study of continuous change.","1. Try direct substitution first.
+2. If you get 0/0 or ∞/∞, you have an indeterminate form — simplify.
+3. Try factoring, rationalizing, or using known limits.
+4. For trig limits: lim(sin(x)/x) = 1 as x→0.
+5. Check that left and right limits agree.","Example 1: lim(x→2) (x² - 4)/(x - 2).
+Factor: (x-2)(x+2)/(x-2) = x + 2 → limit = 4.
+
+Example 2: lim(x→0) sin(3x)/x.
+Rewrite: 3 · sin(3x)/(3x) → 3 · 1 = 3.
+
+Example 3: lim(x→0) (√(x+4) - 2)/x.
+Multiply by conjugate: (x+4-4)/(x(√(x+4)+2)) = 1/(√(x+4)+2) → 1/4.","❌ Assuming the limit equals the function value f(a) — it's about approaching, not reaching!
+❌ Ignoring one-sided limits (they must be equal for a limit to exist)
+❌ Forgetting that 0/0 is indeterminate, not 'undefined'
+❌ Not checking for removable discontinuities","📝 Always try direct substitution first — saves time.
+📝 Master the special limit: lim(sin x)/x = 1.
+📝 Practice L'Hôpital's rule for harder problems.
+📝 Sketch graphs to visually verify limits.",Derivatives — Learn the rate of change of a function.
+CONTENT_12,1,Advanced,12,Derivatives,11,Understand derivatives as rates of change and use basic differentiation rules to find derivatives of functions.,"The derivative measures how rapidly a function changes with respect to its input. Geometrically, it represents the slope of the tangent line to a curve at a point. The derivative is defined using a limit of the average rate of change. Basic rules allow derivatives of common functions to be calculated efficiently.",The derivative represents instantaneous rate of change; it is the slope of the tangent line; the power rule is used for functions such as x^n; derivatives can describe velocity when position is given as a function of time.,"For f(x) = x², the derivative is f'(x) = 2x. At x = 3, the instantaneous rate of change is 2(3) = 6.","Derivatives measure instantaneous rate of change. They power physics (velocity, acceleration), economics (marginal cost), AI (gradient descent), and engineering optimization.","1. Identify the function type.
+2. Apply the appropriate rule: power, product, quotient, or chain.
+3. Simplify the derivative.
+4. Evaluate at a specific point if needed.
+5. Interpret: sign tells direction, magnitude tells speed.","Example 1: f(x) = x³ - 4x² + 2x. Find f'(2).
+f'(x) = 3x² - 8x + 2. f'(2) = 12 - 16 + 2 = -2.
+
+Example 2: f(x) = x²sin(x). Find f'(x).
+Product rule: 2x·sin(x) + x²·cos(x).
+
+Example 3: f(x) = (2x+1)³. Find f'(x).
+Chain rule: 3(2x+1)² · 2 = 6(2x+1)².","❌ Forgetting the product rule (f·g)' ≠ f'·g'
+❌ Missing the chain rule for composite functions
+❌ Wrong sign in quotient rule
+❌ Confusing derivative notation: f'(x), dy/dx, Df(x)","📝 Memorize: power rule d/dx(xⁿ) = n·xⁿ⁻¹.
+📝 Product: (uv)' = u'v + uv'.
+📝 Quotient: (u/v)' = (u'v - uv')/v².
+📝 Chain: d/dx[f(g(x))] = f'(g(x))·g'(x).",Integrals — Learn to reverse differentiation and compute areas.
+CONTENT_13,1,Advanced,13,Integrals,12,Understand integration as accumulation and use basic integration rules to find antiderivatives and simple definite integrals.,"Integration is closely related to differentiation. An indefinite integral finds a family of antiderivatives, while a definite integral measures accumulated quantity over an interval. The Fundamental Theorem of Calculus connects differentiation and integration. Integration can therefore be used to calculate areas, accumulated change, and other quantities.",An antiderivative differentiates back to the original function; indefinite integrals include a constant of integration; definite integrals produce a numerical accumulated quantity; integration can represent area under a curve.,"The indefinite integral of 2x is x² + C because the derivative of x² + C is 2x. For the definite integral from 0 to 2, the accumulated value is [x²] from 0 to 2 = 4.","Integrals are the reverse of derivatives and compute accumulated quantities: area under curves, total distance, work, volume. They are essential in physics, engineering, and probability.","1. Identify if it's indefinite (add + C) or definite (has limits).
+2. Apply the antiderivative rule: ∫xⁿ dx = xⁿ⁺¹/(n+1) + C.
+3. For definite integrals, evaluate F(b) - F(a).
+4. Check by differentiating back.","Example 1: ∫₀² 3x² dx = [x³]₀² = 8 - 0 = 8.
+
+Example 2: ∫(2x + 3) dx = x² + 3x + C.
+
+Example 3: v(t) = 2t + 3. Displacement from t=0 to t=4:
+∫₀⁴ (2t+3) dt = [t² + 3t]₀⁴ = (16 + 12) - 0 = 28.","❌ Forgetting +C for indefinite integrals
+❌ Sign errors when evaluating F(b) - F(a)
+❌ Confusing ∫ with derivative rules
+❌ Not recognizing when substitution is needed","📝 Memorize: ∫xⁿ dx = xⁿ⁺¹/(n+1) + C (for n ≠ -1).
+📝 Fundamental Theorem: ∫ₐᵇ f(x) dx = F(b) - F(a).
+📝 Always add +C to indefinite integrals.
+📝 Practice with polynomial, trig, and exponential integrals.","Linear Algebra — Explore vectors, matrices, and linear transformations."
+CONTENT_14,1,Advanced,14,Linear Algebra,8,Understand vectors and matrices as mathematical structures and use basic linear algebra operations to represent and solve relationships between quantities.,"Linear algebra studies vectors, matrices, and linear relationships. A vector contains quantities with magnitude and direction or can represent an ordered list of values. A matrix organizes numbers into rows and columns. Matrix and vector operations are useful for representing systems of equations, transformations, and multidimensional data.",Vectors represent ordered quantities; matrices organize values in rows and columns; vector addition combines corresponding components; matrix multiplication follows specific dimensional rules; linear algebra is widely used in computing and data science.,"Given vectors (2, 3) and (4, 1), their sum is obtained by adding corresponding components: (2 + 4, 3 + 1) = (6, 4).","Linear algebra is the language of data science, computer graphics, machine learning, and quantum mechanics. Vectors and matrices represent relationships and transformations in compact, powerful ways.","1. Represent data as vectors or matrices.
+2. Perform operations: addition, scalar multiplication, dot product, or matrix multiplication.
+3. For matrix multiplication: rows × columns, sizes must match.
+4. For solving systems, use Gaussian elimination.
+5. Interpret the result geometrically or physically.","Example 1: u = (1,2), v = (3,4). Find u + v and u·v.
+u+v = (4, 6). u·v = 1·3 + 2·4 = 11.
+
+Example 2: A = [[1,2],[0,1]], B = [[2,1],[1,0]]. Find AB.
+AB = [[1·2+2·1, 1·1+2·0], [0·2+1·1, 0·1+1·0]] = [[4,1],[1,0]].
+
+Example 3: Are (1,2) and (2,4) independent?
+No — v = 2u, so they're linearly dependent.","❌ Multiplying matrices element-wise instead of row×column
+❌ Forgetting matrix dimension rules (m×n times n×p)
+❌ Confusing linear independence with just 'different vectors'
+❌ Misremembering determinant formula","📝 Understand dot product geometrically (projection, angle).
+📝 Practice 3×3 matrix multiplication by hand.
+📝 Learn eigenvalues and eigenvectors step by step.
+📝 Visualize vectors as arrows in 2D/3D.",Advanced Probability — Explore conditional probability and Bayes' theorem.
+CONTENT_15,1,Advanced,15,Advanced Probability,10,Understand advanced probability concepts and use probability distributions and conditional reasoning to analyze uncertain events.,"Advanced probability extends basic probability to situations involving dependent events, conditional information, and random variables. Conditional probability measures the likelihood of an event given that another event has occurred. Probability distributions describe how probabilities are assigned across possible values of a random variable.",Conditional probability incorporates additional information; independent events do not change each other's probabilities; random variables represent possible numerical outcomes; probability distributions describe how likely different outcomes are.,"Suppose a bag contains 3 red balls and 2 blue balls. If one red ball has already been removed without replacement, the probability of drawing another red ball is 2/4 = 1/2 because only 2 red and 4 total balls remain.","Advanced probability drives medical testing, machine learning, insurance, and AI decision-making. Conditional probability and Bayes' theorem change how we update beliefs when new evidence appears.","1. Identify events A and B.
+2. Compute P(A), P(B), and P(A∩B).
+3. Check independence: P(A∩B) = P(A)·P(B)?
+4. For conditional: P(A|B) = P(A∩B)/P(B).
+5. For Bayes: P(A|B) = P(B|A)·P(A)/P(B).","Example 1: A and B with P(A)=0.7, P(B)=0.5, P(A∪B)=0.9.
+P(A∩B) = 0.7 + 0.5 - 0.9 = 0.3.
+P(A)·P(B) = 0.35 ≠ 0.3 → not independent.
+
+Example 2: Disease affects 2%. Test 95% sensitivity, 90% specificity.
+P(D|+) = 0.95·0.02 / (0.95·0.02 + 0.1·0.98) ≈ 0.162.
+
+Example 3: From a box of 5 red and 7 blue balls, P(exactly 2 red in 3 draws) = C(5,2)·C(7,1)/C(12,3) = 7/22.","❌ Assuming P(A|B) = P(B|A) (that's the base rate fallacy!)
+❌ Multiplying probabilities without checking independence
+❌ Confusing mutually exclusive with independent
+❌ Forgetting to normalize in Bayes' theorem","📝 Draw a probability tree for conditional problems.
+📝 Use Bayes' theorem carefully — write out P(A|B) and P(B|A) explicitly.
+📝 Distinguish: 'and' = multiply (if independent), 'or' = add (if disjoint).
+📝 Practice with medical-test and screening problems.","Move to Physics — Learn about measurement, motion, forces, and energy."
+CONTENT_1,1,Beginner,1,Number Systems,,"Understand how numbers are represented and classified, and use basic properties of numbers to solve simple problems.","Number systems organize numbers into useful groups. Natural numbers are counting numbers such as 1, 2, 3, and so on. Whole numbers include zero as well. Integers include positive and negative whole numbers. Rational numbers can be written as a ratio of two integers with a nonzero denominator, such as 3/4 or -2. Understanding these categories helps determine which operations and properties can be applied to a number.",Natural numbers are used for counting; whole numbers include zero; integers include positive and negative whole numbers; rational numbers can be expressed as a fraction of integers; zero is an integer and a rational number.,The number -3 is an integer because it is a negative whole number. It is also rational because it can be written as -3/1.,"Number systems are the foundation of all mathematics. Every calculation, equation, and proof starts with understanding what kind of numbers we are working with. This concept is essential for algebra, calculus, and even computer science.","1. Identify the type of number you're dealing with (natural, whole, integer, rational, irrational).
+2. Check its properties — is it positive, negative, or zero?
+3. Can it be written as a fraction? If yes → rational.
+4. Can it be written as a decimal that repeats or terminates? If yes → rational.
+5. Apply the correct classification to solve the problem.","Example 1: Classify -7.
+Solution: -7 is a whole number? No (whole numbers are 0, 1, 2...). It's an integer (positive, negative, or zero). It's rational because -7 = -7/1.
+
+Example 2: Is 0.333... (repeating) rational?
+Solution: Yes! 0.333... = 1/3, which is a fraction. So it's rational.
+
+Example 3: Is √2 rational?
+Solution: No. √2 ≈ 1.41421356... never repeats or terminates. It's irrational.","❌ Thinking zero is not a whole number (it IS — whole numbers = {0, 1, 2, 3, ...})
+❌ Assuming every decimal is irrational (terminating/repeating decimals ARE rational)
+❌ Confusing 'integer' with 'positive number' (integers include negative numbers)
+❌ Thinking √4 is irrational (it's 2, which is rational!)","📝 Draw a number tree: Natural → Whole → Integers → Rational → Real. See how each set fits inside the next.
+📝 Memorize the definitions in one sentence each.
+📝 Practice classifying 20 random numbers.
+📝 Remember: if a number can be written as a/b (b≠0), it's rational.","Algebraic Expressions — Learn how to combine variables, constants, and operations."
+CONTENT_2,1,Beginner,2,Algebraic Expressions,1,Understand algebraic expressions and simplify them by combining like terms and applying basic algebraic operations.,"An algebraic expression combines numbers, variables, and operations. A variable represents a value that may change. Terms containing the same variable raised to the same power are called like terms and can be combined. For example, 3x and 5x are like terms, so their sum is 8x. Unlike terms, such as 3x and 5y, cannot be combined directly.",A variable represents an unknown or changing value; a coefficient is a number multiplied by a variable; like terms have matching variable parts; only like terms can be combined directly.,"Simplify 3x + 5x - 2. The like terms 3x and 5x combine to give 8x, so the simplified expression is 8x - 2.","Algebraic expressions are the language of mathematics. They let us describe patterns, relationships, and problems in a compact, general way. Everything in physics, engineering, and computer science uses algebra.","1. Identify the terms (separated by + or -).
+2. Find the coefficients (the number multiplying a variable).
+3. Identify like terms (same variable, same exponent).
+4. Combine like terms by adding/subtracting their coefficients.
+5. Simplify and write the final expression in standard form (highest exponent first).","Example 1: Simplify 3x + 5 + 2x - 3.
+Solution: Group like terms → (3x + 2x) + (5 - 3) = 5x + 2.
+
+Example 2: What is the coefficient of y in 7y + 4?
+Solution: The coefficient is 7 (the number multiplying y).
+
+Example 3: Simplify 4(a + 2) + 3a.
+Solution: Distribute → 4a + 8 + 3a = 7a + 8.","❌ Adding 3x + 4 to get 7x (you can't add a term with x to a constant!)
+❌ Forgetting to distribute: 3(x+2) = 3x+6, NOT 3x+2.
+❌ Adding exponents when combining like terms: x + x = 2x, NOT x².
+❌ Mixing up 2x² and (2x)² — they're different!","📝 Always circle terms before combining.
+📝 Highlight like terms in the same color.
+📝 Practice 10 simplification problems daily.
+📝 Remember the order of operations: PEMDAS (Parentheses, Exponents, Multiplication/Division, Addition/Subtraction).",Linear Equations — Learn how to solve equations with a single variable.
+CONTENT_3,1,Beginner,3,Linear Equations,2,Solve simple linear equations by using inverse operations while maintaining equality on both sides.,"A linear equation contains a variable whose highest exponent is one. To solve an equation, the goal is to isolate the variable. The same operation must be applied to both sides of an equation so that equality is preserved. Addition and subtraction undo each other, while multiplication and division undo each other.",Keep both sides balanced; isolate the variable; use inverse operations; verify the solution by substituting it back into the original equation.,"For 2x + 4 = 10, subtract 4 from both sides to get 2x = 6. Then divide both sides by 2, giving x = 3. Substituting 3 into the original equation gives 10, so the solution is correct.",Linear equations model countless real-world situations — from calculating costs to predicting motion. They're the simplest type of equation and form the basis of all higher algebra.,"1. Simplify both sides (distribute, combine like terms).
+2. Move all variable terms to one side.
+3. Move all constants to the other side.
+4. Divide by the coefficient of the variable.
+5. Check your answer by substituting back into the original equation.","Example 1: Solve 2x + 5 = 13.
+Solution: 2x = 13 - 5 = 8 → x = 8/2 = 4.
+
+Example 2: Solve 3(x - 2) = 9.
+Solution: Distribute → 3x - 6 = 9 → 3x = 15 → x = 5.
+
+Example 3: Solve 4x + 7 = 2x + 15.
+Solution: 4x - 2x = 15 - 7 → 2x = 8 → x = 4.","❌ Applying operations to only ONE side (remember: whatever you do to one side, do to the other)
+❌ Sign errors when moving terms across the equals sign
+❌ Forgetting to distribute before solving
+❌ Not checking the answer","📝 Balance metaphor: an equation is like a scale — keep both sides equal.
+📝 Always write each step on a new line.
+📝 Check your answer at the end — it takes 10 seconds and catches errors.
+📝 Practice with variables on both sides.",Ratios and Proportions — Learn how to compare quantities and solve scaling problems.
+CONTENT_4,1,Beginner,4,Ratios and Proportions,1,Understand ratios and proportions and use them to compare quantities and solve problems involving equivalent relationships.,A ratio compares two quantities using division. A proportion states that two ratios are equal. Equivalent ratios describe the same relationship even when their numbers are different. Proportions can be solved by finding the unknown value that preserves the relationship between the quantities.,A ratio compares quantities; equivalent ratios represent the same relationship; a proportion sets two ratios equal; cross multiplication can be used to solve many simple proportions.,"If 2 notebooks cost 40 pounds, the cost of 5 notebooks at the same unit price is found from 2/40 = 5/x. Cross multiplication gives 2x = 200, so x = 100 pounds.","Ratios and proportions appear everywhere — in cooking, maps, currency exchange, scaling models, and physics. They help us compare quantities and solve 'how much' problems.","1. Write the ratio as a fraction (a/b).
+2. If two ratios are equal, set them equal: a/b = c/d.
+3. Cross-multiply: a × d = b × c.
+4. Solve for the unknown variable.
+5. Verify that the resulting ratios are equal.","Example 1: If 3 pens cost 9 dollars, how much do 7 pens cost?
+Solution: 3/9 = 7/x → 3x = 63 → x = 21 dollars.
+
+Example 2: Simplify the ratio 12:18.
+Solution: Divide both by 6 → 2:3.
+
+Example 3: On a map, 1 cm = 5 km. What is the real distance for 4 cm?
+Solution: 1/5 = 4/x → x = 20 km.","❌ Writing the ratio backwards (2:3 ≠ 3:2)
+❌ Not simplifying the ratio to lowest terms
+❌ Cross-multiplying incorrectly (multiply numerator of one by denominator of the other)
+❌ Forgetting units in word problems","📝 Always label units (cm, dollars, etc.) — it prevents errors.
+📝 Simplify ratios by finding the GCD of both numbers.
+📝 Use 'is to' language: '2 is to 3 as 4 is to 6'.
+📝 Practice word problems involving maps, recipes, and money.","Basic Geometry — Learn about shapes, angles, area, and perimeter."
+CONTENT_5,1,Beginner,5,Basic Geometry,1,Understand basic geometric shapes and use their fundamental properties to solve simple geometry problems.,"Basic geometry studies shapes, sizes, positions, and relationships between objects. Common shapes include triangles, rectangles, squares, and circles. Different shapes have different properties. For example, a rectangle has four right angles and opposite sides of equal length. Perimeter measures the total distance around a shape, while area measures the amount of surface inside it.",Perimeter measures distance around a shape; area measures the surface inside a shape; a rectangle has four right angles; a square has four equal sides and four right angles.,"A rectangle has length 6 cm and width 4 cm. Its perimeter is 2(6 + 4) = 20 cm, while its area is 6 × 4 = 24 cm².","Geometry is the study of shape, size, and space. It's essential for architecture, engineering, art, and understanding the physical world. Geometry also trains your spatial reasoning.","1. Identify the shape and its properties.
+2. Write down the relevant formula (area, perimeter, etc.).
+3. Substitute the known values.
+4. Solve step by step.
+5. Include the correct units (cm, cm², etc.).","Example 1: Find the area of a rectangle with length 8 cm and width 3 cm.
+Solution: Area = length × width = 8 × 3 = 24 cm².
+
+Example 2: A triangle has angles 50° and 60°. Find the third angle.
+Solution: Sum of angles = 180° → third = 180 - 50 - 60 = 70°.
+
+Example 3: Find the perimeter of a square with side 6 cm.
+Solution: Perimeter = 4 × side = 4 × 6 = 24 cm.","❌ Confusing area and perimeter (area = space inside; perimeter = distance around)
+❌ Using wrong units (area is cm², perimeter is cm)
+❌ Forgetting that triangle angles sum to 180°
+❌ Mixing up formulas (e.g., circle area = πr², circumference = 2πr)","📝 Draw every shape — visuals help you remember formulas.
+📝 Make a formula card for area and perimeter of common shapes.
+📝 Remember: the interior angles of a triangle always sum to 180°.
+📝 Practice with real objects (books, doors, rooms).",Quadratic Equations — Move to Intermediate level and learn about parabolas and factoring.
+CONTENT_6,1,Intermediate,6,Quadratic Equations,3,"Solve quadratic equations by factoring, completing the square, and the quadratic formula.","A quadratic equation has the form ax² + bx + c = 0, where a ≠ 0. Its solutions can be found by factoring, completing the square, or using the quadratic formula x = (-b ± √(b²-4ac))/(2a). The discriminant b²-4ac determines the number and type of solutions: two real, one real, or two complex. Graphs of quadratic equations are parabolas.",Quadratic equations have the form ax² + bx + c = 0 with a ≠ 0; the quadratic formula gives solutions; the discriminant b²-4ac tells how many real solutions exist; graphs are parabolas; solutions can be found by factoring when possible.,"For x² - 5x + 6 = 0, factoring gives (x-2)(x-3) = 0, so x = 2 or x = 3.","Quadratic equations model projectile motion, area problems, and optimization. They're essential for physics, engineering, and economics. Almost every real-world 'curved' relationship uses a quadratic.","1. Write the equation in standard form: ax² + bx + c = 0.
+2. Try factoring first (fastest if possible).
+3. If factoring is not easy, use the quadratic formula: x = (-b ± √(b² - 4ac)) / (2a).
+4. Simplify the answer.
+5. Check by substituting back into the original equation.","Example 1: Solve x² - 5x + 6 = 0.
+Factor: (x - 2)(x - 3) = 0 → x = 2 or x = 3.
+
+Example 2: Solve 2x² + 3x - 2 = 0.
+Use formula: a=2, b=3, c=-2.
+x = (-3 ± √(9 - 4·2·(-2))) / (2·2) = (-3 ± √25) / 4 = (-3 ± 5) / 4.
+x = 0.5 or x = -2.
+
+Example 3: Solve x² - 4 = 0.
+(x - 2)(x + 2) = 0 → x = 2 or x = -2.","❌ Forgetting to set the equation = 0 first
+❌ Forgetting the ± in the quadratic formula (misses the second root!)
+❌ Wrong sign in -b when b is negative
+❌ Assuming every quadratic has real solutions (the discriminant b² - 4ac tells you!)","📝 Memorize the quadratic formula: x = (-b ± √(b² - 4ac)) / (2a).
+📝 Always try factoring first — it's faster.
+📝 The discriminant (b² - 4ac) tells you how many solutions: > 0 = two, = 0 = one, < 0 = none.
+📝 Draw the parabola to visualize the solutions.",Functions — Learn how to describe input-output relationships.
+CONTENT_7,1,Intermediate,7,Functions,3,"Understand functions, domain, range, and how to evaluate and interpret them.","A function is a rule that assigns exactly one output to each input. The set of valid inputs is the domain, and the set of possible outputs is the range. A function can be represented by an equation, a table, or a graph. The notation f(x) denotes the output of function f when the input is x. A relation is a function only if each input maps to exactly one output.",A function maps each input to exactly one output; the domain is the set of valid inputs; the range is the set of possible outputs; f(x) denotes the output for input x; a relation is a function only if each input has one output.,"For f(x) = x² - 2x + 3, f(4) = 4² - 2(4) + 3 = 16 - 8 + 3 = 11.",Functions are the core idea of modern mathematics. They describe how one quantity depends on another — from population growth to stock prices. Every formula you'll use later is a function.,"1. Identify the input (domain) and output (range).
+2. Check if every input has exactly one output (that's the definition of a function!).
+3. To evaluate, substitute the input into the function.
+4. To find the input from the output, solve the equation.
+5. To graph, plot points (x, f(x)).","Example 1: For f(x) = x² - 2x + 3, find f(4).
+f(4) = 4² - 2·4 + 3 = 16 - 8 + 3 = 11.
+
+Example 2: If f(x) = 3x - 2, find x when f(x) = 13.
+3x - 2 = 13 → 3x = 15 → x = 5.
+
+Example 3: Is the relation {(1,2), (2,3), (1,4)} a function?
+No! Input 1 has two different outputs (2 and 4).","❌ Confusing f(x) with multiplication (f(x) is NOT f × x)
+❌ Forgetting to square before multiplying in x² terms
+❌ Not checking that each input has exactly ONE output
+❌ Mixing up domain (inputs) and range (outputs)","📝 The 'vertical line test': if any vertical line crosses the graph twice, it's not a function.
+📝 Practice with different function types: linear, quadratic, exponential.
+📝 Use a table to organize inputs and outputs.
+📝 Remember: f(x) is just a shorthand for 'the output when the input is x'.",Systems of Equations — Learn how to solve multiple equations at the same time.
+CONTENT_8,1,Intermediate,8,Systems of Equations,3,"Solve systems of linear equations by substitution, elimination, and graphing.","A system of equations contains two or more equations that must be satisfied at the same time. For two linear equations, the solution is the point where the lines intersect. Common methods include substitution, elimination, and graphing. A system can have one solution (lines intersect), no solution (parallel lines), or infinitely many solutions (same line).","A system must satisfy all equations at once; the solution is the intersection point; methods include substitution, elimination, and graphing; systems may have one solution, no solution, or infinitely many; the solution is an ordered pair.","For x + y = 9 and x - y = 3, adding the equations gives 2x = 12, so x = 6 and y = 3. The solution is (6, 3).","Systems of equations solve real-world problems with multiple unknowns. They're used in economics, engineering, and optimization. The intersection of two relationships often reveals a solution.","1. Write both equations in the same form.
+2. Choose a method: substitution, elimination, or graphing.
+3. Eliminate one variable using the chosen method.
+4. Solve for the remaining variable.
+5. Substitute back to find the other variable.","Example 1: Solve x + y = 9 and x - y = 3.
+Add: 2x = 12 → x = 6. Then y = 9 - 6 = 3. Solution: (6, 3).
+
+Example 2: Solve y = 2x + 1 and y = x + 4.
+Set equal: 2x + 1 = x + 4 → x = 3, y = 7. Solution: (3, 7).
+
+Example 3: Solve 2x + 3y = 12 and x - y = 1.
+From 2nd: x = y + 1. Substitute: 2(y+1) + 3y = 12 → 5y = 10 → y = 2, x = 3.","❌ Sign errors when subtracting equations
+❌ Forgetting to substitute back to find the second variable
+❌ Confusing 'no solution' (parallel lines) with 'infinite solutions' (same line)
+❌ Arithmetic errors when adding/subtracting","📝 Draw the two lines to visualize the solution.
+📝 Use elimination when coefficients are similar; substitution when one variable is isolated.
+📝 Always check your solution in BOTH equations.
+📝 Label your solution as an ordered pair (x, y).",Trigonometry — Learn about angles and side ratios in triangles.
+CONTENT_9,1,Intermediate,9,Trigonometry,5,Understand trigonometric ratios in right triangles and apply them to solve problems.,"Trigonometry studies relationships between angles and side lengths in triangles. In a right triangle, the three main ratios are sine, cosine, and tangent, defined as sin(θ) = opposite/hypotenuse, cos(θ) = adjacent/hypotenuse, and tan(θ) = opposite/adjacent. These ratios are used to solve for unknown sides or angles. They also extend to circles and periodic phenomena.",Trigonometry studies angles and sides; sine = opposite/hypotenuse; cosine = adjacent/hypotenuse; tangent = opposite/adjacent; these ratios solve right-triangle problems; trigonometry models periodic behavior.,"In a right triangle with opposite side 5, adjacent side 12, and hypotenuse 13, sin(θ) = 5/13, cos(θ) = 12/13, and tan(θ) = 5/12.","Trigonometry connects angles to side lengths and is essential for navigation, engineering, computer graphics, and physics. It also models waves and periodic phenomena.","1. Identify the angle θ and its adjacent, opposite, and hypotenuse sides.
+2. Choose the right ratio: SOH (sin=opp/hyp), CAH (cos=adj/hyp), TOA (tan=opp/adj).
+3. Set up the equation.
+4. Solve for the unknown.
+5. Check with a calculator or a known reference angle.","Example 1: In a right triangle, opposite = 3, hypotenuse = 5. Find sin(θ).
+sin(θ) = 3/5 = 0.6.
+
+Example 2: Find cos(θ) if adjacent = 8 and hypotenuse = 10.
+cos(θ) = 8/10 = 0.8.
+
+Example 3: A ramp rises 6 m over a 10 m length. Find sin(θ).
+sin(θ) = 6/10 = 0.6.","❌ Mixing up opposite and adjacent (they depend on which angle you're looking at!)
+❌ Forgetting the mnemonic: SOH-CAH-TOA
+❌ Using degrees when radians are expected
+❌ Confusing tan with sin/cos ratio","📝 Always draw and label the triangle.
+📝 Memorize SOH-CAH-TOA.
+📝 Learn the special angles: 30°, 45°, 60°.
+📝 Practice with real-world problems (ramps, ladders, shadows).",Probability — Learn how to measure uncertainty and chance.
+CONTENT_10,1,Intermediate,10,Probability,1,"Understand basic probability, calculate probabilities of simple events, and use the complement rule.","Probability measures how likely an event is to occur. For equally likely outcomes, the probability of an event equals the number of favorable outcomes divided by the total number of possible outcomes. Probabilities range from 0 (impossible) to 1 (certain). The complement of an event has probability 1 minus the probability of the event, since an event and its complement together account for all outcomes.",Probability measures likelihood; P(event) = favorable / total; probabilities range from 0 to 1; the complement rule is P(not A) = 1 - P(A); probabilities of independent events multiply.,A fair six-sided die has probability 1/6 of rolling a 3. The probability of NOT rolling a 3 is 1 - 1/6 = 5/6.,"Probability is the mathematics of uncertainty. It powers weather forecasts, medical testing, games, machine learning, and risk analysis. Understanding probability helps you make better decisions in everyday life.","1. Identify the total number of possible outcomes.
+2. Identify the number of favorable outcomes.
+3. Compute P(event) = favorable / total.
+4. For 'not' problems, use P(not A) = 1 - P(A).
+5. Check that your answer is between 0 and 1.","Example 1: Roll a fair die. What's P(rolling a 3)?
+P = 1/6.
+
+Example 2: What's P(rolling an even number)?
+Favorable: {2, 4, 6} → P = 3/6 = 1/2.
+
+Example 3: A bag has 4 red, 3 blue, 3 green balls. What's P(NOT red)?
+P(red) = 4/10 = 0.4. P(not red) = 1 - 0.4 = 0.6.","❌ Adding probabilities when you should multiply (that's for independent events)
+❌ Forgetting P(A) + P(not A) = 1
+❌ Confusing probability with odds
+❌ Forgetting that 'and' usually means multiply, 'or' usually means add","📝 Draw a sample space (list all outcomes) for small problems.
+📝 Use the complement rule when it's easier to compute 'not'.
+📝 Remember: P is always between 0 and 1.
+📝 Practice with cards, dice, coins, and bags of balls.",Limits — Move to Advanced level and enter the world of calculus.
+CONTENT_26,2,Advanced,26,Thermodynamics,19,"Understand temperature, heat, the laws of thermodynamics, and heat transfer.","Thermodynamics studies heat, work, and energy in physical systems. Temperature measures the average kinetic energy of particles. Heat is energy transferred because of a temperature difference. The first law states that energy is conserved (ΔU = Q - W). The second law states that entropy in an isolated system never decreases. Heat transfers by conduction, convection, and radiation.","Temperature measures average kinetic energy; heat flows from hot to cold; the first law is energy conservation; the second law describes entropy; heat transfers by conduction, convection, and radiation.",A hot cup of coffee cools because heat flows from the coffee to the cooler surrounding air until both reach thermal equilibrium.,"Thermodynamics governs engines, refrigerators, stars, and life itself. It tells us which processes are possible and which are forbidden — the arrow of time comes from thermodynamics.","1. Identify the system and surroundings.
+2. Track energy in and out (heat Q, work W).
+3. Apply the first law: ΔU = Q - W.
+4. For the second law: entropy of an isolated system never decreases.
+5. Distinguish conduction, convection, and radiation.","Example 1: A gas absorbs 200 J and does 50 J of work. Find ΔU.
+ΔU = Q - W = 200 - 50 = 150 J.
+
+Example 2: Hot coffee cools in a room. Which way does heat flow?
+From hot (coffee) to cold (air) until equilibrium.
+
+Example 3: First law means energy is conserved.
+Heat added → internal energy increases OR work is done.","❌ Confusing heat (energy transfer) with temperature (average KE)
+❌ Thinking heat flows from cold to hot (violates 2nd law!)
+❌ Forgetting sign conventions for Q and W
+❌ Assuming all processes are reversible","📝 First law: ΔU = Q - W.
+📝 Second law: entropy never decreases in isolated systems.
+📝 Heat flows from hot to cold spontaneously.
+📝 Learn conduction, convection, radiation with examples.",Electromagnetism — Learn how electric and magnetic fields interact.
+CONTENT_27,2,Advanced,27,Electromagnetism,25,Understand electric and magnetic fields and their relationship (electromagnetism).,"Electromagnetism studies the relationship between electric and magnetic phenomena. A moving charge produces a magnetic field, and a changing magnetic field produces an electric field. Electromagnetic waves are oscillating electric and magnetic fields that travel through space. In vacuum, all electromagnetic waves travel at the speed of light (c ≈ 3 × 10⁸ m/s).",Moving charges produce magnetic fields; changing magnetic fields produce electric fields; electromagnetic waves combine both fields; all electromagnetic waves travel at the speed of light in vacuum; light is an electromagnetic wave.,An electric current flowing through a wire produces a magnetic field around the wire — this is how electromagnets work.,"Electromagnetism unified electricity and magnetism — one of the greatest discoveries in physics. It powers motors, generators, transformers, and wireless communication.","1. Identify whether you have moving charge or changing field.
+2. Moving charge → produces magnetic field.
+3. Changing magnetic field → produces electric field.
+4. Apply Faraday's or Ampère's law as needed.
+5. Remember: EM waves travel at c = 3×10⁸ m/s in vacuum.","Example 1: A current flows through a wire. What happens?
+A magnetic field forms around the wire (electromagnet).
+
+Example 2: A magnet moves through a coil. What happens?
+A current is induced (Faraday's law — generators).
+
+Example 3: Speed of light in vacuum.
+c ≈ 3×10⁸ m/s for all EM waves.","❌ Thinking electricity and magnetism are separate (they're one phenomenon)
+❌ Forgetting that changing field, not static field, induces EMF
+❌ Mixing up direction of induced current (use Lenz's law)
+❌ Confusing EM waves with sound waves","📝 Moving charges → magnetic fields.
+📝 Changing fields → induced currents (Faraday).
+📝 Lenz's law: induced current opposes the change.
+📝 EM waves all travel at c in vacuum.","Optics — Learn about light, reflection, and refraction."
+CONTENT_28,2,Advanced,28,Optics,24,"Understand light behavior including reflection, refraction, and lenses/mirrors.","Optics studies the behavior of light. Light travels in straight lines in a uniform medium. Reflection occurs when light bounces off a surface, following the law of reflection (angle of incidence equals angle of reflection). Refraction occurs when light changes speed as it passes between media, bending its path. Lenses and mirrors form images by controlling reflection and refraction.","Light travels in straight lines in a uniform medium; reflection follows the law of reflection; refraction bends light when it changes speed; lenses and mirrors form images; optics explains vision, cameras, and telescopes.",A straw appears bent in a glass of water because light refracts when passing from water to air.,"Optics explains how we see, how cameras work, how eyeglasses correct vision, and how fiber optics transmit data. It also underlies telescopes and microscopes.","1. Identify the optical phenomenon (reflection, refraction, lenses/mirrors).
+2. For reflection: angle of incidence = angle of reflection.
+3. For refraction: use Snell's law or the bending rule (slower medium → bend toward normal).
+4. For lenses/mirrors: use the lens/mirror equation and ray diagrams.
+5. Interpret the result (real/virtual image, upright/inverted).","Example 1: A straw looks bent in water. Why?
+Light refracts when passing from water to air.
+
+Example 2: Light hits a mirror at 30° from normal.
+Reflected at 30° from normal on the other side.
+
+Example 3: A converging lens forms images differently depending on object distance.
+Object beyond focal point → real inverted image.","❌ Measuring angles from the surface instead of from the normal
+❌ Confusing real and virtual images
+❌ Forgetting light travels straight in a uniform medium
+❌ Mixing up convex (converging) and concave (diverging) lenses","📝 Law of reflection: θᵢ = θᵣ.
+📝 Refraction: light bends toward the normal when entering a slower medium.
+📝 Draw ray diagrams for lenses and mirrors.
+📝 Convex lens converges; concave lens diverges.",Modern Physics — Explore relativity and the photon model.
+CONTENT_29,2,Advanced,29,Modern Physics,26,Understand modern physics concepts including relativity and the photon model of light.,Modern physics developed in the early 20th century and includes relativity and quantum theory. Einstein's theory of relativity describes how space and time are linked and how mass and energy are equivalent (E = mc²). Light behaves as both a wave and a particle (photon). These ideas replaced some classical assumptions and led to new technologies.,Modern physics includes relativity and quantum theory; E = mc² relates mass and energy; light behaves as both wave and particle; relativity describes high-speed and high-gravity phenomena; these ideas changed our view of space and time.,"Atomic clocks in GPS satellites must account for relativity, otherwise their timing drifts and GPS positions become inaccurate.","Modern physics reshaped our understanding of space, time, and matter. Relativity gave us GPS, E=mc², and nuclear energy. The photon model gave us lasers, LEDs, and quantum computing.","1. Identify if the problem involves high speeds or strong gravity (relativity) or small scales (quantum).
+2. Use E = mc² for mass-energy conversions.
+3. Use E = hf for photon energy.
+4. Remember: light behaves as both wave and particle.
+5. GPS must account for both special and general relativity.","Example 1: Why do GPS clocks drift?
+They must account for relativity — otherwise positions drift by kilometers per day.
+
+Example 2: E = mc² means mass and energy are interconvertible.
+1 gram of mass ≈ 9×10¹³ J.
+
+Example 3: Light as a photon.
+A photon of frequency f has energy E = hf.","❌ Thinking relativity only matters at extreme speeds (it matters at GPS speeds too!)
+❌ Confusing classical and modern physics domains
+❌ Forgetting that mass and energy are equivalent
+❌ Treating light as purely wave or purely particle","📝 E = mc²: mass-energy equivalence.
+📝 Photon energy: E = hf.
+📝 Light behaves as both wave AND particle (wave-particle duality).
+📝 Relativity: time dilates and lengths contract at high speed.",Quantum Physics Basics — Learn about quantization and uncertainty.
+CONTENT_30,2,Advanced,30,Quantum Physics Basics,29,"Understand basic quantum concepts: quantization, wave-particle duality, and uncertainty.","Quantum physics describes the behavior of matter and energy at very small scales. Energy is quantized — it comes in discrete packets called quanta. Particles such as electrons show wave-particle duality, behaving sometimes like waves and sometimes like particles. Heisenberg's uncertainty principle states that certain pairs of properties (such as position and momentum) cannot both be known with arbitrary precision.","Energy is quantized in discrete packets; light and matter show wave-particle duality; the uncertainty principle limits how precisely certain properties can be known; quantum physics describes behavior at very small scales; quantum ideas underlie lasers, semiconductors, and modern electronics.","An electron in an atom can only occupy certain discrete energy levels. When it jumps between levels, it emits or absorbs a photon of a specific energy.","Quantum physics describes matter and energy at the smallest scales. It's the foundation of semiconductors, lasers, MRI, and quantum computing — technologies that shape modern life.","1. Identify if the problem involves discrete energy levels or uncertainty.
+2. Use E = hf for photon energy transitions.
+3. Apply Heisenberg's uncertainty principle when position and momentum are both involved.
+4. Remember: particles show wave-particle duality.
+5. Interpret results in terms of probabilities, not certainties.","Example 1: An electron jumps from one energy level to another.
+It emits or absorbs a photon of specific energy.
+
+Example 2: Heisenberg uncertainty: Δx·Δp ≥ h/4π.
+More precisely you know position, the less you know momentum.
+
+Example 3: Energy quantization.
+An electron in an atom can only occupy certain discrete energy levels.","❌ Thinking electrons orbit like planets (they exist in probability clouds)
+❌ Confusing 'uncertainty' with 'measurement error'
+❌ Assuming quantum effects only matter at atomic scale (they explain semiconductors!)
+❌ Thinking superposition means 'both at once' in the classical sense","📝 Energy is quantized — comes in discrete packets.
+📝 Wave-particle duality: particles behave as waves sometimes.
+📝 Heisenberg: certain pairs (position/momentum) can't both be known precisely.
+📝 Quantum ideas underlie lasers, semiconductors, MRI.",Move to Computer Science — Learn computational thinking and algorithms.
+CONTENT_16,2,Beginner,16,Measurement and Units,,"Understand the purpose of standard units and the SI system, and use unit conversions correctly.","Measurement is the process of comparing a physical quantity to a standard unit. Standard units make measurements comparable and consistent across the world. The International System of Units (SI) defines seven base units, including the meter (length), kilogram (mass), and second (time). Derived units combine base units, such as the newton (force) and joule (energy).",Standard units make measurements comparable; the SI system defines base units; the meter measures length; the kilogram measures mass; the second measures time; derived units combine base units; unit conversion ensures consistency.,A length of 1.5 m equals 150 cm because 1 m = 100 cm. SI units allow scientists everywhere to compare results.,"Measurement is the foundation of all physics. Without consistent units, scientists around the world could not compare results. Understanding SI units prevents costly mistakes — like the Mars Climate Orbiter disaster caused by unit confusion.","1. Identify the physical quantity being measured.
+2. Choose the correct SI base unit (meter, kilogram, second, etc.).
+3. Note the prefix (kilo-, centi-, milli-) and its multiplier.
+4. Convert to the desired unit using conversion factors.
+5. Always include units in your final answer.","Example 1: Convert 2.5 m to cm.
+1 m = 100 cm → 2.5 m = 250 cm.
+
+Example 2: Convert 500 g to kg.
+1 kg = 1000 g → 500 g = 0.5 kg.
+
+Example 3: Which is longer — 20 cm or 0.2 m?
+0.2 m = 20 cm — they're equal.","❌ Forgetting units in the final answer
+❌ Mixing up mass (kg) and weight (N)
+❌ Confusing cm and mm
+❌ Wrong power of 10 in conversions","📝 Memorize the SI base units: m, kg, s, A, K, mol, cd.
+📝 Learn prefixes: k (10³), c (10⁻²), m (10⁻³).
+📝 Practice dimensional analysis — check that units cancel.
+📝 Always write units next to numbers.","Motion — Learn about position, velocity, and acceleration."
+CONTENT_17,2,Beginner,17,Motion,16,"Describe motion using displacement, velocity, and acceleration, and interpret motion graphs.","Motion describes how an object changes position over time. Displacement is the change in position in a given direction. Velocity is the rate of change of displacement, and acceleration is the rate of change of velocity. Motion can be described using equations and graphs. Average velocity differs from instantaneous velocity.","Displacement has direction and magnitude; velocity is the rate of change of displacement; acceleration is the rate of change of velocity; motion graphs show position, velocity, and acceleration over time; average and instantaneous values differ.","A car traveling 60 m in 3 s has an average velocity of 20 m/s. If it slows from 20 m/s to 0 m/s in 4 s, its acceleration is -5 m/s².","Motion is the most basic form of change in the universe. Understanding velocity and acceleration is essential for engineering, sports, traffic safety, and space exploration.","1. Identify what is moving and its reference frame.
+2. Write down position, velocity, and acceleration.
+3. Use the motion equations: v = v₀ + at, x = x₀ + v₀t + ½at².
+4. For graphs: slope of x-t = velocity; slope of v-t = acceleration.
+5. Check units and signs.","Example 1: A car travels 60 m in 3 s. What's its average velocity?
+v = 60/3 = 20 m/s.
+
+Example 2: A car accelerates from 0 to 20 m/s in 4 s. Find acceleration.
+a = Δv/Δt = 20/4 = 5 m/s².
+
+Example 3: A ball is dropped from rest. After 3 s (g=10), how far?
+d = ½·10·3² = 45 m.","❌ Confusing speed (scalar) with velocity (vector)
+❌ Mixing up distance and displacement
+❌ Forgetting that acceleration can be negative (deceleration)
+❌ Using wrong sign for gravity","📝 Always draw a diagram with directions.
+📝 Use m/s for velocity, m/s² for acceleration.
+📝 Remember: velocity = slope of position-time graph.
+📝 Practice with uniformly accelerated motion problems.",Forces — Learn Newton's laws and how forces change motion.
+CONTENT_18,2,Beginner,18,Forces,17,Apply Newton's three laws to describe how forces affect motion.,A force is a push or pull that can change an object's motion. Newton's first law states that an object stays at rest or moves at constant velocity unless acted on by a net force. The second law states that F = ma (net force equals mass times acceleration). The third law states that for every action there is an equal and opposite reaction.,Forces change motion; Newton's first law describes inertia; Newton's second law is F = ma; Newton's third law describes action-reaction pairs; net force determines acceleration.,A 10 kg object pushed with a net force of 20 N accelerates at 2 m/s² because a = F/m = 20/10 = 2 m/s².,"Forces explain why things move, stop, or stay at rest. Newton's laws govern everything from rocket launches to car crashes to the way buildings stand.","1. Draw a free-body diagram for the object.
+2. Identify all forces: gravity, normal, friction, tension, applied.
+3. Choose coordinate axes (usually along motion).
+4. Apply Newton's second law: ΣF = ma.
+5. Solve for the unknown.","Example 1: A 10 kg object pushed with a net force of 20 N.
+Acceleration a = F/m = 20/10 = 2 m/s².
+
+Example 2: A 5 kg box is at rest on a table. What's the normal force?
+The normal force balances gravity: N = mg = 5·10 = 50 N.
+
+Example 3: A 2 kg book accelerates at 3 m/s². What's the net force?
+F = ma = 2·3 = 6 N.","❌ Forgetting that forces come in pairs (Newton's third law)
+❌ Confusing mass (kg) with weight (N)
+❌ Ignoring friction in real-world problems
+❌ Adding forces in different directions as scalars","📝 Always draw free-body diagrams.
+📝 Use F = ma in each direction separately (x and y).
+📝 Remember: mass is constant; weight depends on gravity.
+📝 Practice with incline problems and pulley systems.","Energy — Learn how energy is stored, transferred, and transformed."
+CONTENT_19,2,Beginner,19,Energy,18,"Understand different forms of energy, energy conservation, and energy transfer.","Energy is the capacity to cause change or perform work. Common forms include kinetic energy (motion), gravitational potential energy (position), thermal energy, chemical energy, and electrical energy. Energy can be transferred between forms but cannot be created or destroyed (conservation of energy). Work is the transfer of energy by a force.",Energy is the capacity to do work; kinetic energy depends on motion; potential energy depends on position; energy is conserved; energy can transfer between forms; work transfers energy.,"A ball at the top of a ramp has gravitational potential energy. As it rolls down, its potential energy converts into kinetic energy, while total energy stays the same.","Energy is the currency of the universe. It explains how plants photosynthesize, how cars move, how power plants work. The conservation of energy is one of the most powerful principles in physics.","1. Identify the forms of energy (kinetic, potential, thermal, etc.).
+2. Write the energy conservation equation: E_initial = E_final.
+3. Use KE = ½mv² and PE = mgh.
+4. Include work done by non-conservative forces if any.
+5. Solve for the unknown.","Example 1: A 2 kg ball at 3 m/s. Find its kinetic energy.
+KE = ½·2·3² = 9 J.
+
+Example 2: A 5 kg book on a shelf 2 m high. Find its PE.
+PE = 5·10·2 = 100 J.
+
+Example 3: A ball falls from 5 m. Find its speed at the bottom.
+½mv² = mgh → v = √(2gh) = √(2·10·5) = 10 m/s.","❌ Confusing kinetic and potential energy
+❌ Forgetting that energy can convert between forms
+❌ Using wrong reference level for PE
+❌ Ignoring energy lost to friction","📝 Remember: KE = ½mv², PE = mgh.
+📝 Energy is measured in Joules (J).
+📝 Always identify the initial and final states.
+📝 Check that energy is conserved (or account for losses).","Electricity Basics — Learn about charge, current, and voltage."
+CONTENT_20,2,Beginner,20,Electricity Basics,16,"Understand electric charge, current, voltage, and basic electric interactions.",Electricity basics describe the behavior of electric charge. Like charges repel and opposite charges attract. Electric current is the rate at which charge flows. Voltage is the potential difference that drives current. Electric fields describe the force a charge would feel. These ideas form the foundation for studying circuits and electromagnetism.,Like charges repel; opposite charges attract; current is the flow of charge; voltage drives current; electric fields describe forces on charges; these concepts underpin all electrical phenomena.,"In a simple circuit with a battery, the battery provides voltage that pushes electrons through the wire, producing a current.","Electricity powers modern life. From smartphones to power grids, understanding charge, current, and voltage is essential for anyone studying technology or engineering.","1. Identify the type of charge (positive or negative).
+2. For current: I = Q/t (charge per time).
+3. For Ohm's law: V = IR.
+4. For power: P = VI = I²R = V²/R.
+5. Check that units are consistent.","Example 1: A circuit has 10 C of charge passing in 2 s. Find the current.
+I = 10/2 = 5 A.
+
+Example 2: A 12 V battery with a 4 Ω resistor. Find current.
+I = V/R = 12/4 = 3 A.
+
+Example 3: A device draws 2 A at 120 V. Find its power.
+P = VI = 120·2 = 240 W.","❌ Confusing current (A) with voltage (V)
+❌ Forgetting that current requires a closed circuit
+❌ Mixing up series and parallel rules
+❌ Using P = VI when you need P = I²R","📝 Remember: current = flow of charge, voltage = 'push'.
+📝 Memorize Ohm's law: V = IR.
+📝 Learn the power formulas: P = VI = I²R = V²/R.
+📝 Practice with simple circuits.",Momentum — Move to Intermediate level and learn about collisions.
+CONTENT_21,2,Intermediate,21,Momentum,18,"Understand momentum, impulse, and the conservation of momentum.","Momentum describes how much motion an object has. It equals mass times velocity, so both mass and velocity matter. Momentum is a vector, so direction matters. Impulse is the change in momentum caused by a force acting over time. In an isolated system, total momentum is conserved.",Momentum equals mass times velocity; momentum is a vector; impulse equals force times time; impulse equals change in momentum; total momentum is conserved in isolated systems.,"A 2 kg ball moving at 10 m/s has momentum 20 kg·m/s. If it stops, its momentum changes by 20 kg·m/s — this is the impulse it experienced.",Momentum explains how collisions work — from car crashes to billiard balls to rocket propulsion. It's a vector quantity that's conserved in every isolated system.,"1. Identify masses and velocities of objects involved.
+2. Compute momentum p = mv (vector!).
+3. For collisions: total momentum before = total momentum after.
+4. Impulse: J = F·Δt = Δp.
+5. Solve for the unknown.","Example 1: A 2 kg ball moving at 10 m/s. Find its momentum.
+p = mv = 2·10 = 20 kg·m/s.
+
+Example 2: A 1000 kg car at 20 m/s. Find momentum.
+p = 1000·20 = 20,000 kg·m/s.
+
+Example 3: Two carts: m₁=2, v₁=3; m₂=3, v₂=-2. Find total p.
+p = 2·3 + 3·(-2) = 6 - 6 = 0.","❌ Forgetting direction — momentum is a vector!
+❌ Confusing momentum (p=mv) with kinetic energy (KE=½mv²)
+❌ Assuming momentum is always positive
+❌ Forgetting that total momentum is conserved in collisions","📝 Momentum = mass × velocity (vector).
+📝 Conservation: p_before = p_after in isolated systems.
+📝 Impulse = force × time = change in momentum.
+📝 Practice with 1D and 2D collisions.",Work and Power — Learn about energy transfer and the rate of doing work.
+CONTENT_22,2,Intermediate,22,Work and Power,19,"Understand mechanical work and power, and how they relate to force, distance, and time.",Mechanical work is done when a force causes an object to move through a displacement in a relevant direction. Work equals force times displacement times the cosine of the angle between them. Power measures how quickly work is performed. Two systems can do the same work but with different power if they take different amounts of time.,Work requires force and displacement; work equals F × d × cos(θ); no displacement means no work; power equals work divided by time; greater power means work is done faster.,"A force of 10 N moves an object 4 m in the direction of the force, doing 40 J of work. If this happens in 2 s, the power is 20 W.","Work measures energy transfer; power measures how fast it happens. Understanding both is essential for engineering, sports, and efficiency analysis.","1. Identify the force and displacement.
+2. Work: W = F·d·cos(θ).
+3. No displacement → no work.
+4. Power: P = W/t.
+5. Check units (J for work, W for power).","Example 1: A 10 N force moves an object 4 m. Find work.
+W = 10·4 = 40 J.
+
+Example 2: A machine does 600 J in 20 s. Find power.
+P = 600/20 = 30 W.
+
+Example 3: Same work in less time → more power.
+Student A does W in 5 s, Student B in 10 s. A has 2× the power.","❌ Thinking work is done when there's no displacement (pushing a wall!)
+❌ Forgetting cos(θ) when force and displacement aren't aligned
+❌ Confusing work (J) with power (W)
+❌ Mixing up time and work in the power formula","📝 Work = F × d × cos(θ).
+📝 Power = work / time.
+📝 No displacement → no work, no matter how hard you push.
+📝 Practice with lifting, pushing, and climbing problems.",Circular Motion — Learn about objects moving in circles.
+CONTENT_23,2,Intermediate,23,Circular Motion,18,"Understand circular motion, centripetal acceleration, and centripetal force.","Circular motion occurs when an object follows a curved circular path. Even if the object's speed is constant, its velocity changes because velocity is a vector — the direction keeps changing. This change produces centripetal acceleration directed toward the center of the circle. The force that provides this acceleration is the centripetal force.","Circular motion follows a curved path; velocity changes direction even at constant speed; centripetal acceleration points toward the center; centripetal force provides the required acceleration; without a centripetal force, the object moves in a straight line.","A car turning in a circle is kept on the path by friction, which acts as the centripetal force. If the friction is removed, the car slides off in a straight line.","Circular motion explains satellites, Ferris wheels, and even the spin of electrons. Understanding centripetal force is key to designing safe roads, rides, and orbits.","1. Identify the circle's radius r and the object's speed v.
+2. Compute centripetal acceleration: a_c = v²/r.
+3. Centripetal force: F_c = mv²/r.
+4. Remember: even at constant speed, velocity changes direction → there IS acceleration.
+5. Identify the source of the centripetal force (friction, tension, gravity).","Example 1: Object moves in a circle of radius 2 m at 4 m/s. Find a_c.
+a_c = v²/r = 16/2 = 8 m/s².
+
+Example 2: Satellite in circular orbit. What keeps it moving?
+Earth's gravity provides the centripetal force.
+
+Example 3: Car turning on a flat road. What provides centripetal force?
+Friction between tires and road.","❌ Thinking there's no acceleration at constant speed (there IS! Direction changes.)
+❌ Confusing centripetal (toward center) with centrifugal (a fictitious outward force)
+❌ Forgetting that velocity is a vector
+❌ Mixing up linear and angular quantities","📝 a_c = v²/r; F_c = mv²/r.
+📝 Velocity is a vector — direction changes → acceleration.
+📝 Centripetal force always points toward the center.
+📝 Practice with satellites, cars, and balls on strings.",Waves — Learn how energy travels without matter moving along.
+CONTENT_24,2,Intermediate,24,Waves,16,"Describe wave properties including frequency, wavelength, amplitude, and speed, and apply v = f λ.","A wave transfers energy from one place to another without requiring the material itself to travel the whole distance. Important wave properties include frequency (cycles per second), wavelength (distance between successive peaks), amplitude (size of the disturbance), and speed. For a given medium, wave speed equals frequency times wavelength (v = f λ).",Waves transfer energy; frequency measures cycles per second; wavelength is the distance between peaks; amplitude describes the disturbance size; wave speed equals frequency times wavelength (v = f λ).,A wave with frequency 5 Hz and wavelength 4 m has speed v = 5 × 4 = 20 m/s.,"Waves carry energy across space without moving matter. Light, sound, radio signals, and water waves are all examples. Understanding waves is essential for communication, medicine, and music.","1. Identify the wave type (transverse or longitudinal).
+2. Measure amplitude, wavelength, and frequency.
+3. Use v = f·λ.
+4. Remember: the medium's particles oscillate but don't travel with the wave.
+5. Solve for the unknown.","Example 1: Wave speed 20 m/s, frequency 4 Hz. Find wavelength.
+λ = v/f = 20/4 = 5 m.
+
+Example 2: Frequency 5 Hz → 5 cycles per second pass a point.
+
+Example 3: Wave at 340 m/s with λ=0.5 m. Find f.
+f = v/λ = 340/0.5 = 680 Hz.","❌ Thinking the medium travels with the wave (only energy travels!)
+❌ Mixing up frequency (Hz) and wavelength (m)
+❌ Forgetting v = f·λ
+❌ Confusing transverse and longitudinal waves","📝 Memorize v = f·λ.
+📝 Draw waves and label amplitude and wavelength.
+📝 Frequency = cycles per second.
+📝 Remember: sound is longitudinal; light is transverse.",Electric Circuits — Learn about series and parallel circuits.
+CONTENT_25,2,Intermediate,25,Electric Circuits,20,Analyze series and parallel circuits using Ohm's law and power relationships.,"A circuit is a closed path through which electric charge can flow. Ohm's law states that V = I R (voltage equals current times resistance). In a series circuit, the same current flows through every component, and resistances add. In a parallel circuit, each component has its own branch, voltage is the same across branches, and currents add. Electrical power is P = VI.",A circuit provides a continuous path for charge; V = I R (Ohm's law); series circuits share current and add resistance; parallel circuits share voltage and add currents; power P = VI.,A 12 V battery connected to a 3 Ω resistor produces a current I = V/R = 12/3 = 4 A.,"Circuits power every electronic device we use — phones, computers, lights. Understanding Ohm's law and circuit rules lets you design and troubleshoot real systems.","1. Identify if components are in series or parallel.
+2. For series: R_total = R₁ + R₂ + ...; current is the same.
+3. For parallel: 1/R_total = 1/R₁ + 1/R₂ + ...; voltage is the same.
+4. Apply Ohm's law: V = IR.
+5. Solve for the unknown.","Example 1: Two 4 Ω resistors in series. Find R_total.
+R = 4 + 4 = 8 Ω.
+
+Example 2: 12 V battery + 3 Ω resistor. Find I.
+I = V/R = 12/3 = 4 A.
+
+Example 3: Household devices connected in parallel.
+Advantage: each device works independently.","❌ Adding resistances in parallel instead of series
+❌ Confusing current (same in series) with voltage (same in parallel)
+❌ Removing a bulb in a series circuit — the whole circuit stops!
+❌ Mixing up V = IR with P = VI","📝 Series: same current, resistances add.
+📝 Parallel: same voltage, currents add.
+📝 Ohm's law: V = IR.
+📝 Practice with mixed series-parallel circuits.",Thermodynamics — Move to Advanced and learn about heat and energy.
+CONTENT_41,3,Advanced,41,Algorithm Analysis,36,Analyze algorithms using Big-O notation and compare their time and space efficiency.,"Algorithm analysis measures how efficiently an algorithm uses time and space. Big-O notation describes how an algorithm's runtime grows as the input size increases. Common complexities include O(1) for constant time, O(log n) for logarithmic time, O(n) for linear time, O(n log n) for linearithmic time, and O(n²) for quadratic time. Analyzing algorithms helps choose the most efficient solution.",Algorithm analysis measures time and space efficiency; Big-O notation describes growth rate; O(1) is constant time; O(log n) is logarithmic; O(n) is linear; O(n²) is quadratic; choosing efficient algorithms improves performance.,Linear search has O(n) time because it may check every element. Binary search has O(log n) time because it cuts the search space in half at each step. So binary search is much faster for large sorted lists.,Algorithm analysis lets you predict how code scales. Choosing the right algorithm can turn a program that takes years into one that runs in seconds. Big-O is the universal language of efficiency.,"1. Identify the input size n.
+2. Count the basic operations in terms of n.
+3. Drop constants and lower-order terms.
+4. Classify: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ).
+5. Compare algorithms by their Big-O.","Example 1: Linear search — worst case checks every element.
+O(n).
+
+Example 2: Binary search — halves the search space each step.
+O(log n).
+
+Example 3: Bubble sort — nested loops.
+O(n²).","❌ Confusing O(n) with O(2n) — constants are dropped
+❌ Thinking O(log n) is slower than O(n) (it's much faster!)
+❌ Ignoring space complexity (only looking at time)
+❌ Forgetting best/average/worst cases","📝 Memorize the hierarchy: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ).
+📝 Analyze code by counting loops.
+📝 Practice with common algorithms: binary search, merge sort, quicksort.
+📝 Remember: Big-O describes growth, not absolute speed.","Advanced Data Structures — Learn about trees, hash tables, and graphs."
+CONTENT_42,3,Advanced,42,Advanced Data Structures,"36,41","Understand advanced data structures such as trees, hash tables, and graphs.","Advanced data structures organize information in ways that support specialized operations efficiently. Trees represent hierarchical relationships, with a root node and child nodes. A binary search tree keeps data sorted for fast search, insert, and delete operations. A hash table uses a hash function to map keys to values, giving average O(1) lookup. Graphs represent relationships between objects using nodes and edges.",Trees represent hierarchical data; a binary search tree supports fast search; a hash table maps keys to values in average O(1) time; graphs represent relationships; choosing the right structure depends on the operations needed.,A file system is a tree structure. A social network can be modeled as a graph where nodes are people and edges are friendships. A hash table stores key-value pairs like a dictionary.,"Trees, hash tables, and graphs solve problems that basic structures can't handle efficiently. From file systems to social networks to databases, these structures are everywhere.","1. Identify the relationship (hierarchical → tree; key-value → hash; network → graph).
+2. Choose the structure.
+3. For trees: understand root, leaves, height.
+4. For hash tables: use a hash function to map keys to values.
+5. For graphs: use nodes and edges; traverse with BFS or DFS.","Example 1: File system — tree.
+Root folder → subfolders → files.
+
+Example 2: Dictionary / phone book — hash table.
+Average O(1) lookup by key.
+
+Example 3: Social network — graph.
+Nodes = people; edges = friendships.","❌ Using a tree when a simple array would do
+❌ Forgetting that hash tables degrade to O(n) in the worst case
+❌ Confusing BFS (level by level) with DFS (depth first)
+❌ Assuming all trees are balanced (they're not! BSTs can degrade)","📝 Learn tree traversals: pre-order, in-order, post-order.
+📝 Understand hash functions and collisions.
+📝 Practice BFS and DFS on small graphs.
+📝 Compare: array vs linked list vs tree vs hash.",Artificial Intelligence Fundamentals — Explore how machines 'think'.
+CONTENT_43,3,Advanced,43,Artificial Intelligence Fundamentals,"32,36","Understand the scope of artificial intelligence, including search, reasoning, and learning.","Artificial intelligence (AI) studies how to build systems that perform tasks that normally require human intelligence. AI includes search algorithms, reasoning, planning, natural language processing, computer vision, and machine learning. Search algorithms explore possible states to find solutions. Knowledge representation encodes facts and rules. AI systems range from rule-based experts to modern deep learning models.","AI builds systems that perform intelligent tasks; AI includes search, reasoning, planning, and learning; rule-based systems use explicit knowledge; machine learning learns from data; AI applications include language, vision, and decision-making.","A chess-playing program uses search algorithms to explore possible moves. A voice assistant uses natural language processing to understand your words, and machine learning to improve its responses.","AI is transforming every industry — healthcare, transportation, education, entertainment. Understanding the basics helps you use AI responsibly and build intelligent systems.","1. Identify the AI task (search, reasoning, planning, learning).
+2. Choose the approach.
+3. For search: explore state spaces.
+4. For reasoning: use knowledge representation.
+5. For learning: use machine learning (see next concept).","Example 1: Chess AI.
+Uses search algorithms to explore possible moves.
+
+Example 2: Voice assistant.
+Uses natural language processing to understand speech.
+
+Example 3: Recommendation system.
+Uses machine learning to predict what you'll like.","❌ Thinking AI = robots (AI is software, not physical)
+❌ Assuming AI is always better than humans
+❌ Confusing narrow AI (specific tasks) with general AI (doesn't exist yet)
+❌ Thinking AI 'understands' the way humans do","📝 Learn the main AI subfields: search, reasoning, NLP, vision, ML.
+📝 Understand the difference between rules-based and learning-based AI.
+📝 Explore real examples: Siri, recommendation engines, self-driving cars.
+📝 Study ethics of AI.",Machine Learning Fundamentals — Learn how systems improve from data.
+CONTENT_44,3,Advanced,44,Machine Learning Fundamentals,43,"Understand the fundamentals of machine learning: features, labels, supervised and unsupervised learning, and evaluation metrics.","Machine learning allows a system to learn patterns from data and use those patterns to make predictions. Features are input variables; labels are target outputs. Supervised learning uses labeled data to train models for classification or regression. Unsupervised learning finds structure in unlabeled data, such as clusters. Model performance is measured using metrics like accuracy, precision, recall, and F1 score.",Machine learning learns patterns from data; features are inputs; labels are target outputs; supervised learning uses labeled data; unsupervised learning finds structure without labels; models are evaluated with metrics like accuracy and F1.,"A spam filter is trained on labeled emails (spam or not spam). After training, it predicts whether new emails are spam. Accuracy measures how often the predictions are correct.","Machine learning powers recommendation engines, spam filters, medical diagnosis, and self-driving cars. It's how modern AI learns from data instead of being explicitly programmed.","1. Collect data (features and labels).
+2. Split into training and test sets.
+3. Choose a model (linear regression, decision tree, neural network).
+4. Train the model on the training set.
+5. Evaluate on the test set (accuracy, precision, recall, F1).
+6. Deploy and monitor.","Example 1: Spam filter.
+Features = words in email; labels = spam or not spam.
+Train → predict on new emails.
+
+Example 2: House price prediction.
+Features = size, location, bedrooms.
+Label = price.
+
+Example 3: Image classification.
+Features = pixel values; labels = cat / dog.","❌ Training and testing on the same data (overfitting!)
+❌ Confusing supervised and unsupervised learning
+❌ Assuming high training accuracy = good model
+❌ Ignoring class imbalance (e.g., 99% normal, 1% fraud)","📝 Learn the pipeline: data → features → model → evaluation.
+📝 Understand overfitting vs underfitting.
+📝 Learn key metrics: accuracy, precision, recall, F1.
+📝 Practice with scikit-learn on small datasets.",Computer Architecture — Learn how CPUs are organized internally.
+CONTENT_45,3,Advanced,45,Computer Architecture,"35,40","Describe the main ideas of computer architecture, including the von Neumann model, CPU instruction cycle, pipelining, and caches.","Computer architecture describes how a computer is organized internally. The von Neumann architecture separates the CPU, memory, and I/O. Instructions and data share the same memory. The CPU fetches instructions, decodes them, and executes them in cycles. Pipelining allows multiple instructions to be processed at once. Caches reduce the average time to access memory.","Computer architecture describes internal organization; the von Neumann model separates CPU, memory, and I/O; instructions and data share memory; the CPU executes an instruction cycle; pipelining processes multiple instructions; caches speed up memory access.","When the CPU executes x = a + b, it fetches the instruction, decodes it, loads a and b from memory, adds them, and stores the result back into memory — all organized by the architecture.","Computer architecture explains how hardware actually runs software. Understanding the CPU, memory hierarchy, and instruction cycle helps you write faster code and understand performance limits.","1. Understand the von Neumann model: CPU, memory, I/O.
+2. Learn the instruction cycle: fetch, decode, execute, store.
+3. Pipelining: process multiple instructions at once.
+4. Caches: small, fast memory close to the CPU.
+5. Use these to reason about performance.","Example 1: Executing x = a + b.
+Fetch → decode → load a and b → add → store result.
+
+Example 2: Pipelining.
+Multiple instructions overlap; throughput increases.
+
+Example 3: Cache hits.
+Frequent data stays in cache for fast access; misses go to RAM.","❌ Thinking the CPU and memory are equally fast (CPU is much faster)
+❌ Assuming all memory access has the same speed (cache vs RAM vs disk!)
+❌ Confusing pipelining with parallel processing
+❌ Ignoring memory hierarchy in performance analysis","📝 Learn the von Neumann model.
+📝 Understand the memory hierarchy: registers → cache → RAM → disk.
+📝 Learn pipelining with a simple diagram.
+📝 Study how cache hits and misses affect performance.",You've completed all 45 concepts! Keep practicing and applying what you've learned.
+CONTENT_31,3,Beginner,31,Computational Thinking,,"Understand computational thinking and its core pillars: decomposition, pattern recognition, abstraction, and algorithm design.","Computational thinking is a structured way of solving problems using ideas commonly used in computer science. Decomposition breaks a complex problem into smaller parts. Pattern recognition identifies similarities between problems. Abstraction focuses on the essential details while ignoring the irrelevant ones. Algorithm design produces a clear step-by-step procedure. Together, these pillars help solve problems in computing and beyond.",Computational thinking is a structured problem-solving approach; decomposition splits problems into smaller parts; pattern recognition finds similarities; abstraction focuses on what matters; algorithm design produces clear step-by-step solutions; these pillars apply far beyond programming.,"Planning a school event uses decomposition (break into budgeting, scheduling, invitations, setup), pattern recognition (similar past events), and abstraction (focus on essentials).","Computational thinking is a universal problem-solving skill. It applies far beyond programming — to organizing projects, planning events, and breaking down any complex challenge into manageable parts.","1. Decomposition: break the problem into smaller parts.
+2. Pattern recognition: find similarities with problems you've solved before.
+3. Abstraction: focus on what matters, ignore irrelevant details.
+4. Algorithm design: write clear, step-by-step instructions.
+5. Test and refine your solution.","Example 1: Planning a school event.
+Decompose into: budget, schedule, invitations, setup, cleanup.
+
+Example 2: Cooking a meal.
+Recognize patterns from recipes you already know.
+
+Example 3: Doing homework.
+Break into tasks: read, solve, review, submit.","❌ Thinking computational thinking = programming (it's a way of thinking, not a language)
+❌ Skipping the decomposition step and trying to solve everything at once
+❌ Confusing abstraction with oversimplification
+❌ Ignoring patterns from similar problems","📝 Practice decomposition on everyday tasks (making coffee, packing a bag).
+📝 Look for patterns: what repeats across problems?
+📝 Write out your steps clearly — that's algorithm design.
+📝 Ask: 'What details actually matter for this problem?'",Algorithms — Learn how to design step-by-step solutions for computers.
+CONTENT_32,3,Beginner,32,Algorithms,31,"Define algorithms, describe their key properties, and design simple algorithms for everyday problems.","An algorithm is a finite sequence of clear, well-defined steps for solving a problem. Algorithms take input, process it through a specific sequence of operations, and produce output. The same problem can be solved by different algorithms, and they may differ in efficiency. A well-designed algorithm is unambiguous, finite, and always produces the correct result for valid inputs.",An algorithm is a finite sequence of steps; it must be clear and unambiguous; different algorithms can solve the same problem with different efficiency; algorithms take input and produce output; algorithms form the foundation of all computer programs.,"A simple algorithm to find the larger of two numbers: 1) Read the first number. 2) Read the second number. 3) If the first is greater than the second, output the first; otherwise output the second.","Algorithms are the foundation of computer science. Every program, from a calculator app to a search engine, uses algorithms. Learning to design and compare algorithms is the most essential skill in CS.","1. Understand the problem precisely (inputs and outputs).
+2. Design a sequence of clear steps.
+3. Check that the algorithm terminates.
+4. Test with multiple inputs.
+5. Compare efficiency (time and space).","Example 1: Find the largest of two numbers.
+1) Read A, B.
+2) If A > B, output A; else output B.
+
+Example 2: Check if an integer is even or odd.
+1) Read N.
+2) Compute N mod 2.
+3) If 0 → even; if 1 → odd.
+
+Example 3: Sum numbers 1 to N.
+1) Set sum = 0.
+2) For i = 1 to N: sum = sum + i.
+3) Output sum.","❌ Writing ambiguous steps that could be interpreted differently
+❌ Forgetting to handle edge cases (empty input, zero)
+❌ Thinking an algorithm must be in Python (it can be in plain English!)
+❌ Skipping the check for termination","📝 Write algorithms in plain language first, then code.
+📝 Test with: empty, one item, many items.
+📝 A good algorithm is clear, finite, and always produces correct output.
+📝 Practice with sorting, searching, and simple math.","Programming Fundamentals — Learn about variables, types, and operators."
+CONTENT_33,3,Beginner,33,Programming Fundamentals,31,"Understand the basic building blocks of programs: variables, data types, operators, and input/output.","Programming fundamentals cover the basic building blocks of writing computer programs. A variable is a named place in memory that stores a value. Data types describe what kind of value a variable holds, such as integers, floating-point numbers, strings, and Boolean values. Operators perform calculations and comparisons on values. Input and output allow programs to interact with users and other systems.",Variables store values in named locations; data types describe the kind of value; integers represent whole numbers; strings represent text; Boolean values represent true or false; operators perform arithmetic and comparisons; input/output let programs interact with the world.,"In a program, age = 18 stores an integer in the variable 'age'. name = 'Sara' stores a string. is_student = True stores a Boolean. total = age + 5 uses the addition operator.","Programming fundamentals are the building blocks of every program. Understanding variables, types, and operators lets you write code in any language, from Python to JavaScript.","1. Identify the type of data you're storing (number, text, boolean).
+2. Choose a descriptive variable name.
+3. Declare the variable and assign a value.
+4. Use operators to compute or compare.
+5. Print or return the result.","Example 1: Store a student's age.
+age = 18  # integer
+
+Example 2: Store a name.
+name = 'Sara'  # string
+
+Example 3: Compute total price.
+price = 10
+quantity = 3
+total = price * quantity  # 30","❌ Using unclear variable names (x, y, z instead of price, total)
+❌ Mixing types (adding a string and a number without conversion)
+❌ Confusing = (assignment) with == (comparison)
+❌ Forgetting that '5' (string) is not the same as 5 (integer)","📝 Use descriptive variable names: total_price, user_age.
+📝 Learn the four core types: int, float, str, bool.
+📝 Remember: = assigns; == compares.
+📝 Practice with small exercises (temperature conversion, area calculator).",Data Representation — Learn how computers store everything in binary.
+CONTENT_34,3,Beginner,34,Data Representation,31,Explain how computers represent data using binary and how different media are encoded.,"Data representation describes how information is stored and encoded inside a computer. Digital computers use binary representation, where every piece of data is encoded as a sequence of 0s and 1s. A single binary digit is called a bit, and a group of 8 bits is a byte. The same binary pattern can represent different things (numbers, text, images, audio) depending on how it is interpreted.",Computers use binary (0 and 1) to represent all data; a bit is a single binary digit; a byte is 8 bits; text is encoded using standards such as ASCII and Unicode; images are stored as numeric pixel data; the meaning of a binary pattern depends on its interpretation.,The decimal number 5 is written in binary as 101 (which equals 4 + 0 + 1). The letter 'A' is stored as the byte 01000001 in ASCII encoding.,"Computers store all data — numbers, text, images, video — as binary (0s and 1s). Understanding data representation helps you debug programs, optimize storage, and grasp how the digital world works.","1. Convert decimal to binary: divide by 2 repeatedly, note remainders.
+2. Read remainders from bottom to top.
+3. To convert back: multiply each digit by its power of 2 and sum.
+4. For text: use ASCII or Unicode (A = 65 = 01000001).
+5. For images: each pixel is stored as numeric RGB values.","Example 1: Decimal 5 → binary.
+5 ÷ 2 = 2 r1; 2 ÷ 2 = 1 r0; 1 ÷ 2 = 0 r1 → 101.
+
+Example 2: Binary 1010 → decimal.
+1·8 + 0·4 + 1·2 + 0·1 = 10.
+
+Example 3: Letter 'A' in ASCII.
+'A' = 65 = 01000001 in binary.","❌ Reading binary remainders top-to-bottom instead of bottom-to-top
+❌ Confusing bits (0/1) with bytes (8 bits)
+❌ Thinking binary is harder for computers (it's actually easier!)
+❌ Forgetting that the same binary pattern can mean different things based on interpretation","📝 Practice decimal ↔ binary conversions daily.
+📝 Memorize: 1 byte = 8 bits.
+📝 Remember: 2⁰=1, 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32, 2⁶=64, 2⁷=128.
+📝 Learn how text and images are encoded.","Computer Systems Basics — Learn about CPU, RAM, and storage."
+CONTENT_35,3,Beginner,35,Computer Systems Basics,31,Identify the main hardware components of a computer system and describe their roles.,"A computer system combines hardware and software to process information. The CPU (Central Processing Unit) executes instructions and processes data. RAM provides fast, temporary working memory for programs that are currently running. Persistent storage (such as SSD or HDD) keeps data even after the power is turned off. Input devices send data to the computer, and output devices present the results.",The CPU executes instructions; RAM provides temporary working memory; storage devices keep data after power off; input devices send data into the system; output devices present results; software instructions run using the hardware resources.,"When you open a web browser, its code is loaded from storage into RAM. The CPU executes the browser's instructions, and the monitor (an output device) shows the web page.","Understanding computer systems — CPU, RAM, storage, and I/O — helps you choose the right hardware, diagnose performance issues, and understand how software actually runs.","1. Identify the four main components: CPU, RAM, storage, I/O.
+2. CPU executes instructions.
+3. RAM holds temporary data for running programs.
+4. Storage keeps data permanently.
+5. I/O devices interact with the user.","Example 1: Open a browser.
+The OS loads browser code from SSD into RAM. CPU executes it. Monitor (I/O) shows the page.
+
+Example 2: Computer slows down with many apps open.
+RAM fills up; OS swaps to SSD (slower) → slowdown.
+
+Example 3: Save a file.
+Data moves from RAM to SSD for permanent storage.","❌ Thinking CPU is for storage (it executes, not stores!)
+❌ Confusing RAM (temporary) with SSD (permanent)
+❌ Assuming a bigger screen means a faster computer
+❌ Thinking RAM keeps data after power off","📝 CPU = brain (executes). RAM = desk (temporary). SSD = filing cabinet (permanent).
+📝 More RAM = more apps open smoothly.
+📝 SSD = fast permanent storage.
+📝 Understand the fetch-decode-execute cycle.",Data Structures — Move to Intermediate level and learn how to organize data.
+CONTENT_36,3,Intermediate,36,Data Structures,"32,33","Understand common data structures (lists, stacks, queues, dictionaries) and when to use each.","Data structures organize information so that programs can store and work with it efficiently. Common data structures include lists, stacks, queues, and dictionaries. A list stores an ordered collection of items. A stack follows Last-In-First-Out (LIFO) order. A queue follows First-In-First-Out (FIFO) order. A dictionary stores key-value pairs. Choosing the right data structure makes programs faster and easier to understand.",Data structures organize information; lists store ordered collections; stacks follow LIFO order; queues follow FIFO order; dictionaries store key-value pairs; choosing the right data structure affects efficiency.,"A list [10, 20, 30] stores items in order. A stack of plates follows LIFO — the last plate placed is the first removed. A queue at a ticket counter follows FIFO — the first person in line is served first.",Data structures determine how efficiently your program runs. Choosing the right structure (list vs stack vs queue vs dictionary) can make the difference between a fast solution and one that times out.,"1. Identify what operations you need most (insert, delete, search, iterate).
+2. Choose the structure that best supports those operations.
+3. List: ordered, indexed access.
+4. Stack: LIFO (last in, first out).
+5. Queue: FIFO (first in, first out).
+6. Dictionary: key-value pairs, fast lookup.","Example 1: Store a to-do list.
+Use a List — ordered, indexed.
+
+Example 2: Undo feature in an editor.
+Use a Stack — last action undone first.
+
+Example 3: Print queue at a printer.
+Use a Queue — first document printed first.
+
+Example 4: Store user profiles by ID.
+Use a Dictionary — fast lookup by ID.","❌ Using a list when a dictionary would be much faster for lookups
+❌ Confusing stack (LIFO) with queue (FIFO)
+❌ Forgetting that lists have O(n) search time
+❌ Not considering memory usage","📝 Learn when to use each structure.
+📝 Stack = undo. Queue = printer. Dict = phone book.
+📝 Understand time complexity for common operations.
+📝 Practice by implementing each structure from scratch.",Object-Oriented Programming — Learn to organize code with classes and objects.
+CONTENT_37,3,Intermediate,37,Object-Oriented Programming,33,"Understand the core concepts of object-oriented programming: classes, objects, encapsulation, inheritance, and polymorphism.","Object-oriented programming (OOP) organizes software around objects that combine data and behavior. A class defines the structure and behavior of objects. An object is an instance of a class. Encapsulation keeps data and methods together. Inheritance allows a class to reuse and extend another class. Polymorphism allows different classes to be used through the same interface. OOP helps build large, maintainable programs.",OOP organizes code around objects; a class defines structure and behavior; an object is an instance of a class; encapsulation bundles data with methods; inheritance reuses code; polymorphism allows different classes to be used through the same interface.,"A class 'Car' might have attributes like color and speed, and methods like start() and brake(). An object myCar = Car('red') is an instance of the Car class.","Object-oriented programming (OOP) helps you build large, maintainable programs. It mirrors how we think about the real world — in terms of objects with properties and behaviors.","1. Identify the real-world objects in your problem.
+2. Define a class for each type of object (blueprint).
+3. Add attributes (data) and methods (behavior).
+4. Create objects (instances) from classes.
+5. Use inheritance to share common code and polymorphism for flexibility.","Example 1: Class Car.
+Attributes: color, speed, fuel.
+Methods: start(), brake().
+myCar = Car('red').
+
+Example 2: Inheritance.
+class ElectricCar(Car) — inherits all Car attributes and adds battery.
+
+Example 3: Encapsulation.
+Data (fuel level) is kept private; methods control access.","❌ Confusing a class (blueprint) with an object (instance)
+❌ Forgetting that inheritance is 'is-a' (ElectricCar is-a Car)
+❌ Overusing inheritance when composition is better
+❌ Ignoring encapsulation and exposing internal data","📝 Class = blueprint; Object = instance.
+📝 Four pillars: Encapsulation, Inheritance, Polymorphism, Abstraction.
+📝 Practice with simple real-world models (Student, Book, BankAccount).
+📝 'is-a' → inheritance; 'has-a' → composition.",Database Fundamentals — Learn how to store data persistently.
+CONTENT_38,3,Intermediate,38,Database Fundamentals,33,"Understand the fundamentals of relational databases: tables, rows, columns, keys, relationships, and SQL.","A database stores organized information so that applications can retrieve and update it efficiently. In a relational database, data is stored in tables with rows and columns. Each table has a primary key that uniquely identifies each row. Tables are connected through relationships using foreign keys. SQL is the standard language used to query and modify relational databases.",A database stores organized data; relational databases use tables; rows are records; columns are fields; a primary key uniquely identifies each row; foreign keys connect tables; SQL is used to query and modify data.,"A school database might have a 'Students' table with columns (student_id, name, age) and a 'Grades' table with columns (student_id, subject, grade). The two tables can be joined using the shared student_id.","Databases power almost every application — from social media to banking. Understanding how data is organized, queried, and stored is essential for building real software.","1. Identify the entities (things you're storing — students, courses, orders).
+2. Create a table for each entity.
+3. Define columns (attributes) and their types.
+4. Choose a primary key (unique identifier).
+5. Use foreign keys to link tables.
+6. Query with SQL: SELECT, WHERE, JOIN.","Example 1: Students table.
+Columns: student_id (PK), name, age.
+
+Example 2: Grades table.
+Columns: student_id (FK), subject, grade.
+
+Example 3: JOIN.
+SELECT s.name, g.grade FROM students s JOIN grades g ON s.student_id = g.student_id.","❌ Forgetting primary keys (every row must be uniquely identifiable)
+❌ Not normalizing data — leads to redundancy and inconsistency
+❌ Mixing up primary key and foreign key
+❌ Confusing SQL (query language) with a database (storage)","📝 Learn SQL basics: SELECT, INSERT, UPDATE, DELETE.
+📝 Understand JOINs (inner, left, right, full).
+📝 Normalize data to reduce duplication.
+📝 Practice with a small school or library database.",Computer Networks — Learn how computers communicate.
+CONTENT_39,3,Intermediate,39,Computer Networks,35,"Understand how computer networks work: protocols, IP addresses, DNS, and packet-switched communication.","Computer networks connect devices so they can share data and resources. The internet is a global network of networks. Devices communicate using protocols such as TCP/IP. IP addresses identify devices on a network, and domain names (like example.com) are translated into IP addresses by DNS. Data is broken into packets that travel across the network and are reassembled at the destination.",Networks connect devices to share data; the internet is a global network of networks; TCP/IP are core communication protocols; IP addresses identify devices; DNS translates domain names into IP addresses; data is sent as packets that are reassembled at the receiver.,"When you visit a website, your browser sends a request through your router to a DNS server, which translates the domain name into an IP address. The web server responds with data sent as packets that your computer reassembles into the page.","Networks connect the world. The internet, Wi-Fi, cloud computing, and video calls all rely on networking protocols. Understanding networks helps you debug connection issues and design scalable systems.","1. Identify the devices involved (client, server, router).
+2. Devices communicate using protocols (TCP/IP, HTTP).
+3. IP addresses identify devices; DNS translates names.
+4. Data is broken into packets and routed across the network.
+5. Packets are reassembled at the destination.","Example 1: Visit a website.
+Browser → DNS → IP address → HTTP request → server → response.
+
+Example 2: Wi-Fi.
+Router connects your devices to the internet through the ISP.
+
+Example 3: Email.
+SMTP sends; IMAP/POP3 receives.","❌ Confusing IP address (device) with domain name (human-readable)
+❌ Thinking data travels as one big chunk (it's split into packets!)
+❌ Mixing up HTTP (web) with HTTPS (secure web)
+❌ Assuming all networks are reliable — packets can be lost","📝 Learn the OSI model (7 layers) — even at a high level.
+📝 Understand TCP vs UDP.
+📝 Know DNS: how names become IPs.
+📝 Practice with tools: ping, traceroute, dig.",Operating Systems Basics — Learn how the OS manages everything.
+CONTENT_40,3,Intermediate,40,Operating Systems Basics,35,"Describe the role of an operating system in managing processes, memory, files, and devices.","An operating system (OS) manages hardware and provides services to applications. It controls processes, memory, files, and devices. Common operating systems include Windows, macOS, Linux, Android, and iOS. The OS provides a user interface, schedules CPU time among processes, manages memory allocation, and enforces security. Applications interact with hardware through the OS.",An OS manages hardware resources; it schedules processes; it manages memory; it handles files and devices; it provides a user interface; applications interact with hardware through the OS.,"When you open two applications, the OS shares CPU time between them. It also allocates memory to each program and manages access to the disk.","The operating system is the bridge between hardware and applications. Understanding OS concepts — processes, memory, files — helps you write efficient, reliable software.","1. The OS manages hardware resources.
+2. It schedules processes (CPU time-sharing).
+3. It allocates and protects memory.
+4. It handles files and I/O.
+5. It provides a user interface (GUI or CLI).
+6. It enforces security and permissions.","Example 1: Open two apps.
+The OS shares CPU time between them.
+
+Example 2: Save a file.
+The OS coordinates between your program and the SSD.
+
+Example 3: Multi-tasking.
+The OS switches rapidly between processes so they appear to run at once.","❌ Thinking programs run directly on hardware (they go through the OS)
+❌ Confusing process (running program) with thread (smaller unit within a process)
+❌ Assuming the OS never crashes (it can!)
+❌ Ignoring permissions (running everything as admin)","📝 Learn OSI: processes, threads, memory, files, I/O.
+📝 Understand CPU scheduling (round-robin, priority).
+📝 Explore: Windows, macOS, Linux (each is an OS).
+📝 Practice CLI commands (ls, cd, ps, top).",Algorithm Analysis — Move to Advanced and learn Big-O notation.
