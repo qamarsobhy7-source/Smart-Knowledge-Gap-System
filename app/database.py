@@ -1,19 +1,187 @@
+"""
+Database layer supporting BOTH SQLite and PostgreSQL.
 
+- If DATABASE_URL is set → uses PostgreSQL (production, persistent).
+- Otherwise             → uses SQLite (local dev).
+
+The public API is identical, so the rest of the app
+does not need to know which backend is in use.
+"""
+
+import os
 import sqlite3
 from pathlib import Path
+
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+IS_POSTGRES = DATABASE_URL.startswith(("postgres://", "postgresql://"))
+
+if IS_POSTGRES:
+    try:
+        import psycopg2
+        import psycopg2.extras
+    except ImportError as exc:
+        raise ImportError(
+            "psycopg2 is required when DATABASE_URL is set."
+        ) from exc
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "data" / "smart_knowledge_gap.db"
 
 
+# ============================================================
+# CONNECTION WRAPPER
+# ============================================================
+class _PostgresCursor:
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    def fetchone(self):
+        row = self._cursor.fetchone()
+        return dict(row) if row else None
+
+    def fetchall(self):
+        return [dict(r) for r in self._cursor.fetchall()]
+
+    @property
+    def rowcount(self):
+        return self._cursor.rowcount
+
+    @property
+    def lastrowid(self):
+        return None
+
+
+class _Connection:
+    """A unified connection wrapper for SQLite and PostgreSQL."""
+
+    def __init__(self):
+        if IS_POSTGRES:
+            self._conn = psycopg2.connect(DATABASE_URL)
+        else:
+            self._conn = sqlite3.connect(str(DB_PATH))
+            self._conn.execute("PRAGMA foreign_keys = ON")
+            self._conn.row_factory = sqlite3.Row
+
+    def execute(self, query, params=()):
+        if IS_POSTGRES:
+            query = query.replace("?", "%s")
+            cursor = self._conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            )
+            cursor.execute(query, params)
+            return _PostgresCursor(cursor)
+        return self._conn.execute(query, params)
+
+    def commit(self):
+        self._conn.commit()
+
+    def rollback(self):
+        self._conn.rollback()
+
+    def close(self):
+        self._conn.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            if exc_type is None:
+                self._conn.commit()
+            else:
+                self._conn.rollback()
+        finally:
+            self._conn.close()
+
+
 def get_connection():
-    connection = sqlite3.connect(DB_PATH)
-    connection.execute("PRAGMA foreign_keys = ON")
-    connection.row_factory = sqlite3.Row
-    return connection
+    return _Connection()
 
 
+# ============================================================
+# SQL DIALECT HELPERS
+# ============================================================
+def _insert_returning_id(connection, query, params):
+    """Insert and return the new row's ID (works in both dialects)."""
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING student_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["student_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_assessment_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING assessment_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["assessment_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_answer_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING answer_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["answer_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_result_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING result_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["result_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_progress_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING progress_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["progress_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_practice_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING attempt_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["attempt_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+def _insert_reassess_returning_id(connection, query, params):
+    if IS_POSTGRES:
+        query = query.rstrip().rstrip(";") + " RETURNING reassessment_id"
+        cursor = connection.execute(query, params)
+        row = cursor.fetchone()
+        return int(row["reassessment_id"])
+    cursor = connection.execute(query, params)
+    return cursor.lastrowid
+
+
+
+
+# ============================================================
+# STUDENT CRUD
+# ============================================================
 def create_student(full_name, email=None, password_hash=None):
     if not full_name or not str(full_name).strip():
         raise ValueError("Student name is required.")
@@ -23,33 +191,49 @@ def create_student(full_name, email=None, password_hash=None):
         if not email:
             email = None
 
-    with get_connection() as connection:
-        try:
-            cursor = connection.execute(
-                """
+    try:
+        with get_connection() as connection:
+            query = """
                 INSERT INTO students (full_name, email, password_hash)
                 VALUES (?, ?, ?)
-                """,
-                (
-                    str(full_name).strip(),
-                    email,
-                    password_hash,
-                )
+            """
+            params = (
+                str(full_name).strip(),
+                email,
+                password_hash,
             )
-            return cursor.lastrowid
-        except sqlite3.IntegrityError:
+            return _insert_returning_id(connection, query, params)
+    except Exception as exc:
+        if "unique" in str(exc).lower() or "duplicate" in str(exc).lower():
             raise ValueError("Email is already registered.")
+        raise
+
+
+def get_student(student_id):
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            SELECT
+                student_id,
+                full_name,
+                email,
+                created_at
+            FROM students
+            WHERE student_id = ?
+            """,
+            (int(student_id),)
+        )
+        return cursor.fetchone()
 
 
 def get_student_by_email(email):
-    """Return the student with the given email, or None."""
     if not email:
         return None
 
     email = str(email).strip().lower()
 
     with get_connection() as connection:
-        row = connection.execute(
+        cursor = connection.execute(
             """
             SELECT
                 student_id,
@@ -61,17 +245,14 @@ def get_student_by_email(email):
             WHERE email = ?
             """,
             (email,)
-        ).fetchone()
+        )
+        return cursor.fetchone()
 
-        return dict(row) if row else None
 
-
+# ============================================================
+# PASSWORD RESET
+# ============================================================
 def set_password_reset_token(email, token, expires_at):
-    """
-    Save a password-reset token for the given email.
-
-    Returns True if a matching student was found, False otherwise.
-    """
     if not email:
         return False
 
@@ -91,16 +272,11 @@ def set_password_reset_token(email, token, expires_at):
 
 
 def get_student_by_reset_token(token):
-    """
-    Return the student whose reset token matches, or None.
-
-    Also checks that the token has not expired.
-    """
     if not token:
         return None
 
     with get_connection() as connection:
-        row = connection.execute(
+        cursor = connection.execute(
             """
             SELECT
                 student_id,
@@ -113,13 +289,11 @@ def get_student_by_reset_token(token):
             WHERE password_reset_token = ?
             """,
             (str(token),)
-        ).fetchone()
-
-        return dict(row) if row else None
+        )
+        return cursor.fetchone()
 
 
 def update_password(student_id, password_hash):
-    """Update the password hash for a student and clear the reset token."""
     with get_connection() as connection:
         cursor = connection.execute(
             """
@@ -134,44 +308,23 @@ def update_password(student_id, password_hash):
         return cursor.rowcount > 0
 
 
-def get_student(student_id):
-    with get_connection() as connection:
-        row = connection.execute(
-            """
-            SELECT
-                student_id,
-                full_name,
-                email,
-                created_at
-            FROM students
-            WHERE student_id = ?
-            """,
-            (int(student_id),)
-        ).fetchone()
-
-        return dict(row) if row else None
-
-
+# ============================================================
+# ASSESSMENT CRUD
+# ============================================================
 def create_assessment(student_id, assessment_type):
     if not assessment_type or not str(assessment_type).strip():
         raise ValueError("Assessment type is required.")
 
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
-            INSERT INTO assessments (
-                student_id,
-                assessment_type
-            )
+        query = """
+            INSERT INTO assessments (student_id, assessment_type)
             VALUES (?, ?)
-            """,
-            (
-                int(student_id),
-                str(assessment_type).strip()
-            )
+        """
+        params = (
+            int(student_id),
+            str(assessment_type).strip()
         )
-
-        return cursor.lastrowid
+        return _insert_assessment_returning_id(connection, query, params)
 
 
 def save_answer(
@@ -182,8 +335,7 @@ def save_answer(
     score
 ):
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
+        query = """
             INSERT INTO answers (
                 assessment_id,
                 question_id,
@@ -192,17 +344,15 @@ def save_answer(
                 score
             )
             VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                int(assessment_id),
-                str(question_id),
-                student_answer,
-                int(bool(is_correct)),
-                float(score)
-            )
+        """
+        params = (
+            int(assessment_id),
+            str(question_id),
+            student_answer,
+            int(bool(is_correct)),
+            float(score)
         )
-
-        return cursor.lastrowid
+        return _insert_answer_returning_id(connection, query, params)
 
 
 def save_concept_result(
@@ -222,8 +372,7 @@ def save_concept_result(
         raise ValueError("Gap score must be between 0 and 100.")
 
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
+        query = """
             INSERT INTO concept_results (
                 assessment_id,
                 concept_id,
@@ -232,17 +381,15 @@ def save_concept_result(
                 gap_score
             )
             VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                int(assessment_id),
-                int(concept_id),
-                mastery,
-                str(gap_level),
-                gap_score
-            )
+        """
+        params = (
+            int(assessment_id),
+            int(concept_id),
+            mastery,
+            str(gap_level),
+            gap_score
         )
-
-        return cursor.lastrowid
+        return _insert_result_returning_id(connection, query, params)
 
 
 def save_learning_progress(
@@ -255,8 +402,7 @@ def save_learning_progress(
         raise ValueError("Learning status is required.")
 
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
+        query = """
             INSERT INTO learning_progress (
                 student_id,
                 concept_id,
@@ -264,16 +410,14 @@ def save_learning_progress(
                 status
             )
             VALUES (?, ?, ?, ?)
-            """,
-            (
-                int(student_id),
-                int(concept_id),
-                int(learning_step),
-                str(status).strip()
-            )
+        """
+        params = (
+            int(student_id),
+            int(concept_id),
+            int(learning_step),
+            str(status).strip()
         )
-
-        return cursor.lastrowid
+        return _insert_progress_returning_id(connection, query, params)
 
 
 def save_practice_attempt(
@@ -284,8 +428,7 @@ def save_practice_attempt(
     score
 ):
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
+        query = """
             INSERT INTO practice_attempts (
                 student_id,
                 question_id,
@@ -294,17 +437,15 @@ def save_practice_attempt(
                 score
             )
             VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                int(student_id),
-                str(question_id),
-                student_answer,
-                int(bool(is_correct)),
-                float(score)
-            )
+        """
+        params = (
+            int(student_id),
+            str(question_id),
+            student_answer,
+            int(bool(is_correct)),
+            float(score)
         )
-
-        return cursor.lastrowid
+        return _insert_practice_returning_id(connection, query, params)
 
 
 def save_reassessment(
@@ -336,8 +477,7 @@ def save_reassessment(
         )
 
     with get_connection() as connection:
-        cursor = connection.execute(
-            """
+        query = """
             INSERT INTO reassessments (
                 student_id,
                 concept_id,
@@ -346,26 +486,26 @@ def save_reassessment(
                 improvement
             )
             VALUES (?, ?, ?, ?, ?)
-            """,
-            (
-                int(student_id),
-                int(concept_id),
-                before_mastery,
-                after_mastery,
-                improvement
-            )
+        """
+        params = (
+            int(student_id),
+            int(concept_id),
+            before_mastery,
+            after_mastery,
+            improvement
         )
+        return _insert_reassess_returning_id(connection, query, params)
 
-        return cursor.lastrowid
 
+# ============================================================
+# QUERIES
+# ============================================================
 def get_assessment_answers(assessment_id):
     if assessment_id is None:
-        raise ValueError(
-            "Assessment ID is required."
-        )
+        raise ValueError("Assessment ID is required.")
 
     with get_connection() as connection:
-        rows = connection.execute(
+        cursor = connection.execute(
             """
             SELECT
                 answer_id,
@@ -379,21 +519,13 @@ def get_assessment_answers(assessment_id):
             ORDER BY answer_id ASC
             """,
             (int(assessment_id),)
-        ).fetchall()
-
-        return [dict(row) for row in rows]
+        )
+        return cursor.fetchall()
 
 
 def get_latest_diagnostic_assessment(student_id):
-    """
-    Return the latest Diagnostic assessment for a student.
-
-    This function is read-only and does not modify the database.
-    """
-
     with get_connection() as connection:
-
-        row = connection.execute(
+        cursor = connection.execute(
             """
             SELECT
                 assessment_id,
@@ -407,31 +539,16 @@ def get_latest_diagnostic_assessment(student_id):
             ORDER BY
                 created_at DESC,
                 assessment_id DESC
-            LIMIT 1
             """,
-            (
-                int(student_id),
-            )
-        ).fetchone()
-
-        if row is None:
-            return None
-
-        return dict(row)
+            (int(student_id),)
+        )
+        rows = cursor.fetchall()
+        return rows[0] if rows else None
 
 
-def get_concept_results_for_assessment(
-    assessment_id
-):
-    """
-    Return concept-level results for one assessment.
-
-    This function is read-only and does not modify the database.
-    """
-
+def get_concept_results_for_assessment(assessment_id):
     with get_connection() as connection:
-
-        rows = connection.execute(
+        cursor = connection.execute(
             """
             SELECT
                 result_id,
@@ -444,12 +561,6 @@ def get_concept_results_for_assessment(
             WHERE assessment_id = ?
             ORDER BY concept_id ASC
             """,
-            (
-                int(assessment_id),
-            )
-        ).fetchall()
-
-        return [
-            dict(row)
-            for row in rows
-        ]
+            (int(assessment_id),)
+        )
+        return cursor.fetchall()
