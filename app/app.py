@@ -29,6 +29,7 @@ try:
     from .backend_service import BackendService
     from .repository import (
         load_question_bank,
+        load_concepts,
         get_learning_content_for_concept,
         get_practice_for_concept
     )
@@ -37,10 +38,20 @@ try:
     from .init_database import initialize_database, database_exists
     from .pdf_report import generate_student_report
     from .translations import get_text, SUPPORTED_LANGUAGES
+    from .ml.ml_service import (
+        models_available,
+        predict_student_risk,
+        predict_student_cluster,
+        recommend_concepts,
+        get_model_metrics,
+        explain_risk,
+        explain_performance,
+    )
 except ImportError:
     from backend_service import BackendService
     from repository import (
         load_question_bank,
+        load_concepts,
         get_learning_content_for_concept,
         get_practice_for_concept
     )
@@ -49,6 +60,15 @@ except ImportError:
     from init_database import initialize_database, database_exists
     from pdf_report import generate_student_report
     from translations import get_text, SUPPORTED_LANGUAGES
+    from ml.ml_service import (
+        models_available,
+        predict_student_risk,
+        predict_student_cluster,
+        recommend_concepts,
+        get_model_metrics,
+        explain_risk,
+        explain_performance,
+    )
 
 
 app = Flask(
@@ -1906,6 +1926,173 @@ def submit_answer(student_id):
         total_questions=len(questions),
         student_id=student_id,
         is_reassessment=is_reassessment
+    )
+
+
+
+# ============================================================
+# ML ROUTES
+# ============================================================
+
+@app.route("/ml/insights/<int:student_id>", methods=["GET"])
+@login_required
+def ml_insights(student_id):
+    """Show ML-driven insights for a student."""
+    if current_student_id() != student_id:
+        return "Unauthorized", 403
+
+    try:
+        dashboard_data = get_student_dashboard_data(student_id)
+    except ValueError as exc:
+        return str(exc), 404
+    except Exception:
+        app.logger.exception(
+            "ML insights failed for student_id=%s", student_id
+        )
+        return "Unable to load ML insights.", 500
+
+    student = dashboard_data.get("student", {})
+    diagnosis = dashboard_data.get("diagnosis", [])
+
+    # ---- Compute student-level features for clustering ----
+    import statistics
+    masteries = [
+        float(item.get("mastery", 0)) for item in diagnosis
+    ] or [0.0]
+
+    cluster_features = {
+        "avg_mastery": sum(masteries) / len(masteries),
+        "std_mastery": (
+            statistics.pstdev(masteries) if len(masteries) > 1 else 0.0
+        ),
+        "avg_response_time": 45.0,
+        "total_practice": int(
+            (dashboard_data.get("practice_summary") or {}).get("total_attempts", 0)
+        ),
+        "reassessment_rate": 0.5,
+        "avg_improvement": 0.0,
+        "avg_accuracy": float(
+            (dashboard_data.get("practice_summary") or {}).get("accuracy", 0) or 0
+        ),
+        "n_concepts": len(diagnosis),
+    }
+
+    cluster_result = predict_student_cluster(cluster_features)
+
+    # ---- Per-concept risk predictions ----
+    risk_predictions = []
+    for item in diagnosis:
+        try:
+            features = {
+                "subject_id": 1,
+                "difficulty_encoded": 1,
+                "practice_sessions": cluster_features["total_practice"] // max(len(diagnosis), 1),
+                "avg_response_time": 45.0,
+                "reassessment_flag": 1,
+                "improvement": 0.0,
+                "questions_correct": round(
+                    float(item.get("mastery", 0)) / 100.0 * 6
+                ),
+            }
+            risk = predict_student_risk(features)
+            if risk:
+                risk_predictions.append({
+                    "concept_name": item.get("concept_name", ""),
+                    "mastery": float(item.get("mastery", 0)),
+                    **risk,
+                })
+        except Exception:
+            continue
+
+    # ---- Recommendations ----
+    mastery_map = {
+        int(item["concept_id"]): float(item.get("mastery", 0))
+        for item in diagnosis
+        if "concept_id" in item
+    }
+
+    try:
+        concepts_df = load_concepts()
+        recommendations = recommend_concepts(
+            student_id=student_id,
+            student_mastery=mastery_map,
+            concepts_df=concepts_df,
+            top_k=5,
+        )
+        # Log for debugging
+        if recommendations:
+            app.logger.info(
+                "Generated %d recommendations for student %s",
+                len(recommendations), student_id
+            )
+        else:
+            app.logger.warning(
+                "No recommendations generated for student %s", student_id
+            )
+    except Exception as exc:
+        app.logger.exception(
+            "Recommendation failed for student %s: %s",
+            student_id, exc
+        )
+        recommendations = []
+
+    metrics = get_model_metrics()
+
+    # ---- SHAP Explanation (Explainable AI) ----
+    explanation = None
+    explanation_text = ""
+
+    if risk_predictions:
+        # Use the highest-risk concept for SHAP explanation
+        highest_risk = max(
+            risk_predictions,
+            key=lambda x: x.get("risk_probability", 0),
+        )
+
+        # Build the same feature vector used for prediction
+        explain_features = {
+            "subject_id": 1,
+            "difficulty_encoded": 1,
+            "practice_sessions": cluster_features["total_practice"] // max(len(diagnosis), 1),
+            "avg_response_time": 45.0,
+            "reassessment_flag": 1,
+            "improvement": 0.0,
+            "questions_correct": round(
+                highest_risk.get("mastery", 0) / 100.0 * 6
+            ),
+        }
+
+        try:
+            explanation = explain_risk(explain_features)
+            if explanation and "error" not in explanation:
+                explanation_text = explanation.get("text_summary", "")
+                explanation["concept_name"] = highest_risk.get("concept_name", "")
+        except Exception:
+            app.logger.exception("SHAP explanation failed")
+            explanation = None
+
+    return render_template(
+        "ml_insights.html",
+        student=student,
+        student_id=student_id,
+        cluster=cluster_result,
+        risk_predictions=risk_predictions,
+        recommendations=recommendations,
+        metrics=metrics,
+        models_available=models_available(),
+        explanation=explanation,
+        explanation_text=explanation_text,
+    )
+
+
+@app.route("/ml/metrics", methods=["GET"])
+def ml_metrics_page():
+    """Public page showing all ML model metrics."""
+    metrics = get_model_metrics()
+    return render_template(
+        "ml_metrics.html",
+        metrics=metrics,
+        models_available=models_available(),
     )
 
 

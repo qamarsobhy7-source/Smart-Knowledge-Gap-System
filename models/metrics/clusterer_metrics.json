@@ -1,0 +1,36 @@
+{
+  "task": "clustering",
+  "model": "KMeans",
+  "purpose": "Student Clustering",
+  "evaluation_type": "Development Evaluation",
+  "synthetic_data": true,
+  "n_students": 2000,
+  "n_clusters": 4,
+  "silhouette_score": 0.17068279159907235,
+  "pca_explained_variance": [
+    0.30644091505781995,
+    0.2293486519867354
+  ],
+  "clusters": {
+    "High Performers": {
+      "size": 549,
+      "avg_mastery": 64.0014103423393,
+      "avg_improvement": 5.39353631705271
+    },
+    "Steady Learners": {
+      "size": 324,
+      "avg_mastery": 45.0516305646514,
+      "avg_improvement": 11.302208180108643
+    },
+    "Struggling Students": {
+      "size": 529,
+      "avg_mastery": 36.166241870395936,
+      "avg_improvement": 3.7238404031905925
+    },
+    "Improving Students": {
+      "size": 598,
+      "avg_mastery": 35.235295480253676,
+      "avg_improvement": 5.728261523500654
+    }
+  }
+}

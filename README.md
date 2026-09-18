@@ -18,6 +18,7 @@ and generates prerequisite-aware learning paths.**
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](#)
 [![i18n](https://img.shields.io/badge/i18n-EN%20%7C%20AR-blue)](#)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supported-336791?logo=postgresql&logoColor=white)](#)
+[![ML](https://img.shields.io/badge/Machine%20Learning-RandomForest%20%7C%20GradientBoosting-orange)](#)
 
 </div>
 
@@ -46,6 +47,7 @@ https://smart-knowledge-gap-system-qqbms.faable.link/
 - [Knowledge Graph & Priorities](#-knowledge-graph--priorities)
 - [Learning Path](#-learning-path)
 - [Screenshots](#-screenshots)
+- [Machine Learning Layer](#-machine-learning-layer)
 - [Testing](#-testing)
 - [Docker](#-docker)
 - [Data Persistence](#-data-persistence)
@@ -304,8 +306,19 @@ smart-knowledge-gap/
 │   ├── learning_content_FINAL.csv    # Learning material
 │   └── practice_questions_FINAL.csv  # Practice questions
 │
-├── models/                           # ML support layer
-│   └── ml_model_FINAL.joblib
+├── app/ml/                           # Machine Learning layer
+│   ├── data_generator.py
+│   ├── risk_predictor.py
+│   ├── performance_predictor.py
+│   ├── concept_recommender.py
+│   ├── student_clusterer.py
+│   └── ml_service.py
+│
+├── models/                           # Trained ML models
+│   ├── student_risk_model.joblib
+│   ├── student_performance_model.joblib
+│   ├── concept_recommender.joblib
+│   └── student_clusterer.joblib
 │
 ├── templates/                        # Jinja2 templates
 │   ├── base.html
@@ -525,6 +538,111 @@ Concepts already mastered are skipped. Prerequisite concepts that are weak are i
 The result is a **personalized, ordered list of concepts** that the student should follow.
 
 ---
+## 🤖 Machine Learning Layer
+
+The system includes a dedicated AI/ML layer that provides **predictive analytics** on top of the rule-based diagnostic engine.
+
+> **Important:** All models are trained on **synthetic development data** generated from the real question bank. Metrics are reported as **Development Evaluation** — not as claims of real-world performance.
+
+### 🎯 Models
+
+| Model | Type | Purpose |
+|---|---|---|
+| **Risk Predictor** | Gradient Boosting (binary) | Predicts whether a student is **At Risk** (mastery < 60%) on a concept |
+| **Performance Predictor** | Random Forest (multi-class) | Predicts target status: Critical / Weak / Adequate / Strong |
+| **Concept Recommender** | Hybrid (content + collaborative + prerequisite-aware) | Recommends next concepts to study |
+| **Student Clusterer** | K-Means + PCA | Groups students into interpretable clusters |
+
+### 📊 Model Performance
+
+**Risk Predictor (binary classification):**
+
+| Metric | Value |
+|---|---|
+| Accuracy | **83.87%** |
+| Precision | **86.76%** |
+| Recall | **92.71%** |
+| F1 Score | **89.63%** |
+| ROC-AUC | **87.95%** |
+
+**Student Clusterer:**
+
+- **2,000 students** → **4 clusters**
+- Silhouette score: **0.17**
+- PCA variance explained: **53.6%** (2 components)
+
+**Clusters identified:**
+
+| Cluster | Size | Avg Mastery |
+|---|---|---|
+| High Performers | 549 | 64.0% |
+| Steady Learners | 324 | 45.1% |
+| Struggling Students | 529 | 36.2% |
+| Improving Students | 598 | 35.2% |
+
+### 🧠 Feature Engineering
+
+The models are trained on the following features (per student, per concept):
+
+- Subject ID
+- Concept difficulty (encoded: Beginner / Intermediate / Advanced)
+- Number of practice sessions
+- Average response time
+- Reassessment participation
+- Improvement between assessments
+- Question accuracy
+
+### 🔧 Training Pipeline
+
+```bash
+# 1. Generate synthetic training data
+python -c "from ml.data_generator import save_synthetic_dataset; save_synthetic_dataset()"
+
+# 2. Train all models
+python -c "
+import pandas as pd
+from ml.risk_predictor import train_risk_predictor, save_risk_predictor
+from ml.performance_predictor import train_performance_predictor, save_performance_predictor
+from ml.concept_recommender import train_recommender, save_recommender
+from ml.student_clusterer import train_clusterer, save_clusterer
+
+df = pd.read_csv('data/synthetic_ml_training_data.csv')
+concepts = pd.read_csv('data/concepts_final.csv')
+qb = pd.read_csv('data/final_question_bank_270.csv')
+
+save_risk_predictor(train_risk_predictor(df))
+save_performance_predictor(train_performance_predictor(df))
+save_recommender(train_recommender(df, concepts, qb))
+save_clusterer(train_clusterer(df))
+"
+```
+
+### 📈 ML Insights Dashboard
+
+Every student has access to a personal **AI Insights** page (`/ml/insights/<student_id>`) that shows:
+
+- Their **learning cluster** (High Performers / Steady Learners / ...)
+- **Per-concept risk predictions** (At Risk / On Track)
+- **AI-recommended next concepts** to study
+
+Public model metrics are visible at `/ml/metrics`.
+
+### 🏗️ ML Architecture
+
+```
+app/ml/
+├── __init__.py
+├── config.py                    # Centralized configuration
+├── data_generator.py            # Synthetic data generation
+├── risk_predictor.py            # Binary classification
+├── performance_predictor.py     # Multi-class classification
+├── concept_recommender.py       # Hybrid recommender
+├── student_clusterer.py         # K-Means + PCA
+└── ml_service.py                # Unified interface for Flask
+```
+
+---
+
 ## 📸 Screenshots
 
 A quick visual tour of the platform.
@@ -722,6 +840,8 @@ The application is currently deployed on Faable:
 - [x] PostgreSQL support (with SQLite fallback)
 - [x] GitHub Actions CI
 - [x] Docker Compose
+- [x] **Machine Learning layer** (Risk Predictor + Performance Predictor + Recommender + Clusterer)
+- [x] **AI Insights Dashboard** (per-student ML predictions)
 - [ ] Optional LLM-based explanation layer
 - [ ] Email notifications
 

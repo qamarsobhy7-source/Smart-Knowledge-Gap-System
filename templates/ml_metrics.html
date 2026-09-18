@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}ML Model Metrics — Smart Knowledge Gap{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    {# HERO #}
+    <div class="dashboard-hero" data-animate>
+        <span class="eyebrow">🤖 MACHINE LEARNING</span>
+        <h1>Model Metrics</h1>
+        <p>
+            These metrics were computed on synthetic development data.
+            They illustrate the AI layer of the system and are not claims
+            of real-world student performance.
+        </p>
+    </div>
+
+    {# MODELS AVAILABLE #}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">STATUS</span>
+                <h2>Available Models</h2>
+            </div>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon">🎯</div>
+                <div class="stat-card-value">
+                    {% if models_available.risk %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">Risk Predictor</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">📊</div>
+                <div class="stat-card-value">
+                    {% if models_available.performance %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">Performance Predictor</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon success">🎓</div>
+                <div class="stat-card-value">
+                    {% if models_available.recommender %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">Concept Recommender</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">👥</div>
+                <div class="stat-card-value">
+                    {% if models_available.clusterer %}✅{% else %}❌{% endif %}
+                </div>
+                <div class="stat-card-label">Student Clusterer</div>
+            </div>
+        </div>
+    </section>
+
+    {# RISK PREDICTOR METRICS #}
+    {% if metrics.risk_predictor %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">BINARY CLASSIFICATION</span>
+                <h2>Risk Predictor</h2>
+            </div>
+            <span class="chart-card-subtitle">
+                {{ metrics.risk_predictor.model }}
+            </span>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon success">✓</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.risk_predictor.accuracy * 100) }}%
+                </div>
+                <div class="stat-card-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">🎯</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.risk_predictor.precision * 100) }}%
+                </div>
+                <div class="stat-card-label">Precision</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">📈</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.risk_predictor.recall * 100) }}%
+                </div>
+                <div class="stat-card-label">Recall</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">🎓</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.risk_predictor.f1 * 100) }}%
+                </div>
+                <div class="stat-card-label">F1 Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon success">📊</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.risk_predictor.roc_auc * 100) }}%
+                </div>
+                <div class="stat-card-label">ROC-AUC</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# PERFORMANCE PREDICTOR #}
+    {% if metrics.performance_predictor %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">MULTI-CLASS CLASSIFICATION</span>
+                <h2>Performance Predictor</h2>
+            </div>
+            <span class="chart-card-subtitle">
+                {{ metrics.performance_predictor.model }}
+            </span>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon success">✓</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.performance_predictor.accuracy * 100) }}%
+                </div>
+                <div class="stat-card-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">🎯</div>
+                <div class="stat-card-value">
+                    {{ "%.2f"|format(metrics.performance_predictor.f1_macro * 100) }}%
+                </div>
+                <div class="stat-card-label">F1 (macro)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">📚</div>
+                <div class="stat-card-value">
+                    {{ metrics.performance_predictor.n_train }}
+                </div>
+                <div class="stat-card-label">Train Samples</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">🧪</div>
+                <div class="stat-card-value">
+                    {{ metrics.performance_predictor.n_test }}
+                </div>
+                <div class="stat-card-label">Test Samples</div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# CLUSTERER #}
+    {% if metrics.clusterer %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">UNSUPERVISED LEARNING</span>
+                <h2>Student Clusterer</h2>
+            </div>
+            <span class="chart-card-subtitle">
+                {{ metrics.clusterer.model }}
+            </span>
+        </div>
+
+        <div class="stats-grid" data-animate>
+            <div class="stat-card">
+                <div class="stat-card-icon">👥</div>
+                <div class="stat-card-value">
+                    {{ metrics.clusterer.n_students }}
+                </div>
+                <div class="stat-card-label">Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon info">🎯</div>
+                <div class="stat-card-value">
+                    {{ metrics.clusterer.n_clusters }}
+                </div>
+                <div class="stat-card-label">Clusters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">📊</div>
+                <div class="stat-card-value">
+                    {{ "%.3f"|format(metrics.clusterer.silhouette_score) }}
+                </div>
+                <div class="stat-card-label">Silhouette</div>
+            </div>
+        </div>
+
+        <div class="concept-list" style="margin-top: 1.5rem;">
+            {% for label, info in metrics.clusterer.clusters.items() %}
+            <div class="concept-row" data-animate>
+                <div class="concept-row-header">
+                    <h4>{{ label }}</h4>
+                    <strong>{{ info.size }} students</strong>
+                </div>
+                <div class="mastery-row">
+                    <span>Avg mastery</span>
+                    <strong>{{ "%.1f"|format(info.avg_mastery) }}%</strong>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# BACK BUTTON #}
+    <div class="results-actions" style="margin-top: 2rem;">
+        <a class="primary-btn" href="{{ url_for('index') }}">
+            Back to Home
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{
+  "task": "classification",
+  "model": "RandomForestClassifier",
+  "purpose": "Student Performance Prediction",
+  "evaluation_type": "Development Evaluation",
+  "synthetic_data": true,
+  "n_train": 16120,
+  "n_test": 4030,
+  "accuracy": 0.5612903225806452,
+  "precision_macro": 0.4860616968956467,
+  "recall_macro": 0.53585647674126,
+  "f1_macro": 0.4986610868927434,
+  "f1_weighted": 0.56564797700189,
+  "classes": [
+    "Critical",
+    "Weak",
+    "Adequate",
+    "Strong"
+  ],
+  "per_class_report": {
+    "Critical": {
+      "precision": 0.39054054054054055,
+      "recall": 0.37098844672657255,
+      "f1-score": 0.380513495720869,
+      "support": 779.0
+    },
+    "Weak": {
+      "precision": 0.7622594661700807,
+      "recall": 0.7270574304322084,
+      "f1-score": 0.7442424242424243,
+      "support": 1689.0
+    },
+    "Adequate": {
+      "precision": 0.2958715596330275,
+      "recall": 0.5863636363636363,
+      "f1-score": 0.3932926829268293,
+      "support": 220.0
+    },
+    "Strong": {
+      "precision": 0.49557522123893805,
+      "recall": 0.45901639344262296,
+      "f1-score": 0.4765957446808511,
+      "support": 1342.0
+    },
+    "accuracy": 0.5612903225806452,
+    "macro avg": {
+      "precision": 0.4860616968956467,
+      "recall": 0.53585647674126,
+      "f1-score": 0.4986610868927434,
+      "support": 4030.0
+    },
+    "weighted avg": {
+      "precision": 0.5761392083037887,
+      "recall": 0.5612903225806452,
+      "f1-score": 0.56564797700189,
+      "support": 4030.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      289,
+      46,
+      209,
+      235
+    ],
+    [
+      72,
+      1228,
+      13,
+      376
+    ],
+    [
+      74,
+      1,
+      129,
+      16
+    ],
+    [
+      305,
+      336,
+      85,
+      616
+    ]
+  ],
+  "feature_importance": {
+    "subject_id": 0.03899817027548513,
+    "difficulty_encoded": 0.08372642809251567,
+    "practice_sessions": 0.09962166512336637,
+    "accuracy": 0.6068928973769045,
+    "reassessment_flag": 0.010385700121285596,
+    "improvement": 0.16037513901044279
+  }
+}
