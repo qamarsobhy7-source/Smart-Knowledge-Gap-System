@@ -19,6 +19,14 @@ and generates prerequisite-aware learning paths.**
 
 ---
 
+## 🚀 Live Demo
+
+**[🔗 Try the app live →](https://smart-knowledge-gap-system-qqbms.faable.link/)**
+
+https://smart-knowledge-gap-system-qqbms.faable.link/
+
+---
+
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
@@ -119,76 +127,16 @@ For every weak concept the student receives:
 - Key points to remember
 - Practice questions for reinforcement
 
+### 👩‍🏫 Teacher Dashboard
+
+Teachers get class-level analytics:
+
+- Number of students
+- Average mastery per subject
+- At-risk students
+- Hardest concepts
+- Average improvement across the class
+
 ### 📈 Before vs After Improvement
 
 After completing the learning path, the student takes a **re-assessment**. The system then computes:
-
-<!-- Force redeploy: 2026-09-17 19:34:58 -->
-
-
-## 📸 Screenshots
-
-A quick visual tour of the platform.
-
-### 🏠 Home Page
-
-![Home Page](screenshots/01-home.png)
-
-*Clean, modern landing page with subject & level selection.*
-
-### 📝 Diagnostic Assessment
-
-![Assessment](screenshots/02-assessment.png)
-
-*Concept-by-concept assessment with shuffled questions.*
-
-### 📊 Results — Knowledge Profile
-
-![Results](screenshots/03-results.png)
-
-*Per-concept mastery with Strong / Adequate / Weak / Critical levels.*
-
-### 🎯 Learning Priorities
-
-![Learning Priorities](screenshots/04-learning-priorities.png)
-
-*Ranked concepts to focus on first, based on gap and prerequisites.*
-
-### 🛤️ Personalized Learning Path
-
-![Learning Path](screenshots/05-learning-path.png)
-
-*Ordered list of concepts the student should study next.*
-
-### 👤 Student Dashboard
-
-![Student Dashboard](screenshots/06-student-dashboard.png)
-
-*Overall mastery, strengths, gaps, practice activity, and progress.*
-
-### 📚 Learning Content
-
-![Learning Content](screenshots/07-learning-content.png)
-
-*Structured explanation, key points, and examples per concept.*
-
-### 🎯 Practice Mode
-
-![Practice](screenshots/08-practice.png)
-
-*Targeted practice with instant scoring and feedback.*
-
-### 👩‍🏫 Teacher Dashboard
-
-![Teacher Dashboard](screenshots/09-teacher-dashboard.png)
-
-*Class-level analytics: student performance, concepts, and priorities.*
-
-### 🌙 Dark Mode
-
-![Dark Mode](screenshots/10-dark-mode.png)
-
-*Full dark mode support with seamless theme switching.*
-
----
-
