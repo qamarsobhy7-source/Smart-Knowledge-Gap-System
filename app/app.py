@@ -35,6 +35,7 @@ try:
     from .teacher_dashboard_service import get_teacher_dashboard_data
     from .init_database import initialize_database, database_exists
     from .pdf_report import generate_student_report
+    from .translations import get_text, SUPPORTED_LANGUAGES
 except ImportError:
     from backend_service import BackendService
     from repository import (
@@ -46,6 +47,7 @@ except ImportError:
     from teacher_dashboard_service import get_teacher_dashboard_data
     from init_database import initialize_database, database_exists
     from pdf_report import generate_student_report
+    from translations import get_text, SUPPORTED_LANGUAGES
 
 
 app = Flask(
@@ -175,6 +177,60 @@ def inject_csrf_token():
         "csrf_token": generate_csrf_token,
         "csrf_field_name": CSRF_FORM_FIELD,
     }
+
+
+# ============================================================
+# INTERNATIONALIZATION (i18n)
+# ============================================================
+
+DEFAULT_LANGUAGE = "en"
+LANGUAGE_SESSION_KEY = "language"
+
+
+def get_current_language():
+    """Return the current language code from the session."""
+    lang = session.get(LANGUAGE_SESSION_KEY, DEFAULT_LANGUAGE)
+    if lang not in SUPPORTED_LANGUAGES:
+        lang = DEFAULT_LANGUAGE
+    return lang
+
+
+def is_rtl():
+    """Return True if the current language uses RTL direction."""
+    return get_current_language() == "ar"
+
+
+def t(key, default=None):
+    """Translate a key in the current language."""
+    return get_text(get_current_language(), key, default)
+
+
+@app.context_processor
+def inject_i18n():
+    """Make t() and language info available in all templates."""
+    lang = get_current_language()
+    return {
+        "t": t,
+        "current_language": lang,
+        "supported_languages": SUPPORTED_LANGUAGES,
+        "is_rtl": is_rtl(),
+        "language_name": {
+            "en": "English",
+            "ar": "العربية",
+        },
+    }
+
+
+@app.route("/set-language/<lang>", methods=["GET"])
+def set_language(lang):
+    """Change the current language and redirect back."""
+    if lang in SUPPORTED_LANGUAGES:
+        session[LANGUAGE_SESSION_KEY] = lang
+        session.modified = True
+
+    # Redirect back to where the user came from
+    next_url = request.args.get("next") or request.referrer or "/"
+    return redirect(next_url)
 
 
 # ============================================================

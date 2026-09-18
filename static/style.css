@@ -2869,3 +2869,140 @@ textarea:focus {
     background: var(--color-surface-alt);
     color: var(--color-text-muted);
 }
+
+
+/* ============================================================
+   LANGUAGE SWITCHER
+   ============================================================ */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-right: var(--space-2);
+}
+
+.lang-current,
+.lang-link {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.lang-current {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.lang-link {
+    color: var(--color-text-secondary);
+}
+
+.lang-link:hover {
+    background: var(--color-surface);
+    color: var(--color-primary);
+}
+
+/* ============================================================
+   RTL SUPPORT (Arabic)
+   ============================================================ */
+[dir="rtl"] body {
+    font-family: 'Inter', 'Tajawal', -apple-system, sans-serif;
+}
+
+[dir="rtl"] .nav-links {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .navbar-inner {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .brand {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .brand-text {
+    text-align: right;
+}
+
+[dir="rtl"] .lang-switcher {
+    margin-right: 0;
+    margin-left: var(--space-2);
+}
+
+[dir="rtl"] .hero h1,
+[dir="rtl"] .hero p,
+[dir="rtl"] .dashboard-hero h1,
+[dir="rtl"] .dashboard-hero p {
+    text-align: right;
+}
+
+[dir="rtl"] .answer-option:hover {
+    transform: translateX(-4px);
+}
+
+[dir="rtl"] .path-card:hover {
+    transform: translateX(-6px);
+}
+
+[dir="rtl"] .priority-card:hover {
+    transform: translateX(-6px);
+}
+
+[dir="rtl"] .student-item:hover {
+    transform: translateX(-4px);
+}
+
+[dir="rtl"] .path-arrow {
+    transform: rotate(180deg);
+}
+
+[dir="rtl"] .path-card:hover .path-arrow {
+    transform: rotate(180deg) translateX(6px);
+}
+
+[dir="rtl"] .feature-card::before {
+    transform-origin: right;
+}
+
+[dir="rtl"] .toast {
+    transform: translateX(-120%);
+}
+
+[dir="rtl"] .toast.toast-visible {
+    transform: translateX(0);
+}
+
+[dir="rtl"] .toast-container {
+    right: auto;
+    left: 24px;
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .toast-container {
+        right: 16px;
+        left: 16px;
+    }
+}
+
+/* Arabic font support */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+    font-family: 'Tajawal', 'Poppins', sans-serif;
+}
