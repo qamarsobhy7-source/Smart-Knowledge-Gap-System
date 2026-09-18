@@ -405,7 +405,8 @@ def _get_student_performance(connection):
         """
         SELECT
             student_id,
-            full_name
+            full_name,
+            email
         FROM students
         ORDER BY student_id ASC
         """

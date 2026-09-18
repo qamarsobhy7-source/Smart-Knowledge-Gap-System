@@ -60,6 +60,31 @@
     {% endif %}
 
     {# ============================================================ #}
+    {# DOWNLOAD PDF REPORT #}
+    {# ============================================================ #}
+    {% if assessment %}
+    <section class="dashboard-section">
+        <div class="results-cta" data-animate style="background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);">
+            <div>
+                <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+                    📄 EXPORT REPORT
+                </span>
+                <h2>Download your learning report</h2>
+                <p>
+                    Get a complete PDF report with your concept-level mastery,
+                    knowledge gaps, personalized learning path, and progress.
+                </p>
+                <a class="primary-btn"
+                   href="{{ url_for('download_report', student_id=student.student_id) }}"
+                   style="background: white; color: #059669;">
+                    Download PDF Report &darr;
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ============================================================ #}
     {# RE-ASSESSMENT CTA (Prominent) #}
     {# ============================================================ #}
     {% if assessment %}

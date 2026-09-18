@@ -34,6 +34,7 @@ try:
     from .student_dashboard_service import get_student_dashboard_data
     from .teacher_dashboard_service import get_teacher_dashboard_data
     from .init_database import initialize_database, database_exists
+    from .pdf_report import generate_student_report
 except ImportError:
     from backend_service import BackendService
     from repository import (
@@ -44,6 +45,7 @@ except ImportError:
     from student_dashboard_service import get_student_dashboard_data
     from teacher_dashboard_service import get_teacher_dashboard_data
     from init_database import initialize_database, database_exists
+    from pdf_report import generate_student_report
 
 
 app = Flask(
@@ -1184,6 +1186,72 @@ def student_dashboard(student_id):
     return render_template(
         "student_dashboard.html",
         **dashboard_data
+    )
+
+
+@app.route(
+    "/report/<int:student_id>",
+    methods=["GET"]
+)
+@login_required
+def download_report(student_id):
+    """Generate and download a PDF report for a student."""
+    from flask import send_file
+    from io import BytesIO
+
+    # Authorization: only the logged-in student can download their own report
+    if current_student_id() != student_id:
+        return "Unauthorized", 403
+
+    try:
+        dashboard_data = get_student_dashboard_data(student_id)
+    except ValueError as exc:
+        return str(exc), 404
+    except Exception:
+        app.logger.exception(
+            "PDF report failed for student_id=%s", student_id
+        )
+        return "Unable to generate the report.", 500
+
+    student = dashboard_data.get("student")
+    diagnosis = dashboard_data.get("diagnosis", [])
+    priority = dashboard_data.get("learning_priorities", [])
+    learning_path = dashboard_data.get("learning_path", [])
+    overall_mastery = dashboard_data.get("overall_mastery")
+    reassessments = dashboard_data.get("reassessments", [])
+
+    try:
+        pdf_bytes = generate_student_report(
+            student=student,
+            diagnosis=diagnosis,
+            priority=priority,
+            learning_path=learning_path,
+            overall_mastery=overall_mastery,
+            reassessments=reassessments,
+        )
+    except Exception:
+        app.logger.exception(
+            "PDF generation failed for student_id=%s", student_id
+        )
+        return "Unable to generate the report.", 500
+
+    student_name = (student or {}).get("full_name", "student")
+    safe_name = "".join(
+        c if c.isalnum() else "_" for c in student_name
+    ).strip("_") or "student"
+
+    filename = f"smart_knowledge_report_{safe_name}_{student_id}.pdf"
+
+    app.logger.info(
+        "PDF report generated for student_id=%s (%s bytes)",
+        student_id, len(pdf_bytes)
+    )
+
+    return send_file(
+        BytesIO(pdf_bytes),
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=filename,
     )
 
 

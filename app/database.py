@@ -73,6 +73,7 @@ def get_student(student_id):
             SELECT
                 student_id,
                 full_name,
+                email,
                 created_at
             FROM students
             WHERE student_id = ?

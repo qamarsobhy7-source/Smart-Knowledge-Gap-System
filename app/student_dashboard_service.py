@@ -415,6 +415,7 @@ def get_student_dashboard_data(student_id):
             SELECT
                 student_id,
                 full_name,
+                email,
                 created_at
             FROM students
             WHERE student_id = ?
