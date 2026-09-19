@@ -93,3 +93,5 @@ data/synthetic_knowledge_tracing_data.json
 *.bak2
 *.old
 *.pyc
+
+screenshots_original/
