@@ -51,6 +51,7 @@ try:
     from .ml.llm_service import (
         chat as llm_chat,
         is_available as llm_is_available,
+        evaluate_feynman_explanation,
     )
 except ImportError:
     from backend_service import BackendService
@@ -78,6 +79,7 @@ except ImportError:
     from ml.llm_service import (
         chat as llm_chat,
         is_available as llm_is_available,
+        evaluate_feynman_explanation,
     )
 
 
@@ -2152,7 +2154,7 @@ def chat_ask():
 
     if not llm_is_available():
         return jsonify({
-            "error": "AI assistant is not configured. Please set GEMINI_API_KEY."
+            "error": "AI assistant is not configured. Please set GROQ_API_KEY."
         }), 503
 
     data = request.get_json(silent=True) or {}
@@ -2199,6 +2201,166 @@ def chat_ask():
         "answer": result.get("answer", ""),
         "sources": sources,
     })
+
+
+
+# ============================================================
+# FEYNMAN BOARD
+# ============================================================
+
+@app.route("/feynman/<int:student_id>/<int:concept_id>", methods=["GET"])
+@login_required
+def feynman_page(student_id, concept_id):
+    """Show the Feynman board for a concept."""
+    if current_student_id() != student_id:
+        return "Unauthorized", 403
+
+    try:
+        from .database import get_feynman_attempts
+    except ImportError:
+        from database import get_feynman_attempts
+
+    # Get concept metadata
+    try:
+        content = get_learning_content_for_concept(concept_id)
+    except Exception:
+        content = None
+
+    if content is None:
+        return "Concept not found.", 404
+
+    # Get previous attempts
+    try:
+        previous_attempts = get_feynman_attempts(
+            student_id=student_id,
+            concept_id=concept_id,
+            limit=10,
+        )
+    except Exception:
+        previous_attempts = []
+
+    return render_template(
+        "feynman.html",
+        student_id=student_id,
+        concept_id=concept_id,
+        concept_name=content.get("concept_name", ""),
+        learning_objective=content.get("learning_objective", ""),
+        llm_available=llm_is_available(),
+        previous_attempts=previous_attempts,
+        result=None,
+        explanation="",
+    )
+
+
+@app.route("/feynman/<int:student_id>/<int:concept_id>", methods=["POST"])
+@login_required
+def feynman_submit(student_id, concept_id):
+    """Process a Feynman explanation submission."""
+    if current_student_id() != student_id:
+        return "Unauthorized", 403
+
+    explanation = request.form.get("explanation", "").strip()
+
+    if not explanation or len(explanation) < 20:
+        return _render_feynman_page(
+            student_id, concept_id,
+            explanation=explanation,
+            error="Please write at least a few sentences explaining the concept.",
+        )
+
+    if len(explanation) > 5000:
+        return _render_feynman_page(
+            student_id, concept_id,
+            explanation=explanation,
+            error="Explanation is too long (max 5000 characters).",
+        )
+
+    # Get concept metadata
+    try:
+        content = get_learning_content_for_concept(concept_id)
+    except Exception:
+        content = None
+
+    if content is None:
+        return "Concept not found.", 404
+
+    # Evaluate the explanation
+    evaluation = evaluate_feynman_explanation(
+        concept_name=content.get("concept_name", ""),
+        explanation=explanation,
+        learning_objective=content.get("learning_objective", ""),
+        key_points=content.get("key_points", ""),
+        common_mistakes=content.get("common_mistakes", ""),
+    )
+
+    # Save the attempt
+    try:
+        from .database import save_feynman_attempt
+    except ImportError:
+        from database import save_feynman_attempt
+
+    try:
+        save_feynman_attempt(
+            student_id=student_id,
+            concept_id=concept_id,
+            explanation=explanation,
+            score=evaluation.get("score", 0),
+            feedback=evaluation.get("feedback", ""),
+            strengths=evaluation.get("strengths", ""),
+            gaps=evaluation.get("gaps", ""),
+            suggestions=evaluation.get("suggestions", ""),
+        )
+    except Exception:
+        app.logger.exception("Failed to save Feynman attempt")
+
+    app.logger.info(
+        "Feynman attempt: student=%s concept=%s score=%.1f",
+        student_id, concept_id, evaluation.get("score", 0)
+    )
+
+    return _render_feynman_page(
+        student_id, concept_id,
+        explanation=explanation,
+        result=evaluation,
+    )
+
+
+def _render_feynman_page(student_id, concept_id, explanation="", result=None, error=None):
+    """Helper: render the Feynman page with all required context."""
+    try:
+        from .database import get_feynman_attempts
+    except ImportError:
+        from database import get_feynman_attempts
+
+    try:
+        content = get_learning_content_for_concept(concept_id)
+    except Exception:
+        content = None
+
+    if content is None:
+        return "Concept not found.", 404
+
+    try:
+        previous_attempts = get_feynman_attempts(
+            student_id=student_id,
+            concept_id=concept_id,
+            limit=10,
+        )
+    except Exception:
+        previous_attempts = []
+
+    return render_template(
+        "feynman.html",
+        student_id=student_id,
+        concept_id=concept_id,
+        concept_name=content.get("concept_name", ""),
+        learning_objective=content.get("learning_objective", ""),
+        llm_available=llm_is_available(),
+        previous_attempts=previous_attempts,
+        explanation=explanation,
+        result=result,
+        error=error,
+    )
 
 
 # ============================================================

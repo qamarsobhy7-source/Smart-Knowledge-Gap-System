@@ -117,6 +117,24 @@ CREATE TABLE IF NOT EXISTS reassessments (
     FOREIGN KEY (student_id) REFERENCES students(student_id)
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS feynman_attempts (
+    attempt_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id     INTEGER NOT NULL,
+    concept_id     INTEGER NOT NULL,
+    explanation    TEXT    NOT NULL,
+    score          REAL    NOT NULL,
+    feedback       TEXT,
+    strengths      TEXT,
+    gaps           TEXT,
+    suggestions    TEXT,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_feynman_student
+    ON feynman_attempts(student_id);
 """
 
 
@@ -210,6 +228,24 @@ CREATE TABLE IF NOT EXISTS reassessments (
     FOREIGN KEY (student_id) REFERENCES students(student_id)
         ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS feynman_attempts (
+    attempt_id     SERIAL PRIMARY KEY,
+    student_id     INTEGER NOT NULL,
+    concept_id     INTEGER NOT NULL,
+    explanation    TEXT    NOT NULL,
+    score          REAL    NOT NULL,
+    feedback       TEXT,
+    strengths      TEXT,
+    gaps           TEXT,
+    suggestions    TEXT,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_feynman_student
+    ON feynman_attempts(student_id);
 """
 
 

@@ -605,3 +605,108 @@ def get_concept_results_for_assessment(assessment_id):
             (int(assessment_id),)
         )
         return cursor.fetchall()
+
+
+# ============================================================
+# FEYNMAN BOARD
+# ============================================================
+def save_feynman_attempt(
+    student_id,
+    concept_id,
+    explanation,
+    score,
+    feedback=None,
+    strengths=None,
+    gaps=None,
+    suggestions=None,
+):
+    """Save a Feynman explanation attempt."""
+    if not explanation or not str(explanation).strip():
+        raise ValueError("Explanation is required.")
+
+    score = float(score)
+    if not 0.0 <= score <= 100.0:
+        raise ValueError("Score must be between 0 and 100.")
+
+    with get_connection() as connection:
+        query = """
+            INSERT INTO feynman_attempts (
+                student_id,
+                concept_id,
+                explanation,
+                score,
+                feedback,
+                strengths,
+                gaps,
+                suggestions
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        params = (
+            int(student_id),
+            int(concept_id),
+            str(explanation).strip(),
+            score,
+            feedback,
+            strengths,
+            gaps,
+            suggestions,
+        )
+        return _insert_returning_id(connection, query, params)
+
+
+def get_feynman_attempts(student_id, concept_id=None, limit=10):
+    """Get Feynman attempts for a student, optionally filtered by concept."""
+    with get_connection() as connection:
+        if concept_id is not None:
+            cursor = connection.execute(
+                """
+                SELECT
+                    attempt_id,
+                    student_id,
+                    concept_id,
+                    explanation,
+                    score,
+                    feedback,
+                    strengths,
+                    gaps,
+                    suggestions,
+                    created_at
+                FROM feynman_attempts
+                WHERE student_id = ? AND concept_id = ?
+                ORDER BY attempt_id DESC
+                """,
+                (int(student_id), int(concept_id)),
+            )
+        else:
+            cursor = connection.execute(
+                """
+                SELECT
+                    attempt_id,
+                    student_id,
+                    concept_id,
+                    explanation,
+                    score,
+                    feedback,
+                    strengths,
+                    gaps,
+                    suggestions,
+                    created_at
+                FROM feynman_attempts
+                WHERE student_id = ?
+                ORDER BY attempt_id DESC
+                """,
+                (int(student_id),),
+            )
+        rows = cursor.fetchall()
+        return rows[:limit]
+
+
+def get_latest_feynman_attempt(student_id, concept_id):
+    """Get the latest Feynman attempt for a student + concept."""
+    attempts = get_feynman_attempts(
+        student_id=student_id,
+        concept_id=concept_id,
+        limit=1,
+    )
+    return attempts[0] if attempts else None

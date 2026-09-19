@@ -101,6 +101,28 @@
     </div>
     {% endif %}
 
+    {# ===== FEYNMAN BOARD CTA ===== #}
+    {% if student_id %}
+    <div class="results-cta" data-animate style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%); margin-bottom: 1rem;">
+        <div>
+            <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+                &#129504; FEYNMAN TECHNIQUE
+            </span>
+            <h2>Teach it to learn it</h2>
+            <p>
+                Explain <strong>{{ content.concept_name }}</strong> in your own words,
+                and let our AI evaluate your understanding.
+            </p>
+        </div>
+
+        <a class="primary-btn"
+           href="{{ url_for('feynman_page', student_id=student_id, concept_id=content.concept_id) }}"
+           style="background: white; color: #B45309;">
+            Open Feynman Board &rarr;
+        </a>
+    </div>
+    {% endif %}
+
     {# ===== CTA ===== #}
     {% if student_id %}
     <div class="results-cta" data-animate>

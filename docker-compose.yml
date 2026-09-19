@@ -17,7 +17,10 @@ services:
       FLASK_HOST: 0.0.0.0
       FLASK_PORT: 5000
 
-      # Optional: PostgreSQL (uncomment and set DATABASE_URL)
+      # AI / LLM
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+
+      # Optional: PostgreSQL
       # DATABASE_URL: ${DATABASE_URL:-}
 
       # Logging
@@ -25,6 +28,8 @@ services:
     volumes:
       # Persist the SQLite database between restarts
       - ./data:/app/data
+      # Persist the RAG vector store
+      - ./models:/app/models
       # Persist logs
       - ./logs:/app/logs
     healthcheck:

@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Feynman Board — {{ concept_name }}{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    {# HERO #}
+    <div class="dashboard-hero" data-animate style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);">
+        <span class="eyebrow" style="background: rgba(255,255,255,0.2); color: white;">
+            FEYNMAN TECHNIQUE
+        </span>
+        <h1 style="color: white;">Teach it to learn it</h1>
+        <p style="color: rgba(255,255,255,0.9);">
+            Explain <strong>{{ concept_name }}</strong> in your own words,
+            as if you were teaching a complete beginner.
+            Our AI will evaluate your understanding.
+        </p>
+    </div>
+
+    {# LLM NOT AVAILABLE WARNING #}
+    {% if not llm_available %}
+    <div class="success-state" data-animate style="background: var(--color-danger-light); border-color: var(--color-danger); margin-bottom: 1.5rem;">
+        <div class="success-icon" style="background: var(--gradient-warm);">!</div>
+        <div>
+            <h3 style="color: var(--color-danger);">AI evaluation not available</h3>
+            <p style="color: var(--color-text-secondary);">
+                The Gemini API is not configured. Contact the administrator.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ERROR MESSAGE #}
+    {% if error %}
+    <div class="toast toast-error toast-visible" data-animate style="margin-bottom: 1rem; position: relative; transform: none;">
+        <span class="toast-icon">&#10005;</span>
+        <span class="toast-message">{{ error }}</span>
+    </div>
+    {% endif %}
+
+    {# LEARNING OBJECTIVE #}
+    {% if learning_objective %}
+    <section class="dashboard-section">
+        <div class="learning-section" data-animate>
+            <h2>&#127919; Learning Objective</h2>
+            <p>{{ learning_objective }}</p>
+        </div>
+    </section>
+    {% endif %}
+
+    {# EVALUATION RESULT #}
+    {% if result %}
+    <section class="dashboard-section" data-animate>
+        <div class="diagnosis-grid">
+
+            {# Score Card #}
+            <article class="diagnosis-card" style="background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%); color: white;">
+                <div class="diagnosis-card-top">
+                    <span class="concept-index" style="background: rgba(255,255,255,0.2);">&#9989;</span>
+                    <span class="status-pill" style="background: rgba(255,255,255,0.2); color: white;">Score</span>
+                </div>
+                <h3 style="color: white;">Your Explanation Score</h3>
+                <div class="mastery-row">
+                    <span style="color: rgba(255,255,255,0.9);">Total</span>
+                    <strong style="color: white; font-size: 2rem;">
+                        {{ "%.0f"|format(result.score) }}%
+                    </strong>
+                </div>
+            </article>
+
+            {# Feedback Card #}
+            <article class="diagnosis-card">
+                <div class="diagnosis-card-top">
+                    <span class="concept-index">&#128172;</span>
+                    <span class="status-pill strong">Feedback</span>
+                </div>
+                <h3>Overall Assessment</h3>
+                <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                    {{ result.feedback }}
+                </p>
+            </article>
+
+        </div>
+
+        {# Strengths / Gaps / Suggestions #}
+        <div class="learning-section" data-animate style="margin-top: 1.5rem;">
+            <h2>&#128170; What You Got Right</h2>
+            <p>{{ result.strengths }}</p>
+        </div>
+
+        <div class="learning-section" data-animate>
+            <h2>&#9888;&#65039; What's Missing</h2>
+            <p>{{ result.gaps }}</p>
+        </div>
+
+        <div class="learning-section" data-animate>
+            <h2>&#128161; How to Improve</h2>
+            <p>{{ result.suggestions }}</p>
+        </div>
+
+    </section>
+    {% endif %}
+
+    {# EXPLANATION FORM #}
+    <section class="dashboard-section">
+        <div class="section-heading" data-animate>
+            <span class="eyebrow">YOUR EXPLANATION</span>
+            <h2>Explain the concept in your own words</h2>
+        </div>
+
+        <div class="assessment-card" data-animate>
+            <form method="POST" action="{{ url_for('feynman_submit', student_id=student_id, concept_id=concept_id) }}">
+                <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
+
+                <div class="form-group">
+                    <label for="explanation">
+                        Write your explanation below (minimum 20 characters)
+                    </label>
+                    <textarea
+                        id="explanation"
+                        name="explanation"
+                        rows="8"
+                        minlength="20"
+                        maxlength="5000"
+                        placeholder="Imagine you are teaching this concept to a friend who has never heard of it. Explain it in simple terms, with your own examples..."
+                        required
+                        style="width: 100%; padding: 1rem; border-radius: 12px; border: 1.5px solid var(--color-border); background: var(--color-surface); color: var(--color-text); font-family: inherit; font-size: 1rem; line-height: 1.7; resize: vertical;"
+                    >{{ explanation }}</textarea>
+                </div>
+
+                <button type="submit" class="primary-btn btn-full btn-lg" {% if not llm_available %}disabled{% endif %}>
+                    Submit for AI Evaluation &rarr;
+                </button>
+            </form>
+        </div>
+
+        <div class="assessment-note" data-animate>
+            &#128161; <strong>Tip:</strong> The Feynman technique helps you discover gaps in your understanding by forcing you to explain concepts in simple terms.
+        </div>
+    </section>
+
+    {# PREVIOUS ATTEMPTS #}
+    {% if previous_attempts %}
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading" data-animate>
+            <div>
+                <span class="eyebrow">YOUR HISTORY</span>
+                <h2>Previous attempts</h2>
+            </div>
+            <span class="chart-card-subtitle">{{ previous_attempts|length }} attempts</span>
+        </div>
+
+        <div class="concept-list">
+            {% for attempt in previous_attempts %}
+            <div class="concept-row" data-animate>
+                <div class="concept-row-header">
+                    <h4>Attempt {{ loop.index }}</h4>
+                    <strong style="color: var(--color-primary);">
+                        {{ "%.0f"|format(attempt.score) }}%
+                    </strong>
+                </div>
+                <div style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-top: 0.5rem;">
+                    {{ attempt.feedback[:200] }}{% if attempt.feedback|length > 200 %}...{% endif %}
+                </div>
+                <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.5rem;">
+                    {{ attempt.created_at }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {# BACK BUTTONS #}
+    <div class="results-actions" style="margin-top: 2rem;">
+        <a class="primary-btn" href="{{ url_for('learning_content', concept_id=concept_id, student_id=student_id) }}">
+            &larr; Back to Learning Content
+        </a>
+        <a class="btn btn-secondary" href="{{ url_for('student_dashboard', student_id=student_id) }}">
+            Back to Dashboard
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

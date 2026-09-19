@@ -314,7 +314,7 @@ smart-knowledge-gap/
 │       ├── rl_dqn_agent.py           # DQN agent
 │       ├── explainability.py         # SHAP
 │       ├── rag_engine.py             # Vector store
-│       ├── llm_service.py            # Gemini + RAG
+│       ├── llm_service.py            # Groq + RAG
 │       ├── data_generator.py         # Synthetic data
 │       └── sequence_data_generator.py
 │
