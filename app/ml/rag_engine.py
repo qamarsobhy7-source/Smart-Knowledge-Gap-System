@@ -13,6 +13,8 @@ This grounds LLM answers in the project's actual content
 (no hallucination).
 """
 
+from typing import TypeVar, Generic
+
 try:
     import chromadb
     from chromadb import Documents, EmbeddingFunction, Embeddings
@@ -20,11 +22,22 @@ try:
     _RAG_LIBS_AVAILABLE = True
 except ImportError:
     chromadb = None
-    Documents = object
-    EmbeddingFunction = object
-    Embeddings = list
     SentenceTransformer = None
     _RAG_LIBS_AVAILABLE = False
+
+    # Fallback placeholders that are safe to use as base classes
+    Documents = TypeVar("Documents")
+
+    class Embeddings(list):
+        pass
+
+    class EmbeddingFunction(Generic[Documents]):
+        """Fallback base class when chromadb is not installed."""
+
+        def __call__(self, input):
+            raise NotImplementedError(
+                "RAG libraries are not installed."
+            )
 import os
 from pathlib import Path
 
