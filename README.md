@@ -28,11 +28,7 @@
 
 ### 🎥 Demo Video
 
-<video src="https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/main/docs/videos/demo.mp4" controls width="100%" preload="metadata">
-  Your browser does not support the video tag.
-  <a href="https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/main/docs/videos/demo.mp4">Download the video</a>
-</video>
-
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo%20Video-red?style=for-the-badge)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.0/demo.1.mp4)
 
 ---
 
