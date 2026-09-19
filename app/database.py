@@ -710,3 +710,15 @@ def get_latest_feynman_attempt(student_id, concept_id):
         limit=1,
     )
     return attempts[0] if attempts else None
+
+
+def assessment_exists(assessment_id):
+    """Return True if the assessment row exists."""
+    if assessment_id is None:
+        return False
+    with get_connection() as connection:
+        cursor = connection.execute(
+            "SELECT 1 FROM assessments WHERE assessment_id = ? LIMIT 1",
+            (int(assessment_id),),
+        )
+        return cursor.fetchone() is not None

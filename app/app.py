@@ -549,8 +549,22 @@ def get_shuffled_question_ids(assessment_id, all_question_ids):
     key = str(assessment_id)
     store = session.get(SESSION_QUESTION_ORDER_KEY, {})
 
-    if key in store and len(store[key]) == len(all_question_ids):
-        return store[key]
+    current_set = set(all_question_ids)
+
+    if key in store:
+        stored = store[key]
+        # Only reuse the stored order if the IDs match EXACTLY.
+        # This prevents stale orders from a previous student/level
+        # from leaking into a new assessment.
+        if (
+            len(stored) == len(all_question_ids)
+            and set(stored) == current_set
+        ):
+            return stored
+        # Drop stale entry
+        store.pop(key, None)
+        session[SESSION_QUESTION_ORDER_KEY] = store
+        session.modified = True
 
     seed = get_or_create_shuffle_seed(assessment_id)
     rng = random.Random(seed)
@@ -904,6 +918,23 @@ def reset_password_submit(token):
     )
 
 
+def reset_shuffle_for_assessment(assessment_id):
+    """Remove stored shuffle order/seed for a given assessment."""
+    key = str(assessment_id)
+
+    store = session.get(SESSION_QUESTION_ORDER_KEY, {})
+    if key in store:
+        store.pop(key, None)
+        session[SESSION_QUESTION_ORDER_KEY] = store
+
+    seeds = session.get(SESSION_SHUFFLE_SEED_KEY, {})
+    if key in seeds:
+        seeds.pop(key, None)
+        session[SESSION_SHUFFLE_SEED_KEY] = seeds
+
+    session.modified = True
+
+
 @app.route(
     "/assessment/<int:student_id>",
     methods=["GET"]
@@ -962,6 +993,11 @@ def assessment(student_id):
         ["concept_id", "question_id"]
     ).reset_index(drop=True)
 
+    try:
+        from .database import assessment_exists
+    except ImportError:
+        from database import assessment_exists
+
     assessment_id = session.get(
         "assessment_id"
     )
@@ -970,10 +1006,13 @@ def assessment(student_id):
         "assessment_student_id"
     )
 
-    if (
-        assessment_id is None
-        or assessment_student_id != student_id
-    ):
+    session_valid = (
+        assessment_id is not None
+        and assessment_student_id == student_id
+        and assessment_exists(assessment_id)
+    )
+
+    if not session_valid:
         assessment_id = service.start_assessment(
             student_id=student_id,
             assessment_type="Diagnostic"
@@ -981,6 +1020,12 @@ def assessment(student_id):
 
         session["assessment_id"] = assessment_id
         session["assessment_student_id"] = student_id
+
+        # Clear stale shuffle state so a NEW assessment always
+        # starts with a fresh random order.
+        session.pop(SESSION_QUESTION_ORDER_KEY, None)
+        session.pop(SESSION_SHUFFLE_SEED_KEY, None)
+        session.modified = True
 
     try:
         from .database import get_assessment_answers
@@ -1627,6 +1672,11 @@ def teacher_dashboard():
     methods=["POST"]
 )
 def submit_answer(student_id):
+    try:
+        from .database import assessment_exists
+    except ImportError:
+        from database import assessment_exists
+
     reassessment_id = session.get(
         "reassessment_id"
     )
@@ -1637,6 +1687,7 @@ def submit_answer(student_id):
     if (
         reassessment_id is not None
         and reassessment_student_id == student_id
+        and assessment_exists(reassessment_id)
     ):
         assessment_id = reassessment_id
         is_reassessment = True
@@ -1651,9 +1702,11 @@ def submit_answer(student_id):
         if (
             assessment_id is None
             or assessment_student_id != student_id
+            or not assessment_exists(assessment_id)
         ):
             return (
-                "Assessment session is invalid.",
+                "Assessment session is invalid. "
+                "Please restart the assessment.",
                 400
             )
 
