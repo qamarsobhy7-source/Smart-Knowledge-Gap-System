@@ -20,26 +20,26 @@ from .config import MODELS_DIR, METRICS_DIR
 try:
     import torch  # noqa: F401
     _TORCH_AVAILABLE = True
-except ImportError:
+except Exception:
     _TORCH_AVAILABLE = False
 
 try:
     import qdrant_client  # noqa: F401
     _QDRANT_AVAILABLE = True
-except ImportError:
+except Exception:
     _QDRANT_AVAILABLE = False
 
 try:
     import shap  # noqa: F401
     _SHAP_AVAILABLE = True
-except ImportError:
+except Exception:
     _SHAP_AVAILABLE = False
 
 try:
-    import sentence_transformers  # noqa: F401
-    _ST_AVAILABLE = True
-except ImportError:
-    _ST_AVAILABLE = False
+    import fastembed  # noqa: F401
+    _FASTEMBED_AVAILABLE = True
+except Exception:
+    _FASTEMBED_AVAILABLE = False
 
 
 # ============================================================
@@ -116,7 +116,7 @@ def models_available():
             and (MODELS_DIR / "rl_dqn_agent.pt").exists()
         ),
         "shap_available": _SHAP_AVAILABLE,
-        "rag_available": _QDRANT_AVAILABLE and _ST_AVAILABLE,
+        "rag_available": _QDRANT_AVAILABLE and _FASTEMBED_AVAILABLE,
     }
 
 
