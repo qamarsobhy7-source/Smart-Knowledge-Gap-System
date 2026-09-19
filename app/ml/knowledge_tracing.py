@@ -19,6 +19,18 @@ import json
 import joblib
 import numpy as np
 
+try:
+    import torch
+    import torch.nn as nn
+    from torch.utils.data import DataLoader, TensorDataset
+    TORCH_AVAILABLE = True
+except ImportError:
+    torch = None
+    nn = None
+    DataLoader = None
+    TensorDataset = None
+    TORCH_AVAILABLE = False
+
 from .config import MODELS_DIR, RANDOM_SEED
 
 

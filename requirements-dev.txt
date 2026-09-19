@@ -1,0 +1,16 @@
+# ============================================================
+# Development requirements (Colab, local dev, CI)
+# ============================================================
+# Includes all AI/ML libraries needed for training models:
+#   - torch (for KT-LSTM + DQN)
+#   - chromadb + sentence-transformers (for RAG)
+#   - shap (for explainable AI)
+# ============================================================
+
+-r requirements.txt
+
+# AI/ML — heavy libraries
+torch>=2.2.0
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+shap>=0.45.0

@@ -17,6 +17,13 @@ Reference:
 import numpy as np
 import pandas as pd
 
+try:
+    import shap
+    SHAP_AVAILABLE = True
+except ImportError:
+    shap = None
+    SHAP_AVAILABLE = False
+
 
 # ============================================================
 # FRIENDLY FEATURE NAMES
@@ -67,9 +74,7 @@ def explain_risk_prediction(model_payload, features_dict, top_k=5):
             - top_positive_factors  (push toward At Risk)
             - top_negative_factors  (push toward On Track)
     """
-    try:
-        import shap
-    except ImportError:
+    if not SHAP_AVAILABLE:
         return {"error": "SHAP not installed."}
 
     model = model_payload["model"]
@@ -137,9 +142,7 @@ def explain_performance_prediction(model_payload, features_dict, top_k=5):
     Returns:
         dict with top feature contributions and probabilities.
     """
-    try:
-        import shap
-    except ImportError:
+    if not SHAP_AVAILABLE:
         return {"error": "SHAP not installed."}
 
     model = model_payload["model"]

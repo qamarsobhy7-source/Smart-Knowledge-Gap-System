@@ -13,9 +13,18 @@ This grounds LLM answers in the project's actual content
 (no hallucination).
 """
 
-import chromadb
-from chromadb import Documents, EmbeddingFunction, Embeddings
-from sentence_transformers import SentenceTransformer
+try:
+    import chromadb
+    from chromadb import Documents, EmbeddingFunction, Embeddings
+    from sentence_transformers import SentenceTransformer
+    _RAG_LIBS_AVAILABLE = True
+except ImportError:
+    chromadb = None
+    Documents = object
+    EmbeddingFunction = object
+    Embeddings = list
+    SentenceTransformer = None
+    _RAG_LIBS_AVAILABLE = False
 import os
 from pathlib import Path
 
@@ -41,6 +50,8 @@ _embedder = None
 def get_embedder():
     """Lazy-load the sentence transformer model."""
     global _embedder
+    if not _RAG_LIBS_AVAILABLE:
+        return None
     if _embedder is None:
         _embedder = SentenceTransformer(
             "all-MiniLM-L6-v2",

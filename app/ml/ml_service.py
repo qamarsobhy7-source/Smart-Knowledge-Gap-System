@@ -16,6 +16,31 @@ from pathlib import Path
 
 from .config import MODELS_DIR, METRICS_DIR
 
+# Check optional heavy libraries availability
+try:
+    import torch  # noqa: F401
+    _TORCH_AVAILABLE = True
+except ImportError:
+    _TORCH_AVAILABLE = False
+
+try:
+    import chromadb  # noqa: F401
+    _CHROMADB_AVAILABLE = True
+except ImportError:
+    _CHROMADB_AVAILABLE = False
+
+try:
+    import shap  # noqa: F401
+    _SHAP_AVAILABLE = True
+except ImportError:
+    _SHAP_AVAILABLE = False
+
+try:
+    import sentence_transformers  # noqa: F401
+    _ST_AVAILABLE = True
+except ImportError:
+    _ST_AVAILABLE = False
+
 
 # ============================================================
 # LAZY MODEL LOADING
@@ -45,8 +70,11 @@ def _load_performance():
 
 def _load_recommender():
     if _models["recommender"] is None:
-        from .concept_recommender import load_recommender
-        _models["recommender"] = load_recommender()
+        try:
+            from .concept_recommender import load_recommender
+            _models["recommender"] = load_recommender()
+        except Exception:
+            _models["recommender"] = None
     return _models["recommender"]
 
 
@@ -58,9 +86,14 @@ def _load_clusterer():
 
 
 def _load_rl_agent():
+    if not _TORCH_AVAILABLE:
+        return None
     if _models["rl_agent"] is None:
-        from .rl_dqn_agent import load_dqn_agent
-        _models["rl_agent"] = load_dqn_agent()
+        try:
+            from .rl_dqn_agent import load_dqn_agent
+            _models["rl_agent"] = load_dqn_agent()
+        except Exception:
+            _models["rl_agent"] = None
     return _models["rl_agent"]
 
 
@@ -74,8 +107,16 @@ def models_available():
         "performance": (MODELS_DIR / "student_performance_model.joblib").exists(),
         "recommender": (MODELS_DIR / "concept_recommender.joblib").exists(),
         "clusterer": (MODELS_DIR / "student_clusterer.joblib").exists(),
-        "knowledge_tracing": (MODELS_DIR / "knowledge_tracing_model.pt").exists(),
-        "rl_agent": (MODELS_DIR / "rl_dqn_agent.pt").exists(),
+        "knowledge_tracing": (
+            _TORCH_AVAILABLE
+            and (MODELS_DIR / "knowledge_tracing_model.pt").exists()
+        ),
+        "rl_agent": (
+            _TORCH_AVAILABLE
+            and (MODELS_DIR / "rl_dqn_agent.pt").exists()
+        ),
+        "shap_available": _SHAP_AVAILABLE,
+        "rag_available": _CHROMADB_AVAILABLE and _ST_AVAILABLE,
     }
 
 
@@ -191,9 +232,14 @@ _models["knowledge_tracing"] = None
 
 
 def _load_knowledge_tracing():
+    if not _TORCH_AVAILABLE:
+        return None
     if _models["knowledge_tracing"] is None:
-        from .knowledge_tracing import load_knowledge_tracing
-        _models["knowledge_tracing"] = load_knowledge_tracing()
+        try:
+            from .knowledge_tracing import load_knowledge_tracing
+            _models["knowledge_tracing"] = load_knowledge_tracing()
+        except Exception:
+            _models["knowledge_tracing"] = None
     return _models["knowledge_tracing"]
 
 
@@ -232,6 +278,9 @@ def explain_risk(features):
         dict with top positive/negative factors + text summary,
         or None if model or SHAP is missing.
     """
+    if not _SHAP_AVAILABLE:
+        return None
+
     payload = _load_risk()
     if payload is None:
         return None
@@ -289,6 +338,9 @@ def plan_adaptive_path(student_mastery_dict, n_steps=10, concepts_df=None):
     Returns:
         list of dicts: recommended concept IDs + names in order
     """
+    if not _TORCH_AVAILABLE:
+        return []
+
     agent = _load_rl_agent()
     if agent is None:
         return []

@@ -20,6 +20,15 @@ from collections import deque
 import joblib
 import numpy as np
 
+try:
+    import torch
+    import torch.nn as nn
+    TORCH_AVAILABLE = True
+except ImportError:
+    torch = None
+    nn = None
+    TORCH_AVAILABLE = False
+
 from .config import MODELS_DIR, RANDOM_SEED
 
 

@@ -25,6 +25,21 @@ from flask import (
     g
 )
 
+# Check optional AI libraries (some deployments may skip them)
+import importlib.util
+
+def _has_module(name):
+    try:
+        return importlib.util.find_spec(name) is not None
+    except Exception:
+        return False
+
+AI_HEAVY_AVAILABLE = all([
+    _has_module("torch"),
+    _has_module("chromadb"),
+    _has_module("sentence_transformers"),
+])
+
 try:
     from .backend_service import BackendService
     from .repository import (
