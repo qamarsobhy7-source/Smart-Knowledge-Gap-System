@@ -164,6 +164,13 @@ app = Flask(
     static_folder="../static"
 )
 
+# ---- Session configuration for HTTPS ----
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600
+# -----------------------------------------
+
 app.secret_key = os.environ.get("SECRET_KEY")
 
 if not app.secret_key:
