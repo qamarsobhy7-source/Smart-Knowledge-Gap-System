@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+
+title: "Smart Knowledge Gap & Personalized Learning System"
+abstract: >-
+  An adaptive learning platform that detects concept-level knowledge gaps,
+  prioritizes learning needs via prerequisite-aware ranking, and generates
+  personalized learning paths. Powered by 8 machine learning models, an LLM+RAG
+  assistant, and an explainable AI layer using SHAP.
+
+type: software
+
+authors:
+  - name: "Smart Knowledge Gap System Team"
+
+repository-code: "https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System"
+url: "https://smart-knowledge-gap-system-qqbms.faable.link"
+
+license: MIT
+
+version: 1.0.1
+date-released: 2026-09-20
+
+keywords:
+  - adaptive learning
+  - knowledge gap detection
+  - machine learning
+  - large language models
+  - retrieval-augmented generation
+  - educational technology
+  - knowledge tracing
+  - personalized learning
+  - explainable AI
+  - SHAP
+
+identifiers:
+  - type: url
+    value: "https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System"
+    description: "GitHub Repository"
+
+references:
+  - type: software
+    title: "Smart Knowledge Gap System v1.0.0"
+    authors:
+      - name: "Smart Knowledge Gap System Team"
+    repository-code: "https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System"
+    version: 1.0.0
+    date-released: 2026-09-20
