@@ -25,7 +25,14 @@
 
 ### 🔗 [https://smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)
 
-### 🎥 [Watch the Demo Video](https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/c92c6b46449c71f990cd0b978664b6af20de7720/docs/videos/demo.mp4)
+
+### 🎥 Demo Video
+
+<video src="https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/main/docs/videos/demo.mp4" controls width="100%" preload="metadata">
+  Your browser does not support the video tag.
+  <a href="https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/main/docs/videos/demo.mp4">Download the video</a>
+</video>
+
 
 ---
 
