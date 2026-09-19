@@ -14,6 +14,10 @@
 [![CI](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions/workflows/ci.yml/badge.svg)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions)
 [![Tests](https://img.shields.io/badge/Tests-57%20Passing-brightgreen)](#-testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/%F0%9F%9A%80-Live%20Demo-success)](https://smart-knowledge-gap-system-qqbms.faable.link)
+[![Demo Video](https://img.shields.io/badge/%F0%9F%8E%A5-Demo%20Video-red)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
+[![GitHub Pages](https://img.shields.io/badge/%F0%9F%93%84-GitHub%20Pages-222?logo=github)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
+[![Release](https://img.shields.io/github/v/release/qamarsobhy7-source/Smart-Knowledge-Gap-System?color=blue&label=Release)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases)
 
 </div>
 
@@ -24,7 +28,6 @@
 🚀 **The application is live and production-ready:**
 
 ### 🔗 [https://smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)
-
 
 ### 🎬 Preview
 
