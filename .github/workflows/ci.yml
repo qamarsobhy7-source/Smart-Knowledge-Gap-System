@@ -91,19 +91,20 @@ jobs:
       - name: Smoke test — Flask app loads
         env:
           SECRET_KEY: test-secret-key-for-ci-only
-          PYTHONPATH: app
         run: |
+          cd app
           python -c "
-          import os
+          import os, sys
+          sys.path.insert(0, os.getcwd())
           os.environ.pop('DATABASE_URL', None)
-          if os.path.exists('data/smart_knowledge_gap.db'):
-              os.remove('data/smart_knowledge_gap.db')
+          if os.path.exists('../data/smart_knowledge_gap.db'):
+              os.remove('../data/smart_knowledge_gap.db')
           from init_database import initialize_database
           initialize_database(verbose=False)
 
-          import app as app_module
-          app_module.app.config['TESTING'] = True
-          client = app_module.app.test_client()
+          from app import app
+          app.config['TESTING'] = True
+          client = app.test_client()
 
           # Smoke tests
           assert client.get('/').status_code == 200, 'Home page failed'
