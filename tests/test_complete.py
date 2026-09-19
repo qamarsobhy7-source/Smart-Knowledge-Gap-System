@@ -337,9 +337,25 @@ def main():
     print("11. ML Models Availability")
     print("-" * 72)
 
+    # First check whether torch is actually usable in this environment.
+    # Colab sometimes breaks torch after repeated imports, and light
+    # deployments (like Faable free tier) intentionally skip torch.
+    try:
+        import torch  # noqa: F401
+        torch_usable = True
+    except Exception as exc:
+        torch_usable = False
+        print(f"      [INFO] torch is not usable here: {type(exc).__name__}")
+        print(f"      [INFO] Skipping torch-dependent models")
+
     from ml.ml_service import models_available
     available = models_available()
+
     for model_name, available_flag in available.items():
+        # torch-dependent models are optional
+        if model_name in ("knowledge_tracing", "rl_agent") and not torch_usable:
+            print(f"      [SKIP] {model_name} (torch unavailable)")
+            continue
         check(f"Model: {model_name}", available_flag)
 
     # ========================================================
