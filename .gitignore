@@ -95,3 +95,5 @@ data/synthetic_knowledge_tracing_data.json
 *.pyc
 
 screenshots_original/
+
+timeline.json
