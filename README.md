@@ -36,7 +36,7 @@
 ### 🎥 Full Demo Video
 
 [![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo%20Video-red?style=for-the-badge)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
-[![Download](https://img.shields.io/badge/⬇️-Download%20MP4-blue?style=for-the-badge)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.0/demo.1.mp4)
+[![Download](https://img.shields.io/badge/⬇️-Download%20MP4-blue?style=for-the-badge)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.1/VID-20260920-WA0012.mp4)
 
 ---
 
