@@ -24,10 +24,10 @@ except ImportError:
     _TORCH_AVAILABLE = False
 
 try:
-    import chromadb  # noqa: F401
-    _CHROMADB_AVAILABLE = True
+    import qdrant_client  # noqa: F401
+    _QDRANT_AVAILABLE = True
 except ImportError:
-    _CHROMADB_AVAILABLE = False
+    _QDRANT_AVAILABLE = False
 
 try:
     import shap  # noqa: F401
@@ -116,7 +116,7 @@ def models_available():
             and (MODELS_DIR / "rl_dqn_agent.pt").exists()
         ),
         "shap_available": _SHAP_AVAILABLE,
-        "rag_available": _CHROMADB_AVAILABLE and _ST_AVAILABLE,
+        "rag_available": _QDRANT_AVAILABLE and _ST_AVAILABLE,
     }
 
 

@@ -36,7 +36,7 @@ def _has_module(name):
 
 AI_HEAVY_AVAILABLE = all([
     _has_module("torch"),
-    _has_module("chromadb"),
+    _has_module("qdrant_client"),
     _has_module("sentence_transformers"),
 ])
 

@@ -339,7 +339,7 @@ smart-knowledge-gap/
 │   ├── student_clusterer.joblib
 │   ├── knowledge_tracing_model.pt
 │   ├── rl_dqn_agent.pt
-│   ├── vector_db/                    # RAG ChromaDB store
+│   ├── vector_db/                    # RAG Qdrant Cloud store
 │   └── metrics/                      # Model metrics
 │
 ├── templates/                        # Jinja2 templates
@@ -750,7 +750,7 @@ This will:
 5. Train the **Student Clusterer** (K-Means + PCA)
 6. Train the **Knowledge Tracing** model (LSTM)
 7. Train the **RL Agent** (DQN)
-8. Build the **RAG vector store** (ChromaDB)
+8. Build the **RAG vector store** (Qdrant Cloud)
 
 **Total time:** ~5-8 minutes on CPU.
 

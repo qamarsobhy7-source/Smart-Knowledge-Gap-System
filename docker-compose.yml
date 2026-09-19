@@ -2,35 +2,23 @@ version: "3.9"
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     image: smart-knowledge-gap:latest
     container_name: smart-knowledge-gap
     restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
-      # Flask
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      SECRET_KEY: ${SECRET_KEY:-change-me}
       FLASK_ENV: production
       FLASK_HOST: 0.0.0.0
       FLASK_PORT: 5000
-
-      # AI / LLM
       GROQ_API_KEY: ${GROQ_API_KEY:-}
-
-      # Optional: PostgreSQL
-      # DATABASE_URL: ${DATABASE_URL:-}
-
-      # Logging
+      QDRANT_URL: ${QDRANT_URL:-}
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
       LOG_LEVEL: INFO
     volumes:
-      # Persist the SQLite database between restarts
       - ./data:/app/data
-      # Persist the RAG vector store
-      - ./models:/app/models
-      # Persist logs
       - ./logs:/app/logs
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
@@ -38,24 +26,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
-
-  # ============================================================
-  # OPTIONAL: PostgreSQL (for persistent data)
-  # Uncomment and set DATABASE_URL in `.env` to use:
-  #   DATABASE_URL=postgresql://postgres:postgres@db:5432/skg
-  # ============================================================
-  # db:
-  #   image: postgres:16-alpine
-  #   container_name: smart-knowledge-gap-db
-  #   restart: unless-stopped
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_DB: skg
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-
-# volumes:
-#   pgdata:
