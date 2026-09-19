@@ -53,21 +53,6 @@ try:
     from .init_database import initialize_database, database_exists
     from .pdf_report import generate_student_report
     from .translations import get_text, SUPPORTED_LANGUAGES
-    from .ml.ml_service import (
-        models_available,
-        predict_student_risk,
-        predict_student_cluster,
-        recommend_concepts,
-        get_model_metrics,
-        explain_risk,
-        explain_performance,
-        plan_adaptive_path,
-    )
-    from .ml.llm_service import (
-        chat as llm_chat,
-        is_available as llm_is_available,
-        evaluate_feynman_explanation,
-    )
 except ImportError:
     from backend_service import BackendService
     from repository import (
@@ -81,7 +66,14 @@ except ImportError:
     from init_database import initialize_database, database_exists
     from pdf_report import generate_student_report
     from translations import get_text, SUPPORTED_LANGUAGES
-    from ml.ml_service import (
+
+
+# ============================================================
+# OPTIONAL ML/LLM IMPORTS (safe fallbacks)
+# ============================================================
+
+try:
+    from .ml.ml_service import (
         models_available,
         predict_student_risk,
         predict_student_cluster,
@@ -91,11 +83,79 @@ except ImportError:
         explain_performance,
         plan_adaptive_path,
     )
-    from ml.llm_service import (
+except ImportError:
+    try:
+        from ml.ml_service import (
+            models_available,
+            predict_student_risk,
+            predict_student_cluster,
+            recommend_concepts,
+            get_model_metrics,
+            explain_risk,
+            explain_performance,
+            plan_adaptive_path,
+        )
+    except Exception:
+        # Safe stubs
+        def models_available():
+            return {}
+
+        def predict_student_risk(features):
+            return None
+
+        def predict_student_cluster(features):
+            return None
+
+        def recommend_concepts(*args, **kwargs):
+            return []
+
+        def get_model_metrics():
+            return {}
+
+        def explain_risk(features):
+            return None
+
+        def explain_performance(features):
+            return None
+
+        def plan_adaptive_path(*args, **kwargs):
+            return []
+
+
+try:
+    from .ml.llm_service import (
         chat as llm_chat,
         is_available as llm_is_available,
         evaluate_feynman_explanation,
     )
+except ImportError:
+    try:
+        from ml.llm_service import (
+            chat as llm_chat,
+            is_available as llm_is_available,
+            evaluate_feynman_explanation,
+        )
+    except Exception:
+        # Safe stubs
+        def llm_chat(*args, **kwargs):
+            return {
+                "answer": None,
+                "sources": [],
+                "error": "AI assistant is not configured.",
+            }
+
+        def llm_is_available():
+            return False
+
+        def evaluate_feynman_explanation(*args, **kwargs):
+            return {
+                "score": 0.0,
+                "feedback": "AI evaluation is not available.",
+                "strengths": "",
+                "gaps": "",
+                "suggestions": "",
+                "error": "LLM not configured.",
+            }
 
 
 app = Flask(
