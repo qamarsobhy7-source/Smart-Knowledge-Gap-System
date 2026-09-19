@@ -25,7 +25,7 @@
 
 ### 🔗 [https://smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)
 
-### 🎥 [Watch the Demo Video](docs/videos/demo.mp4)
+### 🎥 [Watch the Demo Video](https://rawcdn.githack.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/c92c6b46449c71f990cd0b978664b6af20de7720/docs/videos/demo.mp4)
 
 ---
 
