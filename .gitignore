@@ -90,3 +90,6 @@ models/vector_db/
 models/metrics/*.json
 data/synthetic_ml_training_data.csv
 data/synthetic_knowledge_tracing_data.json
+*.bak2
+*.old
+*.pyc
