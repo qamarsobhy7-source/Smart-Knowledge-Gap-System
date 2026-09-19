@@ -592,8 +592,12 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register_student():
+    # GET: redirect to homepage (signup form is on homepage)
+    if request.method == "GET":
+        return redirect("/")
+    
     full_name = request.form.get(
         "full_name",
         request.form.get("name", "")
