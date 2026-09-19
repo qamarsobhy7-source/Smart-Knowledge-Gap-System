@@ -343,6 +343,22 @@ def main():
         check(f"Model: {model_name}", available_flag)
 
     # ========================================================
+    # 12. Feynman Board
+    # ========================================================
+    print()
+    print("12. Feynman Board")
+    print("-" * 72)
+
+    r = client.get(f"/feynman/{student_id}/32")
+    check("Feynman page loads", r.status_code == 200)
+
+    if r.status_code == 200:
+        html = r.get_data(as_text=True)
+        check("Feynman hero", "FEYNMAN TECHNIQUE" in html)
+        check("Explanation form", 'name="explanation"' in html)
+        check("Submit button", "Submit for AI Evaluation" in html)
+
+    # ========================================================
     # Summary
     # ========================================================
     print()
