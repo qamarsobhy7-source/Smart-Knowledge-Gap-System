@@ -234,21 +234,29 @@ Smart-Knowledge-Gap-System/
 │   ├── student_dashboard_service.py
 │   ├── teacher_dashboard_service.py
 │   ├── pdf_report.py                # PDF generation
-│   └── translations.py              # EN + AR strings
-├── ml/
-│   ├── train_all.py                 # Rebuild all 8 models
-│   ├── risk_predictor.py
-│   ├── performance_predictor.py
-│   ├── concept_recommender.py
-│   ├── student_clusterer.py
-│   ├── knowledge_tracing.py
-│   ├── shap_explainer.py
-│   ├── llm_rag_assistant.py
-│   └── rl_agent.py
+│   ├── translations.py              # EN + AR strings
+│   └── ml/                          # ML models
+│       ├── train_all.py             # Rebuild all 8 models
+│       ├── risk_predictor.py
+│       ├── performance_predictor.py
+│       ├── concept_recommender.py
+│       ├── student_clusterer.py
+│       ├── knowledge_tracing.py
+│       ├── explainability.py
+│       ├── rag_engine.py
+│       ├── llm_service.py
+│       └── rl_dqn_agent.py
 ├── templates/                       # Jinja2 templates
 ├── static/                          # CSS, JS, images
 ├── data/
 │   └── final_question_bank_270.csv
+├── models/                          # Trained ML models (.joblib, .pt)
+│   ├── student_risk_model.joblib
+│   ├── student_performance_model.joblib
+│   ├── concept_recommender.joblib
+│   ├── student_clusterer.joblib
+│   ├── knowledge_tracing_model.pt
+│   └── rl_dqn_agent.pt
 ├── docs/
 │   ├── screenshots/                 # 13 app screenshots
 │   ├── videos/demo.mp4              # Demo video
@@ -281,7 +289,7 @@ pytest tests/test_complete.py -v
 ### Train all models from scratch
 
 ```bash
-python ml/train_all.py
+python -m app.ml.train_all
 ```
 
 ### Model details
