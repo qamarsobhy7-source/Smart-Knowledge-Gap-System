@@ -103,3 +103,5 @@ timeline.json
 *.backup*
 
 *.bak2_*
+
+*.pyo
