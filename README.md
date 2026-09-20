@@ -18,6 +18,7 @@
 [![Demo Video](https://img.shields.io/badge/%F0%9F%8E%A5-Demo%20Video-red)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
 [![GitHub Pages](https://img.shields.io/badge/%F0%9F%93%84-GitHub%20Pages-222?logo=github)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
 [![Release](https://img.shields.io/github/v/release/qamarsobhy7-source/Smart-Knowledge-Gap-System?color=blue&label=Release)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases)
+[![Coverage](https://img.shields.io/badge/Coverage-passing-brightgreen)](#-testing)
 
 </div>
 
