@@ -7,6 +7,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.6] — 2026-09-21
+
+### 🎥 Final Video Polish
+
+#### Changed
+- **Video re-recorded** with per-page segments
+- **Bigger subtitle text** — 38px for improved readability
+- **Longer display time** — 3.5s per title (was 1.3s)
+- **Page duration increased** to 6s for smoother viewing
+- **Titles injected into page DOM** — perfect sync guaranteed
+- **Full page content** visible (1280×1800 viewport)
+- **100% timing accuracy** — verified scene by scene
+
+#### Stats
+- Duration: 107 seconds
+- File size: 8.62 MB
+- Scenes: 13
+
+---
+
+## [1.0.5] — 2026-09-20
+
+### 🌍 i18n Fix — Complete Arabic Coverage
+
+#### Added
+- **22 new translation keys** for English and Arabic
+- **Homepage fully translated** to Arabic:
+  - Hero section (title, subtitle, eyebrow)
+  - Hero points (3 feature highlights)
+  - Start card (title, subtitle)
+  - Form labels + placeholders
+  - Subject dropdown
+  - Level dropdown
+  - Features section (3 cards)
+  - Footer links
+
+#### Changed
+- **Replaced 32 hardcoded strings** in `templates/index.html`
+- **Translation counts:** 79 → 99 keys for both EN & AR
+
+#### Fixed
+- **Gemini branding removed** from UI (`student_dashboard.html`, `feynman.html`)
+
+---
+
 ## [1.0.0] — 2026-09-20
 
 ### 🎉 First Stable Production Release
