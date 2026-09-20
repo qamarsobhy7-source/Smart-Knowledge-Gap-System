@@ -356,6 +356,10 @@ def main():
         if model_name in ("knowledge_tracing", "rl_agent") and not torch_usable:
             print(f"      [SKIP] {model_name} (torch unavailable)")
             continue
+        # RAG + SHAP are optional locally — configured on production (Faable)
+        if model_name in ("rag_available", "shap_available") and not available_flag:
+            print(f"      [SKIP] {model_name} (cloud service not configured locally)")
+            continue
         check(f"Model: {model_name}", available_flag)
 
     # ========================================================
