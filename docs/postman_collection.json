@@ -1,0 +1,486 @@
+{
+  "info": {
+    "_postman_id": "skg-system-v1",
+    "name": "Smart Knowledge Gap System API",
+    "description": "Complete API collection for the Smart Knowledge Gap System. Live: https://smart-knowledge-gap-system-qqbms.faable.link",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://smart-knowledge-gap-system-qqbms.faable.link"
+    },
+    {
+      "key": "student_id",
+      "value": "1"
+    },
+    {
+      "key": "concept_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Check if the server is running."
+          }
+        },
+        {
+          "name": "Homepage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Get the homepage with signup form."
+          }
+        },
+        {
+          "name": "Login Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register Student (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Demo Student",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "demo{{$timestamp}}@test.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "test123456",
+                  "type": "text"
+                },
+                {
+                  "key": "age",
+                  "value": "20",
+                  "type": "text"
+                },
+                {
+                  "key": "subject",
+                  "value": "Computer Science",
+                  "type": "text"
+                },
+                {
+                  "key": "level",
+                  "value": "Beginner",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "Register a new student. NOTE: CSRF token required in production."
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/forgot-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "forgot-password"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "logout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📝 Assessment",
+      "item": [
+        {
+          "name": "Get Assessment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assessment/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "assessment",
+                "{{student_id}}"
+              ]
+            },
+            "description": "Get the next question for a student."
+          }
+        },
+        {
+          "name": "Submit Answer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "question_id",
+                  "value": "q001",
+                  "type": "text"
+                },
+                {
+                  "key": "student_answer",
+                  "value": "A",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/assessment/{{student_id}}/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "assessment",
+                "{{student_id}}",
+                "submit"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Practice a Concept",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/practice/{{student_id}}/{{concept_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "practice",
+                "{{student_id}}",
+                "{{concept_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Dashboard",
+      "item": [
+        {
+          "name": "Student Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dashboard/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "dashboard",
+                "{{student_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Teacher Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/teacher-dashboard",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "teacher-dashboard"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎓 Learning",
+      "item": [
+        {
+          "name": "Learning Content",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/learning/{{concept_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "learning",
+                "{{concept_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Feynman Board",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/feynman/{{student_id}}/{{concept_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "feynman",
+                "{{student_id}}",
+                "{{concept_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reassessment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reassessment/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reassessment",
+                "{{student_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🤖 AI & ML",
+      "item": [
+        {
+          "name": "ML Metrics (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ml/metrics",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ml",
+                "metrics"
+              ]
+            },
+            "description": "Public ML metrics — no authentication required."
+          }
+        },
+        {
+          "name": "AI Insights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ml/insights/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "ml",
+                "insights",
+                "{{student_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "AI Chat Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/chat",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "chat"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ask AI (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Explain the difference between SQL and NoSQL\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/chat/ask",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "chat",
+                "ask"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📄 Reports",
+      "item": [
+        {
+          "name": "PDF Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/report/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "report",
+                "{{student_id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Utilities",
+      "item": [
+        {
+          "name": "Set Language — English",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/set-language/en",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "set-language",
+                "en"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set Language — Arabic",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/set-language/ar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "set-language",
+                "ar"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
