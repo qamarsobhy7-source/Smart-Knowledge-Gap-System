@@ -7,22 +7,19 @@
 <section class="hero">
 
     <div class="hero-copy" data-animate>
-        <span class="eyebrow">PERSONALIZED LEARNING PLATFORM</span>
+        <span class="eyebrow">{{ t('home.eyebrow') }}</span>
 
         <h1>
-            Discover what you know.
-            <span>Learn what you need.</span>
+            {{ t('home.title') }}
+            <span>{{ t('home.title_accent') }}</span>
         </h1>
 
-        <p>
-            Assess your knowledge concept by concept, discover your learning gaps,
-            and receive a personalized path built around your current mastery.
-        </p>
+        <p>{{ t('home.subtitle') }}</p>
 
         <div class="hero-points">
-            <div><b>01</b><span>Choose your subject</span></div>
-            <div><b>02</b><span>Select your level</span></div>
-            <div><b>03</b><span>Build your path</span></div>
+            <div><b>01</b><span>{{ t('home.point_subject') }}</span></div>
+            <div><b>02</b><span>{{ t('home.point_level') }}</span></div>
+            <div><b>03</b><span>{{ t('home.point_path') }}</span></div>
         </div>
     </div>
 
@@ -30,9 +27,9 @@
 
         <div class="card-icon">✦</div>
 
-        <h2>Start your learning journey</h2>
+        <h2>{{ t('home.start_card_title') }}</h2>
 
-        <p>Create your account and choose your learning track.</p>
+        <p>{{ t('home.start_card_subtitle') }}</p>
 
         {% if error %}
             <div class="toast toast-error toast-visible" style="margin-bottom: 1rem; position: relative; transform: none;">
@@ -46,19 +43,19 @@
             <input type="hidden" name="{{ csrf_field_name }}" value="{{ csrf_token() }}">
 
             <div class="form-group">
-                <label for="name">Student name</label>
+                <label for="name">{{ t('form.name') }}</label>
                 <input
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder="{{ t('form.name_placeholder') }}"
                     required
                     maxlength="120"
                 >
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">{{ t('form.email') }}</label>
                 <input
                     id="email"
                     name="email"
@@ -69,58 +66,58 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">{{ t('form.password') }}</label>
                 <input
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="At least 6 characters"
+                    placeholder="{{ t('form.password_placeholder') }}"
                     required
                     minlength="6"
                 >
             </div>
 
             <div class="form-group">
-                <label for="age">Age</label>
+                <label for="age">{{ t('form.age') }}</label>
                 <input
                     id="age"
                     name="age"
                     type="number"
                     min="5"
                     max="100"
-                    placeholder="Your age"
+                    placeholder="{{ t('form.age_placeholder') }}"
                 >
             </div>
 
             <div class="form-group">
-                <label for="subject">Subject</label>
+                <label for="subject">{{ t('form.subject') }}</label>
                 <select id="subject" name="subject" required>
-                    <option value="">Choose a subject</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Computer Science">Computer Science</option>
+                    <option value="">{{ t('form.choose_subject') }}</option>
+                    <option value="Mathematics">{{ t('subject.mathematics') }}</option>
+                    <option value="Physics">{{ t('subject.physics') }}</option>
+                    <option value="Computer Science">{{ t('subject.computer_science') }}</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="level">Level</label>
+                <label for="level">{{ t('form.level') }}</label>
                 <select id="level" name="level" required>
-                    <option value="">Choose your level</option>
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
+                    <option value="">{{ t('form.choose_level') }}</option>
+                    <option value="Beginner">{{ t('level.beginner') }}</option>
+                    <option value="Intermediate">{{ t('level.intermediate') }}</option>
+                    <option value="Advanced">{{ t('level.advanced') }}</option>
                 </select>
             </div>
 
             <button class="primary-btn btn-full btn-lg" type="submit">
-                Create Account & Start →
+                {{ t('form.create_account') }} →
             </button>
 
         </form>
 
         <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
-            Already have an account?
-            <a href="/login" style="font-weight: 600;">Log in</a>
+            {{ t('home.already_have_account') }}
+            <a href="/login" style="font-weight: 600;">{{ t('home.login_link') }}</a>
         </p>
 
     </div>
@@ -130,37 +127,28 @@
 <section class="features">
 
     <div class="section-heading" data-animate>
-        <span class="eyebrow">HOW IT WORKS</span>
-        <h2>A learning experience built around you.</h2>
+        <span class="eyebrow">{{ t('home.how_it_works') }}</span>
+        <h2>{{ t('home.features_title') }}</h2>
     </div>
 
     <div class="feature-grid">
 
         <article class="feature-card" data-animate>
             <span class="feature-number">01</span>
-            <h3>Diagnostic Assessment</h3>
-            <p>
-                Analyze performance concept by concept instead of relying only
-                on a total score. Every concept is measured separately.
-            </p>
+            <h3>{{ t('home.feature1_title') }}</h3>
+            <p>{{ t('home.feature1_desc') }}</p>
         </article>
 
         <article class="feature-card" data-animate>
             <span class="feature-number">02</span>
-            <h3>Knowledge Gaps</h3>
-            <p>
-                Identify exactly which concepts need attention and which ones
-                are already strong — with a mastery score for each.
-            </p>
+            <h3>{{ t('home.feature2_title') }}</h3>
+            <p>{{ t('home.feature2_desc') }}</p>
         </article>
 
         <article class="feature-card" data-animate>
             <span class="feature-number">03</span>
-            <h3>Personalized Path</h3>
-            <p>
-                Follow a prerequisite-aware learning path designed around
-                your current needs and priority gaps.
-            </p>
+            <h3>{{ t('home.feature3_title') }}</h3>
+            <p>{{ t('home.feature3_desc') }}</p>
         </article>
 
     </div>

@@ -119,6 +119,31 @@ TRANSLATIONS = {
         "common.back_home": "Back to Home",
         "common.try_again": "Try Again",
         "common.loading": "Loading...",
+        # Hero points
+        "home.point_subject": "Choose your subject",
+        "home.point_level": "Select your level",
+        "home.point_path": "Build your path",
+        # Form placeholders
+        "form.name_placeholder": "Enter your name",
+        "form.password_placeholder": "At least 6 characters",
+        "form.age_placeholder": "Your age",
+        # Features
+        "home.how_it_works": "HOW IT WORKS",
+        "home.features_title": "A learning experience built around you.",
+        "home.feature1_title": "Diagnostic Assessment",
+        "home.feature1_desc": "Analyze performance concept by concept instead of relying only on a total score. Every concept is measured separately.",
+        "home.feature2_title": "Knowledge Gaps",
+        "home.feature2_desc": "Identify exactly which concepts need attention and which ones are already strong — with a mastery score for each.",
+        "home.feature3_title": "Personalized Path",
+        "home.feature3_desc": "Follow a prerequisite-aware learning path designed around your current needs and priority gaps.",
+        # Subjects
+        "subject.mathematics": "Mathematics",
+        "subject.physics": "Physics",
+        "subject.computer_science": "Computer Science",
+        # Levels
+        "level.beginner": "Beginner",
+        "level.intermediate": "Intermediate",
+        "level.advanced": "Advanced",
     },
 
     "ar": {
@@ -228,6 +253,31 @@ TRANSLATIONS = {
         "common.back_home": "العودة للرئيسية",
         "common.try_again": "حاول مرة أخرى",
         "common.loading": "جاري التحميل...",
+        # Hero points
+        "home.point_subject": "اختر مادتك",
+        "home.point_level": "حدد مستواك",
+        "home.point_path": "ابنِ مسارك",
+        # Form placeholders
+        "form.name_placeholder": "أدخل اسمك",
+        "form.password_placeholder": "6 أحرف على الأقل",
+        "form.age_placeholder": "عمرك",
+        # Features
+        "home.how_it_works": "كيف يعمل",
+        "home.features_title": "تجربة تعلم مبنية حولك.",
+        "home.feature1_title": "اختبار تشخيصي",
+        "home.feature1_desc": "حلّل أداءك مفهوماً بمفهوم بدلاً من الاعتماد على الدرجة الكلية فقط. يتم قياس كل مفهوم على حدة.",
+        "home.feature2_title": "الفجوات المعرفية",
+        "home.feature2_desc": "حدد بدقة المفاهيم التي تحتاج انتباهاً وتلك القوية بالفعل — مع درجة إتقان لكل منها.",
+        "home.feature3_title": "مسار شخصي",
+        "home.feature3_desc": "اتبع مسار تعلم يراعي المتطلبات الأساسية ومصمم حول احتياجاتك الحالية وأولوياتك.",
+        # Subjects
+        "subject.mathematics": "الرياضيات",
+        "subject.physics": "الفيزياء",
+        "subject.computer_science": "علوم الحاسب",
+        # Levels
+        "level.beginner": "مبتدئ",
+        "level.intermediate": "متوسط",
+        "level.advanced": "متقدم",
     },
 }
 
