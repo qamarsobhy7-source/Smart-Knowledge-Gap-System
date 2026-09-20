@@ -336,6 +336,18 @@ def inject_i18n():
     }
 
 
+@app.route("/health", methods=["GET"])
+def health_check():
+    """Health check endpoint for monitoring and load balancers."""
+    import time as _time
+    return {
+        "status": "healthy",
+        "service": "smart-knowledge-gap-system",
+        "version": "1.0.1",
+        "timestamp": int(_time.time()),
+    }
+
+
 @app.route("/set-language/<lang>", methods=["GET"])
 def set_language(lang):
     """Change the current language and redirect back."""
