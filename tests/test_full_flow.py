@@ -136,11 +136,30 @@ def run_single_combination(subject_name, subject_id, level):
 
     client = build_test_client()
 
-    # 1. Register
+    # 1. Register (with CSRF, email, password)
+    # Fetch homepage to get CSRF token
+    home_resp = client.get("/")
+    home_html = home_resp.get_data(as_text=True)
+    csrf_match = re.search(
+        r'name="csrf_token"\s+value="([^"]+)"',
+        home_html,
+    )
+    csrf_token = csrf_match.group(1) if csrf_match else None
+
+    if csrf_token is None:
+        return False, "Could not fetch CSRF token"
+
+    # Generate unique email
+    import uuid
+    unique_email = f"e2e_{subject_id}_{level.lower()}_{uuid.uuid4().hex[:8]}@test.com"
+
     response = client.post(
         "/register",
         data={
+            "csrf_token": csrf_token,
             "name": f"E2E Test {subject_name} {level}",
+            "email": unique_email,
+            "password": "test123456",
             "age": "18",
             "subject": subject_name,
             "level": level,
@@ -193,6 +212,14 @@ def run_single_combination(subject_name, subject_id, level):
             return False, f"Question GET failed ({response.status_code})"
 
         html = response.get_data(as_text=True)
+
+        # Fetch CSRF token from the assessment page
+        csrf_match = re.search(
+            r'name="csrf_token"\s+value="([^"]+)"',
+            html,
+        )
+        csrf_token = csrf_match.group(1) if csrf_match else None
+
         match = re.search(
             r'name="question_id"\s+value="([^"]+)"',
             html,
@@ -214,6 +241,7 @@ def run_single_combination(subject_name, subject_id, level):
         response = client.post(
             f"/assessment/{student_id}/submit",
             data={
+                "csrf_token": csrf_token,
                 "question_id": question_id,
                 "student_answer": displayed,
             },
@@ -227,10 +255,8 @@ def run_single_combination(subject_name, subject_id, level):
             )
 
     # 5. Verify the score
-    conn = get_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute(
+    with get_connection() as connection:
+        cursor = connection.execute(
             """
             SELECT COUNT(*) AS total, SUM(is_correct) AS correct
             FROM answers
@@ -239,8 +265,6 @@ def run_single_combination(subject_name, subject_id, level):
             (assessment_id,),
         )
         row = cursor.fetchone()
-    finally:
-        conn.close()
 
     total = row["total"] or 0
     correct = row["correct"] or 0
