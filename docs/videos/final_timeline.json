@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Home",
+    "start": 0.0
+  },
+  {
+    "name": "Login",
+    "start": 5.34
+  },
+  {
+    "name": "Forgot",
+    "start": 10.58
+  },
+  {
+    "name": "ML Metrics",
+    "start": 15.72
+  },
+  {
+    "name": "Register Form",
+    "start": 20.86
+  },
+  {
+    "name": "Assessment",
+    "start": 31.22
+  },
+  {
+    "name": "Dashboard",
+    "start": 36.54
+  },
+  {
+    "name": "AI Insights",
+    "start": 41.69
+  },
+  {
+    "name": "Feynman",
+    "start": 48.6
+  },
+  {
+    "name": "Chat",
+    "start": 53.86
+  },
+  {
+    "name": "Teacher",
+    "start": 59.0
+  },
+  {
+    "name": "Dashboard",
+    "start": 64.29
+  },
+  {
+    "name": "Arabic Home",
+    "start": 69.84
+  },
+  {
+    "name": "_END_",
+    "start": 75.96
+  }
+]
