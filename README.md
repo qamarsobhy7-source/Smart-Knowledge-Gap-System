@@ -247,10 +247,12 @@ Smart-Knowledge-Gap-System/
 │       ├── rag_engine.py
 │       ├── llm_service.py
 │       └── rl_dqn_agent.py
-├── templates/                       # Jinja2 templates
+├── templates/                       # 17 Jinja2 templates
 ├── static/                          # CSS, JS, images
 ├── data/
-│   └── final_question_bank_270.csv
+│   ├── final_question_bank_270.csv  # 270-question bank
+│   ├── concepts_final.csv           # 45 concepts
+│   └── learning_content_FINAL.csv   # Learning content
 ├── models/                          # Trained ML models (.joblib, .pt)
 │   ├── student_risk_model.joblib
 │   ├── student_performance_model.joblib
@@ -259,21 +261,41 @@ Smart-Knowledge-Gap-System/
 │   ├── knowledge_tracing_model.pt
 │   └── rl_dqn_agent.pt
 ├── docs/
-│   ├── screenshots/                 # 13 app screenshots
-│   ├── videos/demo.mp4              # Demo video
-│   └── research_paper.md            # Academic paper
+│   ├── API.md                       # Full API reference
+│   ├── research_paper.md            # Academic paper
+│   ├── demo_video_script.md         # Video script
+│   ├── postman_collection.json      # Postman collection
+│   ├── index.html                   # GitHub Pages video player
+│   ├── screenshots/                 # 13 PNG + GIF
+│   ├── models/                      # ML model cards
+│   │   ├── README.md
+│   │   ├── risk_predictor.md
+│   │   ├── knowledge_tracing.md
+│   │   └── student_clusterer.md
+│   └── videos/
+│       └── demo.mp4                 # Demo video
 ├── tests/
-│   └── test_complete.py             # 57 tests
-├── .github/workflows/ci.yml
+│   ├── test_complete.py             # 57 core tests
+│   ├── test_full_flow.py            # Integration tests
+│   └── test_security.py             # 33 security tests
+├── .github/
+│   └── workflows/ci.yml             # CI: Python 3.11 + 3.12
 ├── Dockerfile
 ├── docker-compose.yml
 ├── Makefile
 ├── requirements.txt
+├── requirements-dev.txt
+├── .env.example
+├── LICENSE
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── CHANGELOG.md
+├── CITATION.cff
+├── CONTRIBUTORS.md
 └── README.md
 ```
 
 ---
-
 ## 🧪 Testing
 
 ### Test Suites
