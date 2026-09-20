@@ -1,62 +1,62 @@
 [
   {
     "name": "Smart Knowledge Gap System",
-    "start": 1.18
+    "start": 2.1
   },
   {
     "name": "Login & Authentication",
-    "start": 5.85
+    "start": 6.84
   },
   {
     "name": "Forgot Password Flow",
-    "start": 10.5
+    "start": 11.54
   },
   {
     "name": "ML Model Metrics",
-    "start": 15.28
+    "start": 16.34
   },
   {
     "name": "Quick Registration",
-    "start": 20.01
+    "start": 21.13
   },
   {
     "name": "Adaptive Assessment",
-    "start": 30.57
+    "start": 31.81
   },
   {
     "name": "Personalized Dashboard",
-    "start": 36.3
+    "start": 37.72
   },
   {
     "name": "AI-Powered Insights",
-    "start": 43.05
+    "start": 45.21
   },
   {
     "name": "Feynman Technique Board",
-    "start": 55.9
+    "start": 57.88
   },
   {
     "name": "AI Chat Assistant (Groq + RAG)",
-    "start": 61.59
+    "start": 63.56
   },
   {
     "name": "Teacher Dashboard",
-    "start": 67.37
+    "start": 69.44
   },
   {
     "name": "Dark Mode",
-    "start": 73.02
+    "start": 75.12
   },
   {
     "name": "Dark Mode Preview",
-    "start": 75.21
+    "start": 77.38
   },
   {
     "name": "Arabic RTL Support",
-    "start": 80.42
+    "start": 82.31
   },
   {
     "name": "_END_",
-    "start": 86.43
+    "start": 88.32
   }
 ]
