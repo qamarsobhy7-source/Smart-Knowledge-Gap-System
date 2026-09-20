@@ -24,23 +24,25 @@
 
 ---
 
-## 🌐 Live Demo
+## 🌐 Live Demo & Video
 
-🚀 **The application is live and production-ready:**
+### 🚀 Try the App
 
-### 🔗 [https://smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)
+**[https://smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)**
 
-### 🎬 Preview
+### 🎥 Watch the Demo Video
+
+| Source | Purpose | Link |
+|--------|---------|------|
+| 🎬 **GitHub Pages** | Stream instantly in browser | [Watch Now](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/) |
+| 💻 **Repository** | Direct file access | [`docs/videos/demo.mp4`](docs/videos/demo.mp4) |
+| 📦 **Release v1.0.2** | Download MP4 | [Download](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.2/VID-20260920-WA0027.mp4) |
+
+### 🎬 Preview (GIF)
 
 ![Demo Preview](docs/screenshots/00_demo.gif)
 
-### 🎥 Full Demo Video
-
-[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo%20Video-red?style=for-the-badge)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
-[![Download](https://img.shields.io/badge/⬇️-Download%20MP4-blue?style=for-the-badge)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.2/VID-20260920-WA0027.mp4)
-
 ---
-
 ## 📸 Screenshots
 
 ### 🏠 Homepage — Landing with signup form
