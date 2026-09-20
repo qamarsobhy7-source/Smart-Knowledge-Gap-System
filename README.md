@@ -32,17 +32,14 @@
 
 ### 🎥 Watch the Demo Video
 
-| Source | Purpose | Link |
-|--------|---------|------|
-| 🎬 **GitHub Pages** | Stream instantly in browser | [Watch Now](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/) |
-| 💻 **Repository** | Direct file access | [`docs/videos/demo.mp4`](docs/videos/demo.mp4) |
-| 📦 **Release v1.0.2** | Download MP4 | [Download](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/releases/download/v1.0.4/demo.mp4.mp4) |
+[![Watch Demo](https://img.shields.io/badge/▶️-Watch%20Demo%20Video-red?style=for-the-badge)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
 
-### 🎬 Preview (GIF)
+### 🎬 Preview
 
 ![Demo Preview](docs/screenshots/00_demo.gif)
 
 ---
+
 ## 📸 Screenshots
 
 ### 🏠 Homepage — Landing with signup form
