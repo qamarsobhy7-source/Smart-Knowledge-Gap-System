@@ -12,7 +12,7 @@
 [![Qdrant](https://img.shields.io/badge/Qdrant-Vector%20DB-DC244C?logo=qdrant&logoColor=white)](https://qdrant.tech/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![CI](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions/workflows/ci.yml/badge.svg)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions)
-[![Tests](https://img.shields.io/badge/Tests-57%20Passing-brightgreen)](#-testing)
+[![Tests](https://img.shields.io/badge/Tests-90%20Passing-brightgreen)](#-testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/%F0%9F%9A%80-Live%20Demo-success)](https://smart-knowledge-gap-system-qqbms.faable.link)
 [![Demo Video](https://img.shields.io/badge/%F0%9F%8E%A5-Demo%20Video-red)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
@@ -276,14 +276,53 @@ Smart-Knowledge-Gap-System/
 
 ## 🧪 Testing
 
+### Test Suites
+
+| Suite | File | Tests | Focus |
+|-------|------|-------|-------|
+| **Core** | `tests/test_complete.py` | 57 | End-to-end functionality |
+| **Security** | `tests/test_security.py` | 33 | CSRF, SQL injection, XSS, auth |
+| **Total** | — | **90** | 100% passing |
+
+### Run Tests
+
 ```bash
-pytest tests/test_complete.py -v
-# → 57 passed in ~30s
+# Run all tests
+pytest tests/ -v
+
+# Run specific suites
+pytest tests/test_complete.py -v      # Core tests
+pytest tests/test_security.py -v      # Security tests
+
+# With coverage
+coverage run -m pytest tests/
+coverage report -m
 ```
 
-**Coverage:** authentication, assessment flow, dashboard data, ML inference, API routes, DB operations, session management.
+### 🔒 Security Test Coverage
 
----
+The security suite validates:
+
+- **CSRF Protection** — form tokens required on POST requests
+- **SQL Injection Prevention** — 5 attack payloads tested
+- **XSS Prevention** — 4 payloads tested, HTML escaping verified
+- **Authentication** — protected routes require login
+- **Session Security** — HttpOnly, Secure, SameSite flags
+- **Password Hashing** — PBKDF2/scrypt, never plain text
+- **Input Validation** — email format, password length, duplicates
+- **Error Handling** — no stack trace leaks on 404
+
+### Core Test Coverage
+
+The core suite validates:
+
+- Authentication flow (register, login, logout, reset)
+- Adaptive assessment engine
+- Dashboard data generation
+- ML model inference
+- API routes & error handling
+- Database CRUD operations
+- Session lifecycle
 
 ## 🧠 ML Pipeline
 
@@ -328,6 +367,17 @@ A full academic paper (8 sections, 20 references) lives in [`docs/research_paper
 - **No secrets in code** — env vars only
 - **SQL injection prevention** — parameterized queries
 - **Rate limiting** on auth & chat endpoints
+
+---
+
+## 📡 API Reference
+
+Full API documentation is available in [`docs/API.md`](docs/API.md).
+
+**Highlights:**
+- **21 endpoints** across 8 categories
+- **Postman collection**: [`docs/postman_collection.json`](docs/postman_collection.json)
+- **Health check**: `GET /health`
 
 ---
 
