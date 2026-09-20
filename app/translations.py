@@ -20,7 +20,11 @@ TRANSLATIONS = {
         "home.eyebrow": "PERSONALIZED LEARNING PLATFORM",
         "home.title": "Discover what you know.",
         "home.title_accent": "Learn what you need.",
-        "home.subtitle": "Assess your knowledge concept by concept, discover your learning gaps, and receive a personalized path built around your current mastery.",
+        "home.subtitle": (
+            "Assess your knowledge concept by concept, discover your "
+            "learning gaps, and receive a personalized path built around "
+            "your current mastery."
+        ),
         "home.start_card_title": "Start your learning journey",
         "home.start_card_subtitle": "Create your account and choose your learning track.",
         "home.already_have_account": "Already have an account?",
@@ -47,7 +51,10 @@ TRANSLATIONS = {
         # Results
         "results.eyebrow": "ASSESSMENT COMPLETE",
         "results.title": "Your learning profile is ready.",
-        "results.subtitle": "We analyzed your answers concept by concept and built a learning path around the areas that need the most attention.",
+        "results.subtitle": (
+            "We analyzed your answers concept by concept and built a "
+            "learning path around the areas that need the most attention."
+        ),
         "results.open_dashboard": "Open My Learning Dashboard",
         "results.knowledge_profile": "KNOWLEDGE PROFILE",
         "results.what_tells_us": "What your assessment tells us",
@@ -92,7 +99,10 @@ TRANSLATIONS = {
         "login.eyebrow": "WELCOME BACK",
         "login.title": "Log in to continue",
         "login.title_accent": "your learning journey.",
-        "login.subtitle": "Sign in with your email and password to access your learning dashboard, knowledge gaps, and personalized learning path.",
+        "login.subtitle": (
+            "Sign in with your email and password to access your learning "
+            "dashboard, knowledge gaps, and personalized learning path."
+        ),
         "login.card_title": "Log in to your account",
         "login.card_subtitle": "Enter your email and password below.",
         "login.button": "Log In",
@@ -123,7 +133,10 @@ TRANSLATIONS = {
         "home.eyebrow": "منصة تعلم شخصية",
         "home.title": "اكتشف ما تعرفه.",
         "home.title_accent": "تعلم ما تحتاجه.",
-        "home.subtitle": "قيّم معرفتك مفهوماً بمفهوم، اكتشف فجواتك المعرفية، واحصل على مسار تعلم شخصي مبني على مستواك الحالي.",
+        "home.subtitle": (
+            "قيّم معرفتك مفهوماً بمفهوم، اكتشف فجواتك المعرفية، "
+            "واحصل على مسار تعلم شخصي مبني على مستواك الحالي."
+        ),
         "home.start_card_title": "ابدأ رحلتك التعليمية",
         "home.start_card_subtitle": "أنشئ حسابك واختر مسارك التعليمي.",
         "home.already_have_account": "هل لديك حساب بالفعل؟",
@@ -195,7 +208,10 @@ TRANSLATIONS = {
         "login.eyebrow": "أهلاً بعودتك",
         "login.title": "سجّل الدخول لمتابعة",
         "login.title_accent": "رحلتك التعليمية.",
-        "login.subtitle": "سجّل الدخول بالبريد الإلكتروني وكلمة المرور للوصول إلى لوحة التعلم وفجواتك المعرفية ومسارك الشخصي.",
+        "login.subtitle": (
+            "سجّل الدخول بالبريد الإلكتروني وكلمة المرور للوصول إلى "
+            "لوحة التعلم وفجواتك المعرفية ومسارك الشخصي."
+        ),
         "login.card_title": "تسجيل الدخول",
         "login.card_subtitle": "أدخل بريدك الإلكتروني وكلمة المرور أدناه.",
         "login.button": "دخول",
