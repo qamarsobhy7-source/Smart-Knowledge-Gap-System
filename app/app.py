@@ -173,6 +173,29 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
 app.secret_key = os.environ.get("SECRET_KEY")
 
+# ============================================================
+# SECURITY HEADERS
+# ============================================================
+@app.after_request
+def add_security_headers(response):
+    """Add HTTP security headers to every response."""
+    # Prevent MIME-type sniffing
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    # Prevent clickjacking
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    # Control referrer information
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    # Restrict browser features
+    response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+    # HSTS — only when serving over HTTPS
+    if request.is_secure or request.headers.get("X-Forwarded-Proto") == "https":
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=31536000; includeSubDomains"
+        )
+    return response
+
+
+
 if not app.secret_key:
     raise RuntimeError(
         "SECRET_KEY environment variable is required."
