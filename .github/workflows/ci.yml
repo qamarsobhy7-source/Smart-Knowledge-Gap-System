@@ -88,6 +88,17 @@ jobs:
           print('✅ Database initialization works.')
           "
 
+      - name: Coverage report
+        env:
+          SECRET_KEY: test-secret-key-for-ci-only
+          PYTHONPATH: app
+        run: |
+          cd app
+          coverage run -m pytest ../tests/ -q || true
+          coverage report -m || true
+          coverage html -d ../coverage_html || true
+          cd ..
+
       - name: Smoke test — Flask app loads
         env:
           SECRET_KEY: test-secret-key-for-ci-only
