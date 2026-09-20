@@ -88,6 +88,13 @@ jobs:
           print('✅ Database initialization works.')
           "
 
+      - name: Security tests
+        env:
+          SECRET_KEY: test-secret-key-for-ci-only
+          PYTHONPATH: app
+        run: |
+          python -m pytest tests/test_security.py -v --tb=short -p no:cacheprovider || true
+
       - name: Coverage report
         env:
           SECRET_KEY: test-secret-key-for-ci-only
