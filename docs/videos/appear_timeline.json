@@ -1,58 +1,58 @@
 [
   {
     "name": "Home",
-    "start": 0.0
+    "appear": 1.07
   },
   {
     "name": "Login",
-    "start": 5.34
+    "appear": 7.1
   },
   {
     "name": "Forgot",
-    "start": 10.58
+    "appear": 13.08
   },
   {
     "name": "ML Metrics",
-    "start": 15.72
+    "appear": 19.11
   },
   {
     "name": "Register Form",
-    "start": 20.86
+    "appear": 25.08
   },
   {
     "name": "Assessment",
-    "start": 31.22
+    "appear": 36.9
   },
   {
     "name": "Dashboard",
-    "start": 36.54
+    "appear": 42.88
   },
   {
     "name": "AI Insights",
-    "start": 41.69
+    "appear": 50.53
   },
   {
     "name": "Feynman",
-    "start": 48.6
+    "appear": 56.59
   },
   {
     "name": "Chat",
-    "start": 53.86
+    "appear": 62.57
   },
   {
     "name": "Teacher",
-    "start": 59.0
+    "appear": 68.75
   },
   {
-    "name": "Dashboard",
-    "start": 64.29
+    "name": "Dashboard Dark",
+    "appear": 74.88
+  },
+  {
+    "name": "Dark Mode",
+    "appear": 77.59
   },
   {
     "name": "Arabic Home",
-    "start": 69.84
-  },
-  {
-    "name": "_END_",
-    "start": 75.96
+    "appear": 81.87
   }
 ]
