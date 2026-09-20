@@ -97,3 +97,9 @@ data/synthetic_knowledge_tracing_data.json
 screenshots_original/
 
 timeline.json
+
+*.bak_*
+
+*.backup*
+
+*.bak2_*
