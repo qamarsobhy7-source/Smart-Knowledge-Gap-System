@@ -326,6 +326,11 @@ The core suite validates:
 
 ## 🧠 ML Pipeline
 
+> 📖 **Model Cards** for individual models: [`docs/models/`](docs/models/)
+> — includes risk predictor, knowledge tracing, student clusterer.
+
+
+
 ### Train all models from scratch
 
 ```bash
