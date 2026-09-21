@@ -9,6 +9,8 @@
 
 A concept-level diagnostic and personalized learning platform that identifies knowledge gaps, prioritizes learning needs, and generates prerequisite-aware learning paths.
 
+**[Live Demo](https://smart-knowledge-gap-system-qqbms.faable.link)** · **[Demo Video](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)** · **[API Docs](https://smart-knowledge-gap-system-qqbms.faable.link/docs)**
+
 ---
 
 ## Live Demo & Video
@@ -255,6 +257,28 @@ Full API documentation is available in `docs/API.md`.
 - **Health check:** `GET /health`
 - **API version:** `GET /api/version`
 
+### Example Request
+
+```bash
+curl https://smart-knowledge-gap-system-qqbms.faable.link/health
+```
+
+**Response:**
+
+```json
+{
+  "status": "healthy",
+  "service": "smart-knowledge-gap-system",
+  "version": "1.0.8",
+  "services": {
+    "database": {"status": "connected"},
+    "qdrant": {"status": "configured"},
+    "groq": {"status": "configured"},
+    "ml_models": {"status": "loaded", "count": 9}
+  }
+}
+```
+
 ## Deployment
 
 **Production:** [smart-knowledge-gap-system-qqbms.faable.link](https://smart-knowledge-gap-system-qqbms.faable.link)
@@ -299,6 +323,12 @@ A full academic paper (8 sections, 20 references) is available in `docs/research
 5. RAG pipeline for LLM assistant
 6. Experimental results
 7. Limitations and future work
+
+## Contributors
+
+- [@qamarsobhy7-source](https://github.com/qamarsobhy7-source) — Creator & Maintainer
+
+---
 
 ## License
 
