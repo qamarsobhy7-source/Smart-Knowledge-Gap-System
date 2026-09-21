@@ -9,8 +9,6 @@
 
 A concept-level diagnostic and personalized learning platform that identifies knowledge gaps, prioritizes learning needs, and generates prerequisite-aware learning paths.
 
-**[Live Demo](https://smart-knowledge-gap-system-qqbms.faable.link)** · **[Demo Video](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)** · **[API Docs](https://smart-knowledge-gap-system-qqbms.faable.link/docs)**
-
 ---
 
 ## Live Demo & Video
