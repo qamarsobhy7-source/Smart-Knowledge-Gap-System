@@ -432,7 +432,7 @@ def api_version():
 
     return {
         "name": "Smart Knowledge Gap System",
-        "version": "1.0.7",
+        "version": "1.0.8",
         "api_version": "v1",
         "build_date": "2026-09-21",
         "environment": os.environ.get("FLASK_ENV", "production"),
@@ -550,7 +550,7 @@ def health_check():
     return {
         "status": overall,
         "service": "smart-knowledge-gap-system",
-        "version": "1.0.7",
+        "version": "1.0.8",
         "timestamp": int(_time.time()),
         "datetime": _dt.utcnow().isoformat() + "Z",
         "services": services,
