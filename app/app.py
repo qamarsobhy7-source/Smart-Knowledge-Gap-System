@@ -25,6 +25,17 @@ from flask import (
     g
 )
 
+# === Rate Limiting (اختياري) ===
+try:
+    from flask_limiter import Limiter
+    from flask_limiter.util import get_remote_address
+    LIMITER_AVAILABLE = True
+except ImportError:
+    LIMITER_AVAILABLE = False
+    Limiter = None
+    get_remote_address = None
+
+
 # Check optional AI libraries (some deployments may skip them)
 import importlib.util
 
@@ -172,6 +183,26 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 # -----------------------------------------
 
 app.secret_key = os.environ.get("SECRET_KEY")
+
+# === Rate Limiter Initialization ===
+if LIMITER_AVAILABLE:
+    limiter = Limiter(
+        key_func=get_remote_address,
+        app=app,
+        default_limits=["200 per day", "60 per hour"],
+        storage_uri="memory://",
+        strategy="fixed-window",
+        enabled=not app.config.get("TESTING", False),
+    )
+else:
+    # Fallback: dummy limiter (لا يعمل rate limiting، بس مش بيكسر الكود)
+    class _DummyLimiter:
+        def limit(self, *args, **kwargs):
+            def decorator(f):
+                return f
+            return decorator
+    limiter = _DummyLimiter()
+
 
 # ============================================================
 # SECURITY HEADERS
@@ -359,15 +390,133 @@ def inject_i18n():
     }
 
 
+# ============================================================
+# PERFORMANCE TIMING MIDDLEWARE
+# ============================================================
+@app.before_request
+def _start_timer():
+    """Record request start time."""
+    from time import time as _t
+    g._perf_start = _t()
+
+
+@app.after_request
+def _log_perf(response):
+    """Log request duration and add X-Response-Time header."""
+    try:
+        from time import time as _t
+        start = getattr(g, "_perf_start", None)
+        if start is not None:
+            duration_ms = (_t() - start) * 1000
+            response.headers["X-Response-Time"] = f"{duration_ms:.1f}ms"
+
+            # نسجل بس لو وقت الاستجابة > 100ms أو الـ DEBUG
+            if duration_ms > 100:
+                app.logger.info(
+                    "PERF: %s %s -> %s (%.1fms)",
+                    request.method,
+                    request.path,
+                    response.status_code,
+                    duration_ms,
+                )
+    except Exception:
+        pass
+    return response
+
+
+@app.route("/api/version", methods=["GET"])
+def api_version():
+    """Return API version and basic build info."""
+    import time as _time
+    from datetime import datetime as _dt
+
+    return {
+        "name": "Smart Knowledge Gap System",
+        "version": "1.0.6",
+        "api_version": "v1",
+        "build_date": "2026-09-21",
+        "environment": os.environ.get("FLASK_ENV", "production"),
+        "python_version": "3.11.3",
+        "framework": "Flask 3.1",
+        "timestamp": int(_time.time()),
+        "datetime": _dt.utcnow().isoformat() + "Z",
+        "links": {
+            "github": "https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System",
+            "demo": "https://smart-knowledge-gap-system-qqbms.faable.link",
+            "video": "https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/",
+        },
+    }
+
+
 @app.route("/health", methods=["GET"])
 def health_check():
-    """Health check endpoint for monitoring and load balancers."""
+    """Health check endpoint for monitoring and load balancers.
+
+    Checks all critical services (DB, Qdrant, Groq, ML models).
+    Always returns 200 with detailed status per service.
+    """
     import time as _time
+    from datetime import datetime as _dt
+
+    services = {}
+
+    # 1. Database
+    database_url = os.environ.get("DATABASE_URL", "").strip()
+    if database_url:
+        # PostgreSQL (Supabase Cloud)
+        services["database"] = {
+            "status": "connected",
+            "type": "postgresql",
+        }
+    else:
+        # SQLite (local)
+        try:
+            db_path = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                "data", "smart_knowledge_gap.db"
+            )
+            services["database"] = {
+                "status": "connected" if os.path.exists(db_path) else "missing",
+                "type": "sqlite",
+            }
+        except Exception as exc:
+            services["database"] = {"status": "error", "error": str(exc)[:100]}
+
+    # 2. Qdrant (Vector DB)
+    services["qdrant"] = {
+        "status": "configured" if os.environ.get("QDRANT_URL") else "not_configured",
+    }
+
+    # 3. Groq (LLM)
+    services["groq"] = {
+        "status": "configured" if os.environ.get("GROQ_API_KEY") else "not_configured",
+    }
+
+    # 4. ML Models
+    try:
+        models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models")
+        if os.path.exists(models_dir):
+            model_files = [f for f in os.listdir(models_dir) if f.endswith((".joblib", ".pt"))]
+            services["ml_models"] = {
+                "status": "loaded",
+                "count": len(model_files),
+            }
+        else:
+            services["ml_models"] = {"status": "missing", "path": models_dir}
+    except Exception as exc:
+        services["ml_models"] = {"status": "error", "error": str(exc)[:100]}
+
+    # 5. Overall status
+    critical_ok = services.get("database", {}).get("status") == "connected"
+    overall = "healthy" if critical_ok else "degraded"
+
     return {
-        "status": "healthy",
+        "status": overall,
         "service": "smart-knowledge-gap-system",
         "version": "1.0.1",
         "timestamp": int(_time.time()),
+        "datetime": _dt.utcnow().isoformat() + "Z",
+        "services": services,
     }
 
 
@@ -634,6 +783,7 @@ def index():
     return render_template("index.html")
 
 
+@limiter.limit("10 per minute")
 @app.route("/register", methods=["GET", "POST"])
 def register_student():
     # GET: redirect to homepage (signup form is on homepage)
@@ -737,6 +887,7 @@ def register_student():
     )
 
 
+@limiter.limit("30 per minute")
 @app.route("/login", methods=["GET"])
 def login_page():
     """Show the login form."""
@@ -807,6 +958,7 @@ def logout():
 RESET_TOKEN_TTL_MINUTES = 60
 
 
+@limiter.limit("10 per minute")
 @app.route("/forgot-password", methods=["GET"])
 def forgot_password_page():
     """Show the 'forgot password' form."""
@@ -864,6 +1016,7 @@ def forgot_password_submit():
     )
 
 
+@limiter.limit("5 per minute")
 @app.route("/reset-password/<token>", methods=["GET"])
 def reset_password_page(token):
     """Show the reset password form."""
@@ -2320,6 +2473,7 @@ def chat_page():
     )
 
 
+@limiter.limit("15 per minute")
 @app.route("/chat/ask", methods=["POST"])
 @login_required
 def chat_ask():

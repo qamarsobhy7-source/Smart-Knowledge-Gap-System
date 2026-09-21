@@ -9,3 +9,4 @@ psycopg2-binary>=2.9.9
 requests>=2.31.0
 qdrant-client>=1.12.0
 fastembed>=0.4.0
+Flask-Limiter>=3.5.0
