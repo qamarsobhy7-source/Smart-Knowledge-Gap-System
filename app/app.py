@@ -448,6 +448,43 @@ def api_version():
     }
 
 
+# ============================================================
+# SEO: robots.txt + sitemap.xml
+# ============================================================
+@app.route("/security.txt", methods=["GET"])
+@app.route("/.well-known/security.txt", methods=["GET"])
+def serve_security_txt():
+    """Serve security.txt (RFC 9116) for security researchers."""
+    from flask import send_from_directory
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static"),
+        "security.txt",
+        mimetype="text/plain",
+    )
+
+
+@app.route("/robots.txt", methods=["GET"])
+def serve_robots():
+    """Serve robots.txt from the static folder at root level."""
+    from flask import send_from_directory
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static"),
+        "robots.txt",
+        mimetype="text/plain",
+    )
+
+
+@app.route("/sitemap.xml", methods=["GET"])
+def serve_sitemap():
+    """Serve sitemap.xml from the static folder at root level."""
+    from flask import send_from_directory
+    return send_from_directory(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static"),
+        "sitemap.xml",
+        mimetype="application/xml",
+    )
+
+
 @app.route("/health", methods=["GET"])
 def health_check():
     """Health check endpoint for monitoring and load balancers.
