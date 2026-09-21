@@ -2781,3 +2781,15 @@ if __name__ == "__main__":
         port=5000,
         debug=False
     )
+
+
+@app.route("/docs")
+def api_docs():
+    """Serve API documentation (Markdown)."""
+    import os as _os
+    from flask import send_from_directory, abort
+    docs_dir = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), "docs")
+    if not _os.path.exists(_os.path.join(docs_dir, "API.md")):
+        abort(404)
+    return send_from_directory(docs_dir, "API.md", mimetype="text/markdown")
+

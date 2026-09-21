@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.9] — 2026-09-21
+
+### 📸 README Cleanup & Screenshots Gallery
+
+#### Changed
+- **Moved full screenshots to dedicated gallery** — `docs/SCREENSHOTS.md`
+- **Kept 3 key screenshots in README** (Homepage, Dashboard, AI Insights)
+- **README size reduced:** 16,101 → 15,130 chars (6% smaller)
+- **Fixed test counts** in README:
+  - Core: 57 → 52
+  - Badge: 90 → 94
+  - Added Integration suite (9 tests)
+- **Matches convention** of major projects (React, Vue, Django)
+
+#### Added
+- **`docs/SCREENSHOTS.md`** — full 13-image gallery + GIF
+- **Test suites table** — now shows all 3 suites + total
+
+#### Notes
+- No functional changes — documentation-only release
+
+---
+
 ## [1.0.8] — 2026-09-21
 
 ### 🔍 SEO & Accessibility
@@ -29,35 +52,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`:focus-visible` styles** — clear focus indicators
 - **`prefers-reduced-motion` support** — for motion-sensitive users
 - **`prefers-contrast: high`** — high contrast support
-
----
-
-## [1.0.7] — 2026-09-21
-
-### 🛡️ Production Hardening
-
-#### Added
-- **Rate Limiting** via Flask-Limiter:
-  - `/login` → 30/minute (brute-force protection)
-  - `/register` → 10/minute (spam protection)
-  - `/forgot-password` → 10/minute
-  - `/reset-password/<token>` → 5/minute
-  - `/chat/ask` → 15/minute (AI abuse protection)
-  - Global default: 200/day, 60/hour
-- **Enhanced Health Check** (`/health`):
-  - Checks database, Qdrant, Groq, ML models
-  - Detailed JSON response with service statuses
-  - Overall health indicator (healthy/degraded)
-- **Performance Timing Middleware**:
-  - Adds `X-Response-Time` header to all responses
-  - Logs requests slower than 100ms
-- **API Version Endpoint** (`/api/version`):
-  - Returns version, build date, framework, and project links
-
-#### Notes
-- All features are **additive** — no existing behavior changed
-- Rate Limiter is disabled in TESTING mode
-- Fallback class ensures compatibility when Flask-Limiter unavailable
 
 ---
 
