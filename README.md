@@ -11,8 +11,6 @@ A concept-level diagnostic and personalized learning platform that identifies kn
 
 ---
 
-## Live Demo & Video
-
 ### Try the App
 
 **https://smart-knowledge-gap-system-qqbms.faable.link**
