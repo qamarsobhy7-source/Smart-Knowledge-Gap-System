@@ -84,10 +84,10 @@ GITHUB_RELEASE_GITIGNORE_BACKUP/
 # ============================================================
 # These files are produced by `python -m app.ml.train_all`
 # and are therefore NOT committed — they can be regenerated.
-models/*.joblib
-models/*.pt
-models/vector_db/
-models/metrics/*.json
+# models/*.joblib  # ← مُلغى عشان المهندس يحتاج الملفات
+# models/*.pt  # ← مُلغى عشان المهندس يحتاج الملفات
+# models/vector_db/  # ← مُلغى عشان المهندس يحتاج الملفات
+# models/metrics/*.json  # ← مُلغى عشان المهندس يحتاج الملفات
 data/synthetic_ml_training_data.csv
 data/synthetic_knowledge_tracing_data.json
 *.bak2
