@@ -12,7 +12,7 @@
 [![Qdrant](https://img.shields.io/badge/Qdrant-Vector%20DB-DC244C?logo=qdrant&logoColor=white)](https://qdrant.tech/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![CI](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions/workflows/ci.yml/badge.svg)](https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/actions)
-[![Tests](https://img.shields.io/badge/Tests-90%20Passing-brightgreen)](#-testing)
+[![Tests](https://img.shields.io/badge/Tests-94%20Passing-brightgreen)](#-testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/%F0%9F%9A%80-Live%20Demo-success)](https://smart-knowledge-gap-system-qqbms.faable.link)
 [![Demo Video](https://img.shields.io/badge/%F0%9F%8E%A5-Demo%20Video-red)](https://qamarsobhy7-source.github.io/Smart-Knowledge-Gap-System/)
@@ -252,7 +252,7 @@ Smart-Knowledge-Gap-System/
 │   └── videos/
 │       └── demo.mp4                 # Demo video
 ├── tests/
-│   ├── test_complete.py             # 57 core tests
+│   ├── test_complete.py             # 52 core tests
 │   ├── test_full_flow.py            # Integration tests
 │   └── test_security.py             # 33 security tests
 ├── .github/
@@ -279,9 +279,10 @@ Smart-Knowledge-Gap-System/
 
 | Suite | File | Tests | Focus |
 |-------|------|-------|-------|
-| **Core** | `tests/test_complete.py` | 57 | End-to-end functionality |
+| **Core** | `tests/test_complete.py` | 52 | End-to-end functionality |
 | **Security** | `tests/test_security.py` | 33 | CSRF, SQL injection, XSS, auth |
-| **Total** | — | **90** | 100% passing |
+| **Integration** | `tests/test_full_flow.py` | 9 | Full assessment flow |
+| **Total** | — | **94** | 100% passing |
 
 ### Run Tests
 
