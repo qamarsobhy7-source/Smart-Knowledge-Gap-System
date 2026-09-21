@@ -42,44 +42,16 @@
 
 ## 📸 Screenshots
 
-### 🏠 Homepage — Landing with signup form
+### 🏠 Homepage
 ![Homepage](docs/screenshots/01_home.png)
 
-### 🔐 Authentication
-
-| Login | Forgot Password |
-|:-----:|:---------------:|
-| ![Login](docs/screenshots/02_login.png) | ![Forgot Password](docs/screenshots/03_forgot_password.png) |
-
-### 📝 Registration Form
-![Registration](docs/screenshots/05_register_form.png)
-
-### 📊 Student Dashboard — Progress, Charts & Achievements
+### 📊 Student Dashboard
 ![Dashboard](docs/screenshots/07_dashboard.png)
 
-### 🧪 Adaptive Assessment — Question View
-![Assessment](docs/screenshots/06_assessment.png)
-
-### 🤖 AI Insights — Clusters, SHAP & Recommendations
+### 🤖 AI Insights
 ![AI Insights](docs/screenshots/08_ai_insights.png)
 
-### 🧠 Feynman Board — Explain concepts in your own words
-![Feynman](docs/screenshots/09_feynman.png)
-
-### 💬 AI Chat Assistant — LLM + RAG powered
-![Chat](docs/screenshots/10_chat.png)
-
-### 👨‍🏫 Teacher Dashboard — Class-level analytics
-![Teacher](docs/screenshots/11_teacher.png)
-
-### 📈 ML Metrics — Public model performance dashboard
-![ML Metrics](docs/screenshots/04_ml_metrics.png)
-
-### 🎨 UI Features
-
-| 🌙 Dark Mode | 🌍 Arabic RTL |
-|:------------:|:-------------:|
-| ![Dark Mode](docs/screenshots/12_dark_mode.png) | ![Arabic RTL](docs/screenshots/13_arabic_rtl.png) |
+### 📷 [View All 13 Screenshots →](docs/SCREENSHOTS.md)
 
 ---
 
