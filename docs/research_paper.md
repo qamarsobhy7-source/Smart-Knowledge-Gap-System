@@ -21,7 +21,7 @@ Traditional assessment systems evaluate students using a single aggregate score,
 
 SKG integrates a rule-based diagnostic engine with an **eight-model AI/ML layer** covering supervised classification, unsupervised clustering, sequence modeling, reinforcement learning, explainable AI, and retrieval-augmented large language model (LLM) assistance. The system diagnoses 45 concepts across three subjects (Mathematics, Physics, Computer Science) using 270 validated questions spanning six cognitive types.
 
-We report **development-evaluation metrics** on synthetic data derived from the real question bank. The binary risk predictor achieves an F1 of 0.897 and a ROC-AUC of 0.880; the student clusterer identifies four interpretable profiles; and the reinforcement learning agent learns an adaptive path-planning policy with an average evaluation reward of 18.8. We also demonstrate that SHAP-based explanations improve transparency, and a Gemini + RAG chat assistant produces grounded, hallucination-free answers.
+We report **development-evaluation metrics** on synthetic data derived from the real question bank. The binary risk predictor achieves an F1 of 0.897 and a ROC-AUC of 0.880; the student clusterer identifies four interpretable profiles; and the reinforcement learning agent learns an adaptive path-planning policy with an average evaluation reward of 18.8. We also demonstrate that SHAP-based explanations improve transparency, and a Groq + RAG chat assistant produces grounded, hallucination-free answers.
 
 **Keywords:** adaptive learning, knowledge tracing, reinforcement learning, explainable AI, RAG, personalized education, deep knowledge tracing, LLM.
 
@@ -90,7 +90,7 @@ SKG includes a dedicated **Explainable AI page** that presents SHAP feature cont
 
 Recent work has explored LLMs as tutoring assistants (Khanmigo, Khan Academy 2023), question generators (Wang et al., 2021), and explanation providers. However, unconstrained LLMs are known to **hallucinate** — a serious risk in educational settings.
 
-**Retrieval-Augmented Generation (RAG)** (Lewis et al., 2020) mitigates this by grounding LLM responses in retrieved documents. SKG builds a **675-document vector store** from its own content (learning material, questions, concept metadata) and answers student queries using **Gemini** with retrieved context.
+**Retrieval-Augmented Generation (RAG)** (Lewis et al., 2020) mitigates this by grounding LLM responses in retrieved documents. SKG builds a **675-document vector store** from its own content (learning material, questions, concept metadata) and answers student queries using **Groq** with retrieved context.
 
 ### 2.5 Positioning of SKG
 
@@ -182,7 +182,7 @@ Eight ML models are integrated:
 | 4 | Student Clusterer | Unsupervised clustering | K-Means + PCA |
 | 5 | Knowledge Tracing | Sequence prediction | LSTM |
 | 6 | Explainability | Post-hoc attribution | SHAP |
-| 7 | LLM Assistant | Question answering | Gemini + RAG |
+| 7 | LLM Assistant | Question answering | Groq + RAG |
 | 8 | Adaptive Planner | RL policy learning | DQN |
 
 ### 3.8 Synthetic Data Generation
@@ -252,7 +252,7 @@ app/ml/
 |-- rl_dqn_agent.py              # DQN agent
 |-- explainability.py            # SHAP
 |-- rag_engine.py                # Vector store
-|-- llm_service.py               # Gemini + RAG
+|-- llm_service.py               # Groq + RAG
 +-- ml_service.py                # Unified interface
 ```
 
@@ -300,7 +300,7 @@ All experiments were run in a **Google Colab** environment with the following co
 | PyTorch | Latest (CPU) |
 | scikit-learn | 1.4+ |
 | SHAP | 0.52 |
-| ChromaDB | 1.5.9 |
+| Qdrant Cloud | 1.5.9 |
 | Sentence-Transformers | 5.7 |
 
 Random seeds were fixed (`SEED=42`) to ensure reproducibility.
@@ -408,7 +408,7 @@ These values are exposed on the AI Insights page as plain-language explanations,
 
 ### 5.9 Results — LLM + RAG Assistant
 
-The **RAG engine** indexes **675 documents** (learning content, questions, concept metadata) into a ChromaDB vector store. The **LLM Assistant** answers student queries using **Gemini** with a multi-model fallback strategy.
+The **RAG engine** indexes **675 documents** (learning content, questions, concept metadata) into a Qdrant Cloud vector store. The **LLM Assistant** answers student queries using **Groq** with a multi-model fallback strategy.
 
 **Sample interaction:**
 
@@ -499,7 +499,7 @@ We acknowledge the following limitations:
 3. **Fixed concept set.** The system covers 45 concepts. Expanding to full curricula would require substantial content engineering.
 4. **English-only content.** While the user interface supports English and Arabic, the learning content itself is currently English-only.
 5. **Data persistence on Faable Free Tier.** The default SQLite backend is ephemeral on the free tier; PostgreSQL is required for persistent data.
-6. **LLM cost and rate limits.** The Gemini API has daily and per-minute rate limits on the free tier, which may affect production use.
+6. **LLM cost and rate limits.** The Groq API has daily and per-minute rate limits on the free tier, which may affect production use.
 
 ### 6.6 Future Work
 
@@ -526,7 +526,7 @@ Our empirical evaluation on synthetic data demonstrates that:
 - the LSTM knowledge-tracing model reaches **70.83% validation accuracy**;
 - the DQN agent learns a stable adaptive planning policy (**average evaluation reward of 18.77**);
 - SHAP-based explanations improve transparency by exposing per-prediction feature attributions;
-- the Gemini + RAG assistant produces **grounded, hallucination-free** answers using a 675-document vector store.
+- the Groq + RAG assistant produces **grounded, hallucination-free** answers using a 675-document vector store.
 
 All code, data, and trained models are publicly available at:
 
@@ -576,7 +576,7 @@ We hope this work contributes to the growing body of research on interpretable, 
 
 19. Reimers, N., & Gurevych, I. (2019). Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks. *Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP)*.
 
-20. Chroma. (2024). ChromaDB: The AI-native open-source embedding database. https://www.trychroma.com
+20. Chroma. (2024). Qdrant Cloud: The AI-native open-source embedding database. https://www.trychroma.com
 
 ---
 

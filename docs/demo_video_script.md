@@ -109,7 +109,7 @@ Wait for response, then type:
 > "Explain momentum"
 
 **Say:**
-> "Students can chat with a Gemini-powered assistant grounded in the project content through RAG — no hallucination."
+> "Students can chat with a Groq-powered assistant grounded in the project content through RAG — no hallucination."
 
 ---
 
