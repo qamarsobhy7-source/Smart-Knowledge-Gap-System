@@ -104,4 +104,5 @@ timeline.json
 
 *.bak2_*
 
-*.pyo
+*.pyo*.bak*
+*.beforefix_*

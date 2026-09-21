@@ -218,6 +218,10 @@ def add_security_headers(response):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     # Restrict browser features
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+    # Content Security Policy
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: raw.githubusercontent.com; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+    )
     # HSTS — only when serving over HTTPS
     if request.is_secure or request.headers.get("X-Forwarded-Proto") == "https":
         response.headers["Strict-Transport-Security"] = (
