@@ -133,8 +133,11 @@ Traditional assessments tell students **what score they got** — but not **what
 - **CSRF + session hardening** (HttpOnly, Secure, SameSite)
 - **Structured logging** with rotating file handler
 - **Docker + docker-compose + Makefile**
-- **GitHub Actions CI** — 57 tests, 100% passing
-
+- **GitHub Actions CI** — 94 tests, 100% passing
+- **Rate Limiting** — brute-force & spam protection (Flask-Limiter)
+- **Enhanced Health Check** — service-level monitoring (`/health`)
+- **Performance Timing** — `X-Response-Time` header on every response
+- **API Version Endpoint** — `/api/version` with build info
 ---
 
 ## 🛠️ Tech Stack
@@ -147,7 +150,7 @@ Traditional assessments tell students **what score they got** — but not **what
 | **AI / LLM** | Groq API, Qdrant RAG, FastEmbed |
 | **Frontend** | Jinja2, Chart.js, Vanilla JS, Custom CSS3 (RTL) |
 | **DevOps** | Faable Cloud, GitHub Actions, Docker, Makefile |
-| **Testing** | pytest (57 tests) |
+| **Testing** | pytest (94 tests) |
 
 ---
 
