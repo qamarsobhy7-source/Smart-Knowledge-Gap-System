@@ -21,8 +21,32 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     {% block extra_head %}{% endblock %}
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smart-knowledge-gap-system-qqbms.faable.link/">
+    <meta property="og:title" content="Smart Knowledge Gap System">
+    <meta property="og:description" content="Adaptive learning platform with 8 ML models, LLM + RAG assistant, and personalized learning paths. Detect knowledge gaps concept-by-concept.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/master/docs/screenshots/07_dashboard.png">
+    <meta property="og:site_name" content="Smart Knowledge Gap System">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ar_EG">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Smart Knowledge Gap System">
+    <meta name="twitter:description" content="Adaptive learning platform with 8 ML models, LLM + RAG assistant.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/master/docs/screenshots/07_dashboard.png">
+
+    <!-- Additional SEO -->
+    <meta name="keywords" content="adaptive learning, machine learning, education, AI tutor, knowledge gap, personalized learning, Flask, Python">
+    <meta name="author" content="Smart Knowledge Gap System">
+    <meta name="theme-color" content="#0d0d0d">
 </head>
 <body>
+
+<a href="#main-content" class="skip-to-content">Skip to main content</a>
+
 
 <!-- Background Effects -->
 <div class="bg-effects" aria-hidden="true">
@@ -142,7 +166,7 @@
 </header>
 
 <!-- Main Content -->
-<main class="main-content">
+<main id="main-content" class="main-content" role="main">
     {% block content %}{% endblock %}
 </main>
 

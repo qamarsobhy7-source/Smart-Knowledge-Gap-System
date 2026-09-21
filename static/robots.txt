@@ -1,0 +1,32 @@
+# robots.txt for Smart Knowledge Gap System
+# https://smart-knowledge-gap-system-qqbms.faable.link
+
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /register
+Allow: /forgot-password
+Allow: /ml/metrics
+
+# Block protected pages (require auth)
+Disallow: /dashboard/
+Disallow: /assessment/
+Disallow: /ml/insights/
+Disallow: /feynman/
+Disallow: /chat
+Disallow: /teacher-dashboard
+Disallow: /report/
+Disallow: /practice/
+Disallow: /reassessment/
+Disallow: /learning/
+Disallow: /reset-password/
+Disallow: /set-language/
+Disallow: /logout
+Disallow: /api/version
+Disallow: /health
+
+# Sitemap
+Sitemap: https://smart-knowledge-gap-system-qqbms.faable.link/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

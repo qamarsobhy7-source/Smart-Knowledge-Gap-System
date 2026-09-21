@@ -1,0 +1,19 @@
+# Security Policy for Smart Knowledge Gap System
+# RFC 9116 compliant: https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/security/advisories/new
+Contact: mailto:security@smart-knowledge-gap-system.example
+
+Expires: 2027-09-21T00:00:00.000Z
+
+Encryption: https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/blob/master/SECURITY.md
+
+Acknowledgments: https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/blob/master/SECURITY.md#-recognition
+
+Preferred-Languages: en, ar
+
+Canonical: https://smart-knowledge-gap-system-qqbms.faable.link/.well-known/security.txt
+
+Policy: https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System/blob/master/SECURITY.md
+
+Hiring: https://github.com/qamarsobhy7-source/Smart-Knowledge-Gap-System
