@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.8] — 2026-09-21
+
+### 🔍 SEO & Accessibility
+
+#### Added
+- **`robots.txt`** — crawl rules for search engines
+- **`sitemap.xml`** — 5 URLs for indexing
+- **Open Graph tags** — rich previews on LinkedIn/Twitter:
+  - og:title, og:description, og:image, og:url
+  - og:locale (en_US, ar_EG)
+- **Twitter Card** — summary_large_image
+- **Meta keywords + theme-color** — better discoverability
+- **`security.txt`** (RFC 9116) at two locations:
+  - `/security.txt`
+  - `/.well-known/security.txt`
+
+#### Accessibility Improvements
+- **Skip-to-content link** — visible only on keyboard focus
+- **`role="main"` + `id="main-content"`** — screen reader support
+- **`:focus-visible` styles** — clear focus indicators
+- **`prefers-reduced-motion` support** — for motion-sensitive users
+- **`prefers-contrast: high`** — high contrast support
+
+---
+
 ## [1.0.7] — 2026-09-21
 
 ### 🛡️ Production Hardening

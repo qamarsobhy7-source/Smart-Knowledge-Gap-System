@@ -138,6 +138,9 @@ Traditional assessments tell students **what score they got** — but not **what
 - **Enhanced Health Check** — service-level monitoring (`/health`)
 - **Performance Timing** — `X-Response-Time` header on every response
 - **API Version Endpoint** — `/api/version` with build info
+- **SEO** — robots.txt, sitemap.xml, Open Graph, Twitter Cards
+- **Accessibility** — skip link, ARIA, focus-visible, reduced-motion
+- **security.txt** — RFC 9116 compliant vulnerability reporting
 ---
 
 ## 🛠️ Tech Stack
