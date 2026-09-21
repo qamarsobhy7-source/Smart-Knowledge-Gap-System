@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.7] — 2026-09-21
+
+### 🛡️ Production Hardening
+
+#### Added
+- **Rate Limiting** via Flask-Limiter:
+  - `/login` → 30/minute (brute-force protection)
+  - `/register` → 10/minute (spam protection)
+  - `/forgot-password` → 10/minute
+  - `/reset-password/<token>` → 5/minute
+  - `/chat/ask` → 15/minute (AI abuse protection)
+  - Global default: 200/day, 60/hour
+- **Enhanced Health Check** (`/health`):
+  - Checks database, Qdrant, Groq, ML models
+  - Detailed JSON response with service statuses
+  - Overall health indicator (healthy/degraded)
+- **Performance Timing Middleware**:
+  - Adds `X-Response-Time` header to all responses
+  - Logs requests slower than 100ms
+- **API Version Endpoint** (`/api/version`):
+  - Returns version, build date, framework, and project links
+
+#### Notes
+- All features are **additive** — no existing behavior changed
+- Rate Limiter is disabled in TESTING mode
+- Fallback class ensures compatibility when Flask-Limiter unavailable
+
+---
+
+## [1.0.7] — 2026-09-21
+
+### 🛡️ Production Hardening
+
+#### Added
+- **Rate Limiting** via Flask-Limiter:
+  - `/login` → 30/minute (brute-force protection)
+  - `/register` → 10/minute (spam protection)
+  - `/forgot-password` → 10/minute
+  - `/reset-password/<token>` → 5/minute
+  - `/chat/ask` → 15/minute (AI abuse protection)
+  - Global default: 200/day, 60/hour
+- **Enhanced Health Check** (`/health`):
+  - Checks database, Qdrant, Groq, ML models
+  - Detailed JSON response with service statuses
+  - Overall health indicator (healthy/degraded)
+- **Performance Timing Middleware**:
+  - Adds `X-Response-Time` header to all responses
+  - Logs requests slower than 100ms
+- **API Version Endpoint** (`/api/version`):
+  - Returns version, build date, framework, and project links
+
+#### Notes
+- All features are **additive** — no existing behavior changed
+- Rate Limiter is disabled in TESTING mode
+- Fallback class ensures compatibility when Flask-Limiter unavailable
+
+---
+
 ## [1.0.6] — 2026-09-21
 
 ### 🎥 Final Video Polish
