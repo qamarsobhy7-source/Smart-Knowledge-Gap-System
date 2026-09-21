@@ -267,7 +267,7 @@ curl https://smart-knowledge-gap-system-qqbms.faable.link/health
 {
   "status": "healthy",
   "service": "smart-knowledge-gap-system",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "services": {
     "database": {"status": "connected"},
     "qdrant": {"status": "configured"},
