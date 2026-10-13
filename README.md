@@ -40,6 +40,34 @@ A concept-level diagnostic and personalized learning platform that identifies kn
 
 ---
 
+## Problem
+
+**For students:**
+- Traditional exams show a total score, not *where* the gaps are
+- Students don't know what to study next
+- Personalized feedback is impossible at scale
+
+**For teachers:**
+- Tracking individual gaps for 30+ students is impractical
+- Manual analysis of each answer sheet is time-consuming
+- No data-driven insight into class-wide weaknesses
+
+---
+
+## Solution
+
+A web-based platform that:
+
+1. **Diagnoses** — Student takes a short adaptive assessment
+2. **Analyzes** — System detects gaps at the concept level
+3. **Prioritizes** — Ranks concepts by impact and prerequisites
+4. **Recommends** — Generates a personalized learning path
+5. **Tracks** — Reassessment shows growth over time
+
+For teachers: a dashboard with class-wide insights and per-student reports.
+
+---
+
 ## Overview
 
 Traditional assessments tell students what score they got — but not what to study next. This system closes that gap:
@@ -319,6 +347,26 @@ A full academic paper (8 sections, 20 references) is available in `docs/research
 5. RAG pipeline for LLM assistant
 6. Experimental results
 7. Limitations and future work
+
+## Limitations
+
+- **Synthetic data** — ML models trained on development data, not real students
+- **English content** — Learning content is currently in English only
+- **Limited scope** — 45 concepts across 3 subjects
+- **Single institution** — Not yet tested with real classrooms
+
+---
+
+## Future Work
+
+- **Arabic content** — Translate all learning material
+- **Real-world testing** — Pilot with actual students and teachers
+- **Mobile app** — React Native companion app
+- **More subjects** — Chemistry, Biology, Languages
+- **Real-time collaboration** — Peer study groups
+- **Advanced gamification** — Points, leaderboards, achievements v2
+
+---
 
 ## Contributors
 
